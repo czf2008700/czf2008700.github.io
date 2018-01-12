@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://up8.wang/images/jenkins-github-push-0-1.gif">
 <meta property="og:image" content="http://up8.wang/images/jenkins-github-push-1.gif">
 <meta property="og:image" content="http://up8.wang/images/jenkins-github-push-2.gif">
-<meta property="og:updated_time" content="2017-10-14T16:16:00.000Z">
+<meta property="og:updated_time" content="2018-01-12T09:53:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins自动化部署(Github之Push)">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;前面我们已经讲过Jenkins的安装，在Centos下搭建Jenkins环境 和 基于Docker搭建Jenkins环境, 建议先在Centos下搭建Jenkins环境。本篇主要讲解一下如何利用Jenkins进行简单的自动化部署。 我要实现的目标是这样的：  在Team内部我们使用Github这个平台管理Code, 团队里的每个人都要push自己的Code(具体的流程，抽时">
@@ -185,14 +185,13 @@
 </blockquote>
 <p>在进行下面的步骤之前请安装好git。最好使用Safari浏览器(我在Chrome下出现错误直接至卡死)</p>
 <ul>
-<li>安装Github Integration Plugin</li>
-</ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-0.gif" alt=""></p>
-<ul>
-<li>配置Github中Hooks &amp; services</li>
+<li><p>安装Github Integration Plugin<br><img src="/images/jenkins-github-push-0.gif" width="700"> </p>
+</li>
+<li><p>配置Github中Hooks &amp; services</p>
+</li>
 </ul>
 <p>Jenkins hook url 格式为 ： /github-webhook/</p>
-<p><img src="http://up8.wang/images/jenkins-github-push-0-1.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-0-1.gif" width="700"></p>
 <ul>
 <li>配置Github中的Display keys</li>
 </ul>
@@ -209,11 +208,11 @@
 <ul>
 <li>进入Jenkins, 创建item</li>
 </ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-1.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-1.gif" width="700"></p>
 <ul>
 <li>Job配置</li>
 </ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-2.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-2.gif" width="700"></p>
 <p>总结：</p>
 <p>1）. Jenkins安装后，会在Centos中自动创建一个用户jenkins, 可以通过命令cat /etc/passwd | grep jenkins查看</p>
 <blockquote>

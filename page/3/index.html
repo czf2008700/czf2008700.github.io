@@ -178,14 +178,13 @@
 </blockquote>
 <p>在进行下面的步骤之前请安装好git。最好使用Safari浏览器(我在Chrome下出现错误直接至卡死)</p>
 <ul>
-<li>安装Github Integration Plugin</li>
-</ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-0.gif" alt=""></p>
-<ul>
-<li>配置Github中Hooks &amp; services</li>
+<li><p>安装Github Integration Plugin<br><img src="/images/jenkins-github-push-0.gif" width="700"> </p>
+</li>
+<li><p>配置Github中Hooks &amp; services</p>
+</li>
 </ul>
 <p>Jenkins hook url 格式为 ： /github-webhook/</p>
-<p><img src="http://up8.wang/images/jenkins-github-push-0-1.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-0-1.gif" width="700"></p>
 <ul>
 <li>配置Github中的Display keys</li>
 </ul>
@@ -202,11 +201,11 @@
 <ul>
 <li>进入Jenkins, 创建item</li>
 </ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-1.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-1.gif" width="700"></p>
 <ul>
 <li>Job配置</li>
 </ul>
-<p><img src="http://up8.wang/images/jenkins-github-push-2.gif" alt=""></p>
+<p><img src="/images/jenkins-github-push-2.gif" width="700"></p>
 <p>总结：</p>
 <p>1）. Jenkins安装后，会在Centos中自动创建一个用户jenkins, 可以通过命令cat /etc/passwd | grep jenkins查看</p>
 <blockquote>
@@ -420,10 +419,9 @@
 <h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
 <p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
-<p>接下来的配置按照提示来即可。</p>
-<p><img src="http://up8.wang/images/jenkins-base-on-docker-1.png" alt="超级管理员解锁Jenkins"></p>
-<p><img src="http://up8.wang/images/jenkins-base-on-docker-2.png" alt="定制插件 Jenkins Customize Jenkins"></p>
-<p><img src="http://up8.wang/images/jenkins-base-on-docker-3.png" alt="Getting Started"></p>
+<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
 
       
 
