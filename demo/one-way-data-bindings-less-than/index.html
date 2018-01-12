@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title>One way data-binding in angular1.5.x --- Part 1</title>
+	<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
+	<script src="//cdn.bootcss.com/angular.js/1.6.0/angular.min.js"></script>
+	<script src="//cdn.bootcss.com/moment.js/2.18.0/moment.min.js"></script>
+	<script src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+</head>
+
+<body>
+<div class="container" ng-app="app">
+	<div class="page-header">
+	  <h1>Ony way data-binding(<)<small>parent to child</small></h1>
+	</div>
+	
+	
+	<parent-component></parent-component>
+
+	<blockquote>
+	  <h3>Reference</h3>
+	  <p><a href="http://www.codelord.net/2016/05/19/understanding-angulars-one-way-binding/" target="_blank">Understanding Angular's One-Way Binding(Aviv Ben-Yosef)</a></p>
+	</blockquote>
+</div>
+
+<script>
+	angular.module('app',[]);
+
+	angular.module('app')
+	.component('parentComponent', {
+		templateUrl: './tpl/parent2child-parent.html',
+		controller: function($scope) {
+			$scope.inputWording = ''
+		}
+	})
+	.component('childComponent', {
+		bindings: { input: '<' },
+		templateUrl: './tpl/parent2child-child.html',
+		controller: function($scope) {
+			$scope.options_=[{
+				label: 'hello-01',
+				value: 'hello-01',
+			}, {
+				label: 'bello-02',
+				value: 'bello-02',
+			}, {
+				label: 'cello-03',
+				value: 'cello-03',
+			}];
+			$scope.options = $scope.options_;
+
+			this.$onChanges = function(changes) {
+				console.log(changes);
+				var input = changes.input;
+				if (!input.currentValue) {
+					$scope.selected = undefined;
+					return;
+				}
+
+				var inputStr = input.currentValue;
+				var selected = _.filter($scope.options_, function(item) {
+					return _.includes(item.label, inputStr);
+				});
+				$scope.selected = selected[0];
+			}
+		}
+	});
+</script>
+
+
+</body>
+</html>

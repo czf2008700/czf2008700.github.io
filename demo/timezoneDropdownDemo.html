@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title>Time zone dropDown - implement with moment.js</title>
+	<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
+	<script src='//cdn.bootcss.com/angular.js/1.5.7/angular.min.js'></script>
+	<script src="//cdn.bootcss.com/moment.js/2.18.0/moment.min.js"></script>
+	<script src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+	<script src="//cdn.bootcss.com/moment-timezone/0.5.12/moment-timezone.min.js"></script>
+	<script src="http://momentjs.com/downloads/moment-timezone-with-data.min.js"></script>
+</head>
+
+<body>
+<div class="container" ng-controller="appMain">
+	<div class="page-header">
+	  <h1>Time zone dropDown <small>implement with moment.js</small></h1>
+	</div>
+	
+	<div class="pull-right">
+	<select class="form-control"
+	ng-model="selected"
+	ng-change="onChange()"
+	ng-options="item.label for item in options"
+	>
+	<option value=""> Please select your time zone ... </option>
+	</select>
+	</div>
+	
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>User Name</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+			</tr>
+		</thead>
+	    <tr ng-repeat="item in datas">
+	    	<td>{{item.userName}}</td>
+	    	<td>{{item.startDate}}</td>
+	    	<td>{{item.endDate}}</td>
+		</tr>
+    </table>
+</div>
+
+<script>
+	angular.module('app',[]);
+
+	angular.module('app')
+	.controller('appMain', function($scope) {
+		var defaultTZ = moment.tz.guess(); // default time zone
+		var defaultOffset = moment().tz(defaultTZ).format('Z');
+		var selectedLabel = '(GMT ' + defaultOffset + ') ' + defaultTZ
+
+		$scope.options = getOptions();
+		$scope.datas = [];
+		$scope.datas_ = [{
+			userName: 'Felix Cao01',
+			endDate: '2017-07-13 14:00:08.0',
+			startDate: '2017-07-13 13:32:41.0',
+		},{
+			userName: 'Felix Cao02',
+			endDate: '2017-07-12 08:20:08.0',
+			startDate: '2017-07-12 13:20:08.0',
+		}];
+
+		$scope.selected = _.find($scope.options, { label: selectedLabel });
+
+		formateDatas(null);
+
+		$scope.onChange = function() {
+			console.log($scope.selected);
+			var offset = $scope.selected.value;
+			formateDatas(offset);
+		}
+
+		function formateDatas(offset) {
+			$scope.datas = _.map($scope.datas_, function(item) {
+				return _.assignIn({}, item, {
+					endDate: formateDate(item.endDate, offset),
+					startDate: formateDate(item.startDate, offset),
+				});
+			});
+		}
+
+		function formateDate(date, offset){
+        	var offset = offset ? offset : moment().tz(defaultTZ).format('Z');
+        	return moment.utc(date).utcOffset(offset).format('MMMM Do, YYYY h:mm:ss A');
+		}
+
+        // Get Timezones.
+		function getOptions() {
+			var tzs = moment.tz.names();
+			return _.map(tzs, function(item) {
+				var offset = moment().tz(item).format('Z');
+				var label = '(GMT ' + offset + ') ' + item;
+				return { label: label, value: offset };
+			});
+		}
+	});
+</script>
+
+
+</body>
+</html>
