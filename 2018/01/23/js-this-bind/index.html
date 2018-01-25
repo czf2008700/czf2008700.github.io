@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>专注高性能的WEB研发。</title>
+  <title>JavaScript中的this绑定/指向 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="专注高性能的WEB研发。">
-<meta property="og:url" content="http://up8.wang/index.html">
+  <meta name="description" content="&amp;emsp;&amp;emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的this在运行期进行的绑定，这是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中的this绑定&#x2F;指向">
+<meta property="og:url" content="http://up8.wang/2018/01/23/js-this-bind/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的this在运行期进行的绑定，这是JavaScript中this关键词具备多重含义的本质原因。 &amp;emsp;&amp;emsp;人们对Ja">
+<meta property="og:updated_time" content="2018-01-23T09:46:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="专注高性能的WEB研发。">
+<meta name="twitter:title" content="JavaScript中的this绑定&#x2F;指向">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的this在运行期进行的绑定，这是JavaScript中this关键词具备多重含义的本质原因。 &amp;emsp;&amp;emsp;人们对Ja">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -149,162 +153,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-js-method-and-property-for-function" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-js-this-bind" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/24/js-method-and-property-for-function/">JavaScript函数的属性和方法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/24/js-method-and-property-for-function/" class="archive-article-date">
-  	<time datetime="2018-01-24T09:32:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在上一篇 <a href="/2018/01/24/js-three-way-to-define-functions/">JavaScript的三种函数定义方式</a>, 我们提到在 JavaScript 语言里, <strong>函数也是对象</strong>， 函数既然是对象就一定有对应属性和方法， 本篇来讲讲函数的属性和方法。</p>
-<h5 id="函数的内部属性"><a href="#函数的内部属性" class="headerlink" title="函数的内部属性"></a>函数的内部属性</h5><p>&emsp;&emsp;在函数内部有两个特殊的属性： arguments 和 this</p>
-<p>1）<strong>arguments对象</strong><br>&emsp;&emsp;Javascript并没有重载函数的功能, 但是Arguments对象能够模拟重载。arguments对象是所有（非箭头）函数中都可用的局部变量。你可以使用arguments对象在函数中引用函数的参数。arguments对象不是一个 Array。它类似于Array，但除了长度之外没有任何Array属性。<br>&emsp;&emsp;它引用着函数的实参，可以用数组下标的方式”[]”引用arguments的元素。arguments.length为函数实参个数，arguments.callee引用函数自身。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">person(&apos;heeloo&apos;, &apos;word&apos;, &apos;up8&apos;, &apos;Felix Cao&apos;);</span><br><span class="line">function person() &#123;</span><br><span class="line">	for(var i=0; i&lt;arguments.length; i++) &#123;</span><br><span class="line">		console.log(&apos;parameter &apos; + i +&apos;: &apos;, arguments[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>阶乘函数(Factorial)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function factorial (num)&#123;</span><br><span class="line">  if(num &lt;= 1)&#123;</span><br><span class="line">	return 1;</span><br><span class="line">  &#125; else&#123;</span><br><span class="line">	return num * factorial(num-1); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>定义阶乘函数一般都会用到递归算法，如上面代码所示，在有函数名字，并且函数名字以后也不会改变的情况下，这种定义是没有问题的，但是这个函数的执行与函数名factorial紧紧的耦合在一起，为了消除这种紧密耦合现象，可以使用arguments.callee<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function factorial (num)&#123;</span><br><span class="line">  if(num &lt;= 1)&#123;</span><br><span class="line">	return 1;</span><br><span class="line">  &#125; else&#123;</span><br><span class="line">	return num * arguments.callee(num-1);; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>重写后的factorial()函数的函数体内，没有再引用函数名factorial。这样即使改变函数名字，都可以保证正常完成递归调用.</p>
-<p>2) <strong>this</strong>, 请移步<a href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a></p>
-<p>#####函数的属性和方法</p>
-<p>To Be Contined</p>
-<h5 id="Rerfence"><a href="#Rerfence" class="headerlink" title="Rerfence"></a>Rerfence</h5><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="noopener">Arguments对象</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/24/js-method-and-property-for-function/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-three-way-to-define-functions" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/24/js-three-way-to-define-functions/">JavaScript的三种函数定义方式</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/24/js-three-way-to-define-functions/" class="archive-article-date">
-  	<time datetime="2018-01-24T03:07:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍</p>
-<h5 id="函数声明-Function-declaration"><a href="#函数声明-Function-declaration" class="headerlink" title="函数声明(Function declaration)"></a>函数声明(Function declaration)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person(name) &#123;</span><br><span class="line">	console.log(name);</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;函数声明这是JavaScript最常见的函数定义法， function是函数声明关键词，<strong>person是函数名称标识符</strong>， 函数名之后的圆括号中是参数列表，参数之间使用逗号分隔，花括号是函数体<br>&emsp;&emsp;<strong>函数声明提升(hoisting)</strong>, 函数声明的一个重要特性就是提升, 指的是整个函数体的提升， 也就是说<strong>可以在函数声明前调用函数</strong>。</p>
-<h5 id="函数表达式-function-expression"><a href="#函数表达式-function-expression" class="headerlink" title="函数表达式(function expression)"></a>函数表达式(function expression)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = function(name) &#123;</span><br><span class="line">	console.log(name);</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;在 JavaScript 语言里, 函数也是对象，对象可以赋值给一个变量， 函数表达式是将一个匿名函数(anonymous function)赋值给一个变量，<strong>function关键词后面没有标识符</strong></p>
-<h5 id="Function构造函数"><a href="#Function构造函数" class="headerlink" title="Function构造函数"></a>Function构造函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var person = new Function(&apos;name&apos;, &apos;console.log(name); return name;&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;Function()构造函数可以传入任意数量的字符串实参，最后一个实参所表示的文本是函数体，可以包含任意数量的JavaScript语句。如果构造的函数不包含任何参数，则只需传入一个函数体即可。<br>&emsp;&emsp;与前两者方式不同的是，Function()构造函数允许JavaScript在运行时动态地创建并翻译函数。每次调用Function()构造函数都会解析函数体，并<strong>创建新的函数对象</strong>。因而，在循环或多次调用的函数中执行这个构造函数，执行效率会受影响。相比之下，循环中的嵌套函数和函数定义表达式则不会每次执行时都重新编译。<br>&emsp;&emsp;Function()构造函数还有值得注意的一点就是它所创建的函数并不是使用词法作用域，函数体代码的编译总在顶层函数执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;up8&apos;; // 顶层函数</span><br><span class="line">function person() &#123;</span><br><span class="line">	var name = &apos;up8.wang&apos; // 局部变量</span><br><span class="line">	return new Function(&apos;console.log(name)&apos;); // 无法捕获局部作用域</span><br><span class="line">&#125;</span><br><span class="line">person()(); // 控制台输出up8，说明构造函数的编译在顶层函数执行</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;我们可以将Function()构造函数认为是在全局作用域中执行的eval()。在实际编程中，Function()构造函数很少用到，前两中定义方法使用比较普遍。</p>
-<h5 id="return语句及其坑"><a href="#return语句及其坑" class="headerlink" title="return语句及其坑"></a>return语句及其坑</h5><p>&emsp;&emsp;在函数体内，遇到return，函数就执行完毕，并返回结果。如果没有 return ，函数执行完毕也会返回结果，只是返回的是undefined<br>&emsp;&emsp;我们要注意的是return有一个坑，在JavaScript中，有一个自动在行末添加分号的机制，看下面的示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">	return &#123;name: &apos;Felix Cao&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">person() // &#123;name: &apos;Felix Cao&apos;&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>如果我们写成这样的话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">	return  // 自动加了分好，相当于return undefined</span><br><span class="line">	&#123;name: &apos;Felix Cao&apos;&#125;; // 因为上面已经返回，所以这句无法执行</span><br><span class="line">&#125;</span><br><span class="line">person() // undefined</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符<br><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/24/js-three-way-to-define-functions/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-this-bind" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a>
+    <h1 class="article-title" itemprop="name">
+      JavaScript中的this绑定/指向
     </h1>
   
 
@@ -345,6 +201,27 @@
       
 
       
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
     </div>
     <div class="article-info article-info-index">
       
@@ -352,16 +229,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/23/js-this-bind/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/01/23/js-this-bind/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/01/24/js-three-way-to-define-functions/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JavaScript的三种函数定义方式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/12/es6-module-load/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ES6模块(Module)和CommonJS模块加载的实质。</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -381,595 +326,14 @@
 
 
 
-
-  
-    <article id="post-es6-module-load" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/es6-module-load/">ES6模块(Module)和CommonJS模块加载的实质。</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/es6-module-load/" class="archive-article-date">
-  	<time datetime="2018-01-12T09:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在<a href="">ES6模块(Module)</a>里介绍了ES6中利用关键词export、import使用模块，在<a href="">CommonJS的模块规范</a>介绍了CommonJS的模块规范。本篇主要搞搞两种模块的加载机制。</p>
-<blockquote>
-<p>ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
-</blockquote>
-<h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  counter: function() &#123;</span><br><span class="line">  return counter</span><br><span class="line"> &#125;,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p>
-<h5 id="ES6模块是动态引用，并且不会缓存值"><a href="#ES6模块是动态引用，并且不会缓存值" class="headerlink" title="ES6模块是动态引用，并且不会缓存值"></a>ES6模块是动态引用，并且不会缓存值</h5><p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，不会去执行模块，而是只生成一个动态的只读引用。等到真的需要用到时，再到模块里面去取值，换句话说，ES6的输入有点像Unix系统的“符号连接”，原始值变了，import输入的值也会跟着变。因此，ES6模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
-<p>还是举上面的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let counter = 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &apos;./lib&apos;;</span><br><span class="line">console.log(counter); // 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); // 4</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，ES6模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p>
-<p>由于ES6输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let obj = &#123;&#125;;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; obj &#125; from &apos;./lib&apos;;</span><br><span class="line">obj.prop = 123; // OK</span><br><span class="line">obj = &#123;&#125;; // TypeError</span><br></pre></td></tr></table></figure>
-<p>最后，export通过接口，输出的是同一个值。不同的脚本加载这个接口，得到的都是同样的实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// mod.js</span><br><span class="line">function C() &#123;</span><br><span class="line"> this.sum = 0;</span><br><span class="line"> this.add = function () &#123;</span><br><span class="line">  this.sum += 1;</span><br><span class="line"> &#125;;</span><br><span class="line"> this.show = function () &#123;</span><br><span class="line">  console.log(this.sum);</span><br><span class="line"> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">export let c = new C();</span><br></pre></td></tr></table></figure>
-<p>上面的脚本mod.js，输出的是一个C的实例。不同的脚本加载这个模块，得到的都是同一个实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// x.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.add();</span><br><span class="line">// y.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.show();</span><br><span class="line">// main.js</span><br><span class="line">import &apos;./x&apos;;</span><br><span class="line">import &apos;./y&apos;;</span><br></pre></td></tr></table></figure>
-<p>现在执行main.js，输出的是1。这就证明了x.js和y.js加载的都是C的同一个实例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/es6-module-load/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-es6-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/es6-module/">ES6模块(Module)</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/es6-module/" class="archive-article-date">
-  	<time datetime="2018-01-12T06:22:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;上一篇介绍了[CommonJS的模块规范], 这一篇主要谈一下ES6的模块</p>
-<ul>
-<li>模块需要严格模式</li>
-<li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
-<li>导出：使用export声明需要导出的变量、函数或类</li>
-<li>导入：使用import声明从其他模块导入变量、函数或类。</li>
-</ul>
-<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>在变量、函数或类前面加上关键字<strong>export</strong>。<br>1). 写法1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>2). 写法2, <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br><strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
-<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
-<p>本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
-<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载"></a>模块的整体加载</h5><p>除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
-<h5 id="重命名模块输入和模块输出"><a href="#重命名模块输入和模块输出" class="headerlink" title="重命名模块输入和模块输出"></a>重命名模块输入和模块输出</h5><p>如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
-<ul>
-<li>你只可以在模块的最外层作用域使用import和export，不可在条件语句中使用，也不能在函数作用域中使用import。</li>
-<li>所有导出的标识符一定要在源代码中明确地导出它们的名称，你不能通过编写代码遍历一个数组然后用数据驱动的方式导出一堆名称。</li>
-<li>模块对象被冻结了，所以你无法hack模块对象并为其添加polyfill风格的新特性。</li>
-<li>一个模块的所有依赖必须在模块代码运行前完全加载、解析并且及早连接，不存在一种通过import来按需懒加载的语法。</li>
-<li>import模块产生的错误没有错误恢复机制。一个app可能囊括了上百个模块，一旦有一个模块无法加载或连接，所有的模块都不会运行，而且你不能在try/catch代码块中捕捉import的错误信息。（上面这些描述的本意是说：系统是静态的，webpack可在编译时为你检测那些错误。）</li>
-<li>不支持在模块加载依赖前运行其它代码的钩子，这也意味着无法控制模块的依赖加载过程。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://hacks.mozilla.org/category/es6-in-depth/" target="_blank" rel="noopener">ES6 in Depth</a> (关于 ES6 的一系列新特性的介绍。)</li>
-<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-modules" target="_blank" rel="noopener">深入浅出ES6（十六）：模块 Modules</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/es6-module/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-commonjs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/js-commonjs/">CommonJS规范</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/js-commonjs/" class="archive-article-date">
-  	<time datetime="2018-01-12T01:56:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫 属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺 理成章地拥也了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发。</p>
-<p>&emsp;&emsp;理想状态下，Developer只需要实现核心的业务逻辑，其他的可以加载别人已经写好的模块即可，因此JavaScript语言的模块化编程就显得异常重要了。然而，ES6之前JavaScript没有为组织管理代码提供任何方案，甚至没有类(Class)的概念，更不用说模块(Module)了.</p>
-<p>模块化管理需要具备：</p>
-<ul>
-<li>定义封装的模块。</li>
-<li>定义新模块对其他模块的依赖。</li>
-<li>可对其他模块的引入支持。</li>
-</ul>
-<p>要通用，则必须要有规范化，因此一系列的标准应运而生。</p>
-<h5 id="CommonJS模块规范"><a href="#CommonJS模块规范" class="headerlink" title="CommonJS模块规范"></a>CommonJS模块规范</h5><p>&emsp;&emsp;CommonJS规范历史：</p>
-<ul>
-<li>2009年1月，Mozilla 的工程师 Kevin Dangoor 创建了这个项目，当时的名字是 ServerJS。其是以在浏览器环境之外构建 JavaScript 生态系统为目标而产生的项目，比如在服务器和桌面环境中。</li>
-<li>2009年8月，这个项目改名为 CommonJS，以显示其 API 的更广泛实用性。</li>
-<li>2013年5月，Node.js 的包管理器 NPM 的作者 Isaac Z. Schlueter 说 <a href="https://github.com/nodejs/node-v0.x-archive/issues/5132#issuecomment-15432598" target="_blank" rel="noopener">CommonJS 已经过时，Node.js 的内核开发者已经废弃了该规范。</a></li>
-</ul>
-<p>&emsp;&emsp;随着JavaScript作为后端语言的发展，CommonJS规范应运而生。参考 <a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a>， 需要注意的是CommonJS通常是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
-<p>&emsp;&emsp;CommonJS规范要点</p>
-<ul>
-<li>每个文件就是一个模块， 有自己的作用域</li>
-<li>在一个文件里定义的变量、函数、类都是私有的，对其他文件不可见</li>
-<li>每个模块内部，变量module代表当前模块，这个变量是一个对象。它的<strong>exports</strong>属性(即module.exports)是一个对外的接口</li>
-<li><strong>require</strong>方法用于加载模块</li>
-</ul>
-<p>&emsp;&emsp;CommonJS的特点</p>
-<ul>
-<li>所有代码都运行在模块作用域，不会污染全局作用域。</li>
-<li>由于Node.js主要用于服务器编程，模块文件一般都已经存在于本地硬盘，所以加载起来比较快，不用考虑非同步加载的方式，所以CommonJS规范比较适用。</li>
-<li>模块可以多次加载，但是只会在第一次加载时运行一次，然后运行结果就被缓存了，以后再加载，就直接读取缓存结果。要想让模块再次运行，必须清楚缓存</li>
-<li>模块加载的顺序，按其在代码中出现的顺序。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a></li>
-<li><a href="http://blog.js-republic.com/start-of-art-of-javascript-modularization-why-choose-es2015/" target="_blank" rel="noopener">WHY CHOOSE ES2015 MODULES, BASED ON THE STATE OF THE ART OF JAVASCRIPT MODULARIZATION</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/js-commonjs/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/30/js-prototype-chain/">JavaScript的原型链(prototype chain)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/30/js-prototype-chain/" class="archive-article-date">
-  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，</p>
-<ul>
-<li>原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的</li>
-<li>原型链的形成是真正是靠<strong>proto</strong> 而非prototype</li>
-</ul>
-<p>To Be Continued</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/30/js-prototype-chain/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-constructor-property" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/30/js-constructor-property/">JavaScript的constructor属性</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/30/js-constructor-property/" class="archive-article-date">
-  	<time datetime="2017-12-30T03:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="constructor-属性始终指向创建当前对象的构造函数。"><a href="#constructor-属性始终指向创建当前对象的构造函数。" class="headerlink" title="constructor 属性始终指向创建当前对象的构造函数。"></a>constructor 属性始终指向创建当前对象的构造函数。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var str = &apos;&apos;;</span><br><span class="line">console.log(&apos;str:&apos;, str.constructor);</span><br><span class="line">var num = 12;</span><br><span class="line">console.log(&apos;num:&apos;, num.constructor);</span><br><span class="line">var bool = false;</span><br><span class="line">console.log(&apos;bool:&apos;, bool.constructor);</span><br><span class="line">var obj = &#123;&#125;;</span><br><span class="line">console.log(&apos;obj:&apos;, obj.constructor);</span><br><span class="line">var arr = [];</span><br><span class="line">console.log(&apos;arr:&apos;, arr.constructor);</span><br><span class="line"></span><br><span class="line">function Person() &#123;&#125;;</span><br><span class="line">var objNew = new Person()</span><br><span class="line">console.log(&apos;objNew&apos;, objNew.constructor);</span><br><span class="line">console.log(&apos;constructor&apos;, Person.constructor);</span><br></pre></td></tr></table></figure>
-<p><img src="/images/js-constructor-property-01.png" width="350"></p>
-<h5 id="constructor属性和prototype属性"><a href="#constructor属性和prototype属性" class="headerlink" title="constructor属性和prototype属性"></a>constructor属性和prototype属性</h5><p>在 函数的原型(prototype)属性和对象的<strong>proto</strong>属性，我们知道每个函数都有prototype属性，prototype属性的constructor属性会指向这个函数本身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;&#125;</span><br><span class="line">Person.prototype.sayName=function() &#123;&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.prototype.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.constructor); // ƒ Function() &#123; [native code] &#125;</span><br></pre></td></tr></table></figure>
-<p>如果我们重写（重新定义）这个Person.prototype属性，那么constructor属性的指向就会发生改变了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;&#125;</span><br><span class="line">// Person的原型被重新赋值</span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">	sayName: function() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person.constructor); // ƒ Object() &#123; [native code] &#125;</span><br><span class="line">console.log(Person.prototype.constructor); // ƒ Object() &#123; [native code] &#125;</span><br><span class="line">console.log(Person.constructor); // ƒ Function() &#123; [native code] &#125;</span><br><span class="line"></span><br><span class="line">// 看到了吧，Person.prototype.constructor的指向已经发生了改变了</span><br><span class="line">// Person的原型被重新赋值, 可以这么来指向Object</span><br><span class="line">Person.prototype = new Object()&#123;</span><br><span class="line">	sayName: function() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 再次赋值指向Person</span><br><span class="line">Person.prototype.constructor = Person;</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/30/js-constructor-property/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-prototype-proto" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/29/js-prototype-proto/">函数的原型(prototype)属性和对象的__proto__属性</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/29/js-prototype-proto/" class="archive-article-date">
-  	<time datetime="2017-12-29T01:26:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一节我们聊了JavaScript构造函数(constructor)，本节主要聊一聊</p>
-<ul>
-<li>函数的prototype属性</li>
-<li>对象的__proto__</li>
-</ul>
-<blockquote>
-<p>每个对象都有 __proto__ 属性，但只有函数对象才有 prototype 属性</p>
-</blockquote>
-<p>__proto_<em>属性的作用主要是用来确定当前对象的继承者，在当前对象找不到指定的属性和对象时，会去\</em>_proto属性指定的对象中寻找，之后依次类推直到找完所有继承或找到要找的属性为止</p>
-<p>函数有一个默认的prototype对象，这个prototype对象用来指定函数的继承关系，prototype对象默认有两个属性，一个是constructor，另一个就是__proto<strong>属性，默认的prototype对象在被改变之前就像是这个函数用来表示自己的一个对象，其中__proto</strong>属性和普通对象的__proto属性一样用来对应继承关系，而constructor属性则代表了函数本身，</p>
-<h5 id="一、普通对象与函数对象"><a href="#一、普通对象与函数对象" class="headerlink" title="一、普通对象与函数对象"></a>一、普通对象与函数对象</h5><p>JavaScript 中，万物皆对象！但对象也是有区别的。分为普通对象和函数对象，Object 、Function 是 JS 自带的函数对象。下面举例说明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var o1 = &#123;&#125;; </span><br><span class="line">var o2 =new Object();</span><br><span class="line">var o3 = new f1();</span><br><span class="line"></span><br><span class="line">function f1()&#123;&#125;; </span><br><span class="line">var f2 = function()&#123;&#125;;</span><br><span class="line">var f3 = new Function(&apos;str&apos;,&apos;console.log(str)&apos;);</span><br><span class="line"></span><br><span class="line">console.log(typeof Object); //function </span><br><span class="line">console.log(typeof Function); //function  </span><br><span class="line"></span><br><span class="line">console.log(typeof f1); //function </span><br><span class="line">console.log(typeof f2); //function </span><br><span class="line">console.log(typeof f3); //function   </span><br><span class="line"></span><br><span class="line">console.log(typeof o1); //object </span><br><span class="line">console.log(typeof o2); //object </span><br><span class="line">console.log(typeof o3); //object</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中 o1 o2 o3 为普通对象，f1 f2 f3 为函数对象。怎么区分，其实很简单，凡是通过 new Function() 创建的对象都是函数对象，其他的都是普通对象。f1,f2,归根结底都是通过 new Function()的方式进行创建的。Function Object 也都是通过 New Function()创建的。</p>
-<h5 id="二、通过创建对象的两种常用方式来观察。"><a href="#二、通过创建对象的两种常用方式来观察。" class="headerlink" title="二、通过创建对象的两种常用方式来观察。"></a>二、通过创建对象的两种常用方式来观察。</h5><p>&emsp;&emsp; 对象字面量和构造函数是创建对象的两种常用方式。</p>
-<p>1)、 对象字面量(Object literal), var person = {}; 在console中打出来，我们会发现person对象下有个__proto__属性。</p>
-<p><img src="/images/js-prototype-proto-01.png" width="350"></p>
-<p>2)、 构造函数(Constructor) + new 运算符; 在console中打出来，我们会发现Person函数下有个prototype属性，person对象下有个__proto__属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line">console.dir(person);</span><br></pre></td></tr></table></figure></p>
-<p><img src="/images/js-prototype-proto-02.png" width="350"></p>
-<h5 id="三、prototype和-proto-的区别"><a href="#三、prototype和-proto-的区别" class="headerlink" title="三、prototype和__proto__的区别"></a>三、prototype和__proto__的区别</h5><p>&emsp;&emsp; 我们通过网络上流行的一张图来认识一下prototype和__proto__的区别</p>
-<p><img src="/images/js-prototype-proto-03.png" width="600"></p>
-<p>我们来验证一下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">console.log(a.prototype);  //undefined</span><br><span class="line">console.log(a.__proto__);  //Object &#123;&#125;</span><br><span class="line"></span><br><span class="line">var b = function()&#123;&#125;</span><br><span class="line">console.log(b.prototype);  //b &#123;&#125;</span><br><span class="line">console.log(b.__proto__);  // ƒ () &#123; [native code] &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="四、对象的-proto-属性指向谁"><a href="#四、对象的-proto-属性指向谁" class="headerlink" title="四、对象的__proto__属性指向谁"></a>四、对象的__proto__属性指向谁</h5><p><img src="/images/js-prototype-proto-04.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/*1、字面量方式*/</span><br><span class="line">var a = &#123;&#125;;</span><br><span class="line">console.log(a.__proto__);  //Object &#123;&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //true</span><br><span class="line"></span><br><span class="line">/*2、构造器方式*/</span><br><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //true</span><br><span class="line"></span><br><span class="line">/*3、Object.create()方式*/</span><br><span class="line">var a1 = &#123;a:1&#125;</span><br><span class="line">var a2 = Object.create(a1);</span><br><span class="line">console.log(a2.__proto__); //Object &#123;a: 1&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //false（此处即为图1中的例外情况）</span><br></pre></td></tr></table></figure>
-<h5 id="五、顺带提一下原型链"><a href="#五、顺带提一下原型链" class="headerlink" title="五、顺带提一下原型链"></a>五、顺带提一下原型链</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
-<p>Reference<br><a href="https://www.jianshu.com/p/dee9f8b14771" target="_blank" rel="noopener"></a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/29/js-prototype-proto/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-constructor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/js-constructor/">JavaScript构造函数(constructor)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/26/js-constructor/" class="archive-article-date">
-  	<time datetime="2017-12-26T10:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="构造函数-constructor"><a href="#构造函数-constructor" class="headerlink" title="构造函数(constructor)"></a>构造函数(constructor)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是一个类进行实例化(或者生成一个对象)所使用的方法，类(class)就是一个对象(Object)的模板, 定义了同一组对象的共有属性和方法。有了模板要得到这个东西, 必须经过”生产”(实例化)的过程, 这个过程就有构造方法来完成。构造函数都是和new  关键词一起使用的。 new 就是在创建对象，从无到有。通俗地讲,构造函数就是在对象刚诞生时执行的函数。</p>
-<p>&emsp;&emsp;JavaScript在设计之初只是为了解决简单的网页交互，并没有“类”（class）的概念，因为一旦有了‘类’，Javascript就是一种完整的面向对象编程语言了。但JavaScript里所有的一切皆对象，那么他的对象是如何生产出来的呢?  但在ES6中引入了类（class）这个概念，作为对象的模板，新的class写法知识让原型对象的写法更加清晰，这里不重点谈这个。</p>
-<p>&emsp;&emsp;C++和Java使用new命令时，都会调用”类”的构造函数（constructor）,于是JavaScript语言在创建之初做了一个简化的设计，new命令后面跟的不是类，而是构造函数。于是，我们使用构造函数来构造对象, 就犹如定义一个类来实例化对象.</p>
-<p>所以结论是：</p>
-<blockquote>
-<p>JavaScript中只有对象(Object), 没有类, 所有的一切都是对象, 基于原型来构造对象.</p>
-</blockquote>
-<h5 id="书写规则和调用方式"><a href="#书写规则和调用方式" class="headerlink" title="书写规则和调用方式"></a>书写规则和调用方式</h5><ul>
-<li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>
-<li>调用方式： 任何函数，只要通过new操作符来调用，那它就可以作为构造函数， 如果不通过new操作符来调用，那它跟普通函数没有什么区别。</li>
-</ul>
-<p>我们来看个Case</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// use stric</span><br><span class="line"></span><br><span class="line">function Person(name, age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getName = function () &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
-<p>上面的代码，当构造函数作为普通函数使用时，我们可以发现一些坑， 构造函数与一个普通函数并无不同，如果你故意不使用new，或忘记用new，都会得到怪异的错误：</p>
-<ul>
-<li>person2并不是Person的实例, 其值为undefined</li>
-<li>this指向window, this下的变量和属性变为全局变量和属性。</li>
-<li>在严格模式下，当你不通过new 调用Person构造函数会出现错误。</li>
-</ul>
-<h5 id="构造函数的返回值"><a href="#构造函数的返回值" class="headerlink" title="构造函数的返回值"></a>构造函数的返回值</h5><p>JavaScript中构造函数可以有返回值也可以没有。</p>
-<p>1.没有返回值的情况像其他传统语言一样，返回实例化的对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //undefined</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100&#125;</span><br></pre></td></tr></table></figure>
-<p>2.如果存在返回值则检查其返回值是否为引用类型，如果为非引用类型，如（string,number,boolean,null,undefined），上述几种类型的情况与没有返回值的情况相同，实际返回实例化的对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line"></span><br><span class="line">    return &quot;Felix Cao&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //Felix Cao</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100 &#125;</span><br></pre></td></tr></table></figure>
-<p>3.如果存在返回值是引用类型，则实际返回该引用类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">    	name: &apos;up8Wang&apos;,</span><br><span class="line">    	age: 10</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  // &#123;name: &quot;up8Wang&quot;, age: 10&#125;</span><br><span class="line">console.log(new Person());// &#123;name: &quot;up8Wang&quot;, age: 10 &#125;</span><br></pre></td></tr></table></figure>
-<p>Reference<br><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/js-constructor/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -992,8 +356,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

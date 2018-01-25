@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://up8.wang/2017/12/07/js-lexical-scope/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="思考一下这两段代码的输出结果Case 1: 123456789101112var up = 8;function foo() &amp;#123;  console.log(up);&amp;#125;function bar() &amp;#123;  var up = 88;  foo();&amp;#125;bar(); 输出8还是88呢？ Case 2:123456789101112var up = 8;function">
-<meta property="og:updated_time" content="2017-12-18T12:28:30.000Z">
+<meta property="og:updated_time" content="2018-01-24T03:01:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript是词法作用域(Lexical Scope)">
 <meta name="twitter:description" content="思考一下这两段代码的输出结果Case 1: 123456789101112var up = 8;function foo() &amp;#123;  console.log(up);&amp;#125;function bar() &amp;#123;  var up = 88;  foo();&amp;#125;bar(); 输出8还是88呢？ Case 2:123456789101112var up = 8;function">
@@ -192,8 +192,8 @@
 </blockquote>
 <h5 id="回头分析下上面的两段代码"><a href="#回头分析下上面的两段代码" class="headerlink" title="回头分析下上面的两段代码"></a>回头分析下上面的两段代码</h5><p>在Case1中，函数foo执行时，内部查找是否有变量up, 如果没有向上, 就根据书写的位置，查找上面一层的代码（也叫父变量对象，当然是词法结构上的），查找up = 8, 因此输出为8</p>
 <p>在Case2中，函数bar执行，内部查找变量up, 就近原则，所以输出为888</p>
-<p>Reference:</p>
-<p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
+<h5 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h5><p>JS的词法作用域有两种，一种是全局作用域，另外一种是函数作用域， <strong>在函数作用域内会屏蔽在全局作用域上的相同名称的变量。</strong></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h5><p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
 
       
 
