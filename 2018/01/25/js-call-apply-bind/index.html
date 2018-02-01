@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>JavaScript构造函数(constructor) | 专注高性能的WEB研发。</title>
+  <title>JavaScript函数的call/apply/bind方法 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="构造函数(constructor)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是一个类进行实例化(或者生成一个对象)所使用的方法，类(class)就是一个对象(Object)的模板, 定义了同一组对象的共有属性和方法。有了模板要得到这个东西, 必须经过”生产”(实例化)的过程, 这个过">
+  <meta name="description" content="&amp;emsp;&amp;emsp;在上一篇 JavaScript函数的属性和方法 中提到了函数的三个方法call() apply() bind() 三个方法. 索源&amp;emsp;&amp;emsp;call，apply，bind这三个方法其实都是继承自Function.prototype中的，属于实例方法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript构造函数(constructor)">
-<meta property="og:url" content="http://up8.wang/2017/12/26/js-constructor/index.html">
+<meta property="og:title" content="JavaScript函数的call&#x2F;apply&#x2F;bind方法">
+<meta property="og:url" content="http://up8.wang/2018/01/25/js-call-apply-bind/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="构造函数(constructor)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是一个类进行实例化(或者生成一个对象)所使用的方法，类(class)就是一个对象(Object)的模板, 定义了同一组对象的共有属性和方法。有了模板要得到这个东西, 必须经过”生产”(实例化)的过程, 这个过程就有构造方法来完成。构造函数都是和new  关键词一起使用的。 new 就是在创建对象，从无到">
-<meta property="og:updated_time" content="2017-12-28T09:07:20.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;在上一篇 JavaScript函数的属性和方法 中提到了函数的三个方法call() apply() bind() 三个方法. 索源&amp;emsp;&amp;emsp;call，apply，bind这三个方法其实都是继承自Function.prototype中的，属于实例方法。123console.log(Function.prototype.hasOwnProperty(&amp;apos;c">
+<meta property="og:updated_time" content="2018-01-26T08:05:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript构造函数(constructor)">
-<meta name="twitter:description" content="构造函数(constructor)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是一个类进行实例化(或者生成一个对象)所使用的方法，类(class)就是一个对象(Object)的模板, 定义了同一组对象的共有属性和方法。有了模板要得到这个东西, 必须经过”生产”(实例化)的过程, 这个过程就有构造方法来完成。构造函数都是和new  关键词一起使用的。 new 就是在创建对象，从无到">
+<meta name="twitter:title" content="JavaScript函数的call&#x2F;apply&#x2F;bind方法">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在上一篇 JavaScript函数的属性和方法 中提到了函数的三个方法call() apply() bind() 三个方法. 索源&amp;emsp;&amp;emsp;call，apply，bind这三个方法其实都是继承自Function.prototype中的，属于实例方法。123console.log(Function.prototype.hasOwnProperty(&amp;apos;c">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -153,53 +153,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-js-constructor" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-js-call-apply-bind" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      JavaScript构造函数(constructor)
+      JavaScript函数的call/apply/bind方法
     </h1>
   
 
         
-        <a href="/2017/12/26/js-constructor/" class="archive-article-date">
-  	<time datetime="2017-12-26T10:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+        <a href="/2018/01/25/js-call-apply-bind/" class="archive-article-date">
+  	<time datetime="2018-01-25T14:56:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="构造函数-constructor"><a href="#构造函数-constructor" class="headerlink" title="构造函数(constructor)"></a>构造函数(constructor)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是一个类进行实例化(或者生成一个对象)所使用的方法，类(class)就是一个对象(Object)的模板, 定义了同一组对象的共有属性和方法。有了模板要得到这个东西, 必须经过”生产”(实例化)的过程, 这个过程就有构造方法来完成。构造函数都是和new  关键词一起使用的。 new 就是在创建对象，从无到有。通俗地讲,构造函数就是在对象刚诞生时执行的函数。</p>
-<p>&emsp;&emsp;JavaScript在设计之初只是为了解决简单的网页交互，并没有“类”（class）的概念，因为一旦有了‘类’，Javascript就是一种完整的面向对象编程语言了。但JavaScript里所有的一切皆对象，那么他的对象是如何生产出来的呢?  但在ES6中引入了类（class）这个概念，作为对象的模板，新的class写法知识让原型对象的写法更加清晰，这里不重点谈这个。</p>
-<p>&emsp;&emsp;C++和Java使用new命令时，都会调用”类”的构造函数（constructor）,于是JavaScript语言在创建之初做了一个简化的设计，new命令后面跟的不是类，而是构造函数。于是，我们使用构造函数来构造对象, 就犹如定义一个类来实例化对象.</p>
-<p>所以结论是：</p>
-<blockquote>
-<p>JavaScript中只有对象(Object), 没有类, 所有的一切都是对象, 基于原型来构造对象.</p>
-</blockquote>
-<h5 id="书写规则和调用方式"><a href="#书写规则和调用方式" class="headerlink" title="书写规则和调用方式"></a>书写规则和调用方式</h5><ul>
-<li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>
-<li>调用方式： 任何函数，只要通过new操作符来调用，那它就可以作为构造函数， 如果不通过new操作符来调用，那它跟普通函数没有什么区别。</li>
+        <p>&emsp;&emsp;在上一篇 <a href="/2018/01/24/js-method-and-property-for-function/">JavaScript函数的属性和方法</a> 中提到了函数的三个方法call() apply() bind() 三个方法.</p>
+<h5 id="索源"><a href="#索源" class="headerlink" title="索源"></a>索源</h5><p>&emsp;&emsp;call，apply，bind这三个方法其实都是继承自Function.prototype中的，属于实例方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;call&apos;)) // true</span><br><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;apply&apos;)) // true</span><br><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;bind&apos;)) // true</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;上面代码中，都返回了true，表明三种方法都是继承自Function.prototype的。当然，普通的对象，函数，数组都继承了Function.prototype对象中的三个方法，所以这三个方法都可以在对象，数组，函数中使用。</p>
+<h5 id="call方法"><a href="#call方法" class="headerlink" title="call方法"></a>call方法</h5><p>&emsp;&emsp;函数实例的call方法，可以指定该函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。并且会立即执行该函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var teacher = &#123;</span><br><span class="line">	name: &apos;up8&apos;</span><br><span class="line">&#125;</span><br><span class="line">var name = &apos;Felix&apos;;</span><br><span class="line">person(); // Felix</span><br><span class="line">person.call(); // Felix</span><br><span class="line">person.call(null); // Felix</span><br><span class="line">person.call(undefined); // Felix</span><br><span class="line">person.call(this); // Felix</span><br><span class="line">person.call(teacher);  // up8</span><br><span class="line"></span><br><span class="line">function person() &#123;</span><br><span class="line">  console.log(&apos;my name is&apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面代码中，person函数中的this关键字，如果指向全局对象，返回结果为Felix。可以看到，如果call方法没有参数，或者参数为null或undefined或者this，则等同于指向全局对象。如果使用call方法将this关键字指向teacher对象，也就是将该函数执行时所在的作用域为teacher对象，返回结果为up8。</p>
+<p>&emsp;&emsp;call()方法可以传递两个参数。第一个参数是指定函数内部中this的指向（也就是函数执行时所在的作用域），第二个参数是函数调用时需要传递的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">  console.log(x+y);</span><br><span class="line">&#125;</span><br><span class="line">add.call(null, 1, 2) // 3</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;第一个参数是必须的，可以是null，undefined，this，但是不能为空。设置为<strong>null，undefined，this表明函数add此时处于全局作用域</strong>。第二个参数中必须一个个添加。而在apply中必须以数组的形式添加。</p>
+<h5 id="apply方法"><a href="#apply方法" class="headerlink" title="apply方法"></a>apply方法</h5><p>&emsp;&emsp;apply方法的作用与call方法类似，也是改变this指向（函数执行时所在的作用域），然后在指定的作用域中，调用该函数。同时也会立即执行该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数。<br>&emsp;&emsp;apply方法的第一个参数与call的第一个参数一样，也是this所要指向的那个对象，如果设为null或undefined或者this，则等同于指定全局对象。第二个参数则是一个数组，该数组的所有成员依次作为参数，在调用时传入原函数。原函数的参数，在call方法中必须一个个添加，但是在apply方法中，必须以数组形式添加。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">  console.log(x+y);</span><br><span class="line">&#125;</span><br><span class="line">add.apply(null, [1, 2]) // 3</span><br></pre></td></tr></table></figure>
+<h5 id="bind方法"><a href="#bind方法" class="headerlink" title="bind方法"></a>bind方法</h5><p>&emsp;&emsp;bind方法用于指定函数内部的this指向（执行时所在的作用域），<strong>然后返回一个新函数。bind方法并非立即执行一个函数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: function() &#123;</span><br><span class="line">    console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">person.getName();</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;上面代码中，this.name指向person对象的内部属性name,如果把person对象的getName方法赋值给另外一个变量，调用执行后就不是期望的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: function() &#123;</span><br><span class="line">    console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var personName = person.getName;</span><br><span class="line">personName()</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;为什么呢？在<a href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a>这篇文章中 提到 <strong>隐式绑定中的上下文丢失</strong>， 为了解决这个问题，可以使用bind方法，将person对象里的this绑定到person对象上，或者是直接调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var personName = person.getName.bind(person);</span><br><span class="line">personName()</span><br></pre></td></tr></table></figure>
+<p>上面的代码中，可以看出call, apply, bind三者的区别： call和apply方法都是在调用之后立即执行的。而bind调用之后是返回原函数, 需要再调用一次才行，有点像是闭包的玩法。</p>
+<h5 id="有必要总结一下"><a href="#有必要总结一下" class="headerlink" title="有必要总结一下"></a>有必要总结一下</h5><ul>
+<li>第一个参数都是指定函数内部中this的指向（函数执行时所在的作用域），然后根据指定的作用域，调用该函数。</li>
+<li>都可以在函数调用时传递参数。call，bind方法需要直接传入，而apply方法需要以数组的形式传入。</li>
+<li>call，apply方法是在调用之后立即执行函数，而bind方法没有立即执行，需要将函数再执行一遍。有点闭包的味道。</li>
+<li>改变this对象的指向问题不仅有call，apply，bind方法，也可以使用that变量来固定this的指向。</li>
 </ul>
-<p>我们来看个Case</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// use stric</span><br><span class="line"></span><br><span class="line">function Person(name, age) &#123;</span><br><span class="line">	this.name = name;</span><br><span class="line">	this.age = age;</span><br><span class="line">	this.getName = function () &#123;</span><br><span class="line">		console.log(this.name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
-<p>上面的代码，当构造函数作为普通函数使用时，我们可以发现一些坑， 构造函数与一个普通函数并无不同，如果你故意不使用new，或忘记用new，都会得到怪异的错误：</p>
-<ul>
-<li>person2并不是Person的实例, 其值为undefined</li>
-<li>this指向window, this下的变量和属性变为全局变量和属性。</li>
-<li>在严格模式下，当你不通过new 调用Person构造函数会出现错误。</li>
-</ul>
-<h5 id="构造函数的返回值"><a href="#构造函数的返回值" class="headerlink" title="构造函数的返回值"></a>构造函数的返回值</h5><p>JavaScript中构造函数可以有返回值也可以没有。</p>
-<p>1.没有返回值的情况像其他传统语言一样，返回实例化的对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //undefined</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100&#125;</span><br></pre></td></tr></table></figure>
-<p>2.如果存在返回值则检查其返回值是否为引用类型，如果为非引用类型，如（string,number,boolean,null,undefined），上述几种类型的情况与没有返回值的情况相同，实际返回实例化的对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line"></span><br><span class="line">    return &quot;Felix Cao&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //Felix Cao</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100 &#125;</span><br></pre></td></tr></table></figure>
-<p>3.如果存在返回值是引用类型，则实际返回该引用类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">    this.name = &quot;Felix Cao&quot;;</span><br><span class="line">    this.age = 100;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">    	name: &apos;up8Wang&apos;,</span><br><span class="line">    	age: 10</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  // &#123;name: &quot;up8Wang&quot;, age: 10&#125;</span><br><span class="line">console.log(new Person());// &#123;name: &quot;up8Wang&quot;, age: 10 &#125;</span><br></pre></td></tr></table></figure>
-<p>Reference<br><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="https://www.codementor.io/niladrisekhardutta/how-to-call-apply-and-bind-in-javascript-8i1jca6jp" target="_blank" rel="noopener">How-to: call() , apply() and bind() in JavaScript</a></p>
+<p><a href="https://medium.com/@omergoldberg/javascript-call-apply-and-bind-e5c27301f7bb" target="_blank" rel="noopener">Javascript: call(), apply() and bind()</a></p>
 
       
 
@@ -279,7 +277,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2017/12/26/js-constructor/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/01/25/js-call-apply-bind/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -293,18 +291,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/29/js-prototype-proto/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/01/26/js-function-role/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          函数的原型(prototype)属性和对象的__proto__属性
+          JavaScript中函数的三种角色
         
       </div>
     </a>
   
   
-    <a href="/2017/12/20/js-global-object/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JavaScript全局对象(Global Object)</div>
+    <a href="/2018/01/24/js-method-and-property-for-function/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript函数的属性和方法</div>
       <i class="icon-circle-right"></i>
     </a>
   

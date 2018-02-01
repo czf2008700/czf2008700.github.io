@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>Archives | 专注高性能的WEB研发。</title>
+  <title>JavaScript构造函数(constructor function) | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="专注高性能的WEB研发。">
-<meta property="og:url" content="http://up8.wang/archives/page/4/index.html">
+  <meta name="description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript构造函数(constructor function)">
+<meta property="og:url" content="http://up8.wang/2017/12/26/js-constructor-function/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
+<meta property="og:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函">
+<meta property="og:updated_time" content="2018-01-31T02:49:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="专注高性能的WEB研发。">
+<meta name="twitter:title" content="JavaScript构造函数(constructor function)">
+<meta name="twitter:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -149,295 +153,197 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-js-constructor-function" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript构造函数(constructor function)
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/js-constructor-function/" class="archive-article-date">
+  	<time datetime="2017-12-26T10:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="构造函数-constructor-function"><a href="#构造函数-constructor-function" class="headerlink" title="构造函数(constructor function)"></a>构造函数(constructor function)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函数从而生成一个对象实例。</p>
+<p>&emsp;&emsp;因此我们也可以这么去理解JavaScript中的构造函数，构造函数只是一些使用new操作符调用的函数。他们并不属于某一个类，也不会实例化一个类！</p>
+<h5 id="JavaScript构造函数的书写规则和调用方式"><a href="#JavaScript构造函数的书写规则和调用方式" class="headerlink" title="JavaScript构造函数的书写规则和调用方式"></a>JavaScript构造函数的书写规则和调用方式</h5><ul>
+<li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>
+<li>调用方式： 任何函数，只要通过new操作符来调用，那它就可以作为构造函数， 如果不通过new操作符来调用，那它跟普通函数没有什么区别。</li>
+</ul>
+<p>我们来看个Case</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// use stric</span><br><span class="line"></span><br><span class="line">function Person(name, age) &#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    console.log(this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
+<p>上面的代码，当构造函数作为普通函数使用时，我们可以发现一些坑， 构造函数与一个普通函数并无不同，如果你故意不使用new，或忘记用new，都会得到怪异的错误：</p>
+<ul>
+<li>person2并不是Person的实例, 其值为undefined</li>
+<li>this指向window, this下的变量和属性变为全局变量和属性。</li>
+<li>在严格模式下，当你不通过new 调用Person构造函数会出现错误。</li>
+</ul>
+<h5 id="构造函数的返回值"><a href="#构造函数的返回值" class="headerlink" title="构造函数的返回值"></a>构造函数的返回值</h5><p><strong>JavaScript中构造函数可以有返回值也可以没有</strong>。</p>
+<p>1.没有返回值的情况像其他传统语言一样，返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //undefined</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100&#125;</span><br></pre></td></tr></table></figure>
+<p>2.如果存在返回值则检查其返回值是否为引用类型，如果为非引用类型，如（string,number,boolean,null,undefined），上述几种类型的情况与没有返回值的情况相同，实际返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &quot;Felix Cao&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //Felix Cao</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100 &#125;</span><br></pre></td></tr></table></figure>
+<p>3.如果存在返回值是引用类型，则实际返回该引用类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    name: &apos;up8Wang&apos;,</span><br><span class="line">    age: 10</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  // &#123;name: &quot;up8Wang&quot;, age: 10&#125;</span><br><span class="line">console.log(new Person());// &#123;name: &quot;up8Wang&quot;, age: 10 &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="new操作符到底都干了啥？"><a href="#new操作符到底都干了啥？" class="headerlink" title="new操作符到底都干了啥？"></a>new操作符到底都干了啥？</h5><p>&emsp;&emsp;对于上面的Person构造函数，当我们执行var person1 = new Person()是，到底发生了什么？MDN上是这么说的 对于var o = new Foo();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//JavaScript 实际上执行的是：</span><br><span class="line">var o = new Object();</span><br><span class="line">o.[[Prototype]] = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们按照MDN上面的过程来理解下var person1 = new Person()的执行过程</p>
+<ul>
+<li>var obj = new Objec();                // 创建一个空对象obj</li>
+<li>obj.__proto__ = Person.prototype; // obj空对象的原型指向原型对象</li>
+<li>Person.call(obj);                     // Person构造函数中的this指向对象obj</li>
+<li>var person1 = obj;                    // 把这个obj赋给person1, 完成var person1 = new Person()的过程.</li>
+</ul>
+<h5 id="内置构造函数"><a href="#内置构造函数" class="headerlink" title="内置构造函数"></a>内置构造函数</h5><p>&emsp;&emsp;JavaScript有九种内置的构造函数：Object(), Function(), Array(), Number(), String(), Boolean(), RegExp(), Date(), Error().当我们需要创建这些值的时候，我们可以自由选择使用字面量或者构造函数。但是相同情况下，字面量对象不仅易读，而且运行速度更快，因为他们可以在解析的时候被优化。所以当你需要使用简单对象的时候就使用字面量吧。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">Inheritance and the prototype chain</a></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/11/exploring-lifecycle-hooks/" class="archive-article-date">
-  	<time datetime="2017-09-11T01:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/11/exploring-lifecycle-hooks/">探讨Angular1.5的Lifecycle Hooks</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2017/12/26/js-constructor-function/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/14/lite-server/" class="archive-article-date">
-  	<time datetime="2017-08-14T01:01:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-14</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2017/12/29/js-prototype-proto/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          函数的原型(prototype)属性和对象的__proto__属性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/20/js-global-object/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript全局对象(Global Object)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/14/lite-server/">lite-server</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/11/one-way-data-binding-and/" class="archive-article-date">
-  	<time datetime="2017-08-11T08:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/11/one-way-data-binding-and/">One way data-binding in angular1.5.x --- Part 2</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/11/one-way-data-binding-less-than/" class="archive-article-date">
-  	<time datetime="2017-08-11T02:48:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/11/one-way-data-binding-less-than/">One way data-binding in angular1.5.x --- Part 1</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/09/etlKettleBased/" class="archive-article-date">
-  	<time datetime="2017-08-09T09:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/09/etlKettleBased/">ETL利器kettle基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/gmt-utc-dst-timezone/" class="archive-article-date">
-  	<time datetime="2017-08-08T03:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/gmt-utc-dst-timezone/">GMT UTC DST and time zone</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/07/timezoneDropdown/" class="archive-article-date">
-  	<time datetime="2017-08-07T03:35:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/07/timezoneDropdown/">How to implement timezone dropdown with moment.js?</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/27/keyboard-shortcuts-webstorm/" class="archive-article-date">
-  	<time datetime="2017-07-27T03:16:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/27/keyboard-shortcuts-webstorm/">Keyboard Shortcuts for WebStorm(MAC)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/26/git-commands/" class="archive-article-date">
-  	<time datetime="2017-07-26T01:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/26/git-commands/">Git commands</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/07/hexo-deploy-github-pages/" class="archive-article-date">
-  	<time datetime="2017-07-07T09:41:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/07/hexo-deploy-github-pages/">How to use Hexo and deploy to GitHub Pages</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/3/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="page-number current">4</span>
-    </nav>
   
 
 
@@ -461,8 +367,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
