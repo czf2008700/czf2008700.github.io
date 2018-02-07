@@ -266,8 +266,10 @@
 <li>call，apply方法是在调用之后立即执行函数，而bind方法没有立即执行，需要将函数再执行一遍。有点闭包的味道。</li>
 <li>改变this对象的指向问题不仅有call，apply，bind方法，也可以使用that变量来固定this的指向。</li>
 </ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="https://www.codementor.io/niladrisekhardutta/how-to-call-apply-and-bind-in-javascript-8i1jca6jp" target="_blank" rel="noopener">How-to: call() , apply() and bind() in JavaScript</a></p>
-<p><a href="https://medium.com/@omergoldberg/javascript-call-apply-and-bind-e5c27301f7bb" target="_blank" rel="noopener">Javascript: call(), apply() and bind()</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://www.codementor.io/niladrisekhardutta/how-to-call-apply-and-bind-in-javascript-8i1jca6jp" target="_blank" rel="noopener">How-to: call() , apply() and bind() in JavaScript</a></li>
+<li><a href="https://medium.com/@omergoldberg/javascript-call-apply-and-bind-e5c27301f7bb" target="_blank" rel="noopener">Javascript: call(), apply() and bind()</a></li>
+</ul>
 
       
 
@@ -346,7 +348,10 @@
 <p>3). <strong>prototype属性</strong><br>&emsp;&emsp;每一个函数都有一个prototype属性，这个属性指向一个对象的引用，这个对象称做原型对象(prototype object)。每一个函数都包含不同的原型对象。将函数用做构造函数时，新创建的对象会从原型对象上继承属性. 关于prototype属性请移步 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a></p>
 <h5 id="函数的方法"><a href="#函数的方法" class="headerlink" title="函数的方法"></a>函数的方法</h5><p>&emsp;&emsp;每个函数都有call(),apply(), bind()三个方法，他们来源于Function.prototype.call()，Function.prototype.apply(), Function.prototype.bind(), 上文提到，在JavaScript 语言里, 函数也是对象，每个函数都是 Function 类的实例，而call、apply和bind是Function类自带的三个方法。 想了解更多请移步<a href="2018/01/25/js-call-apply-bind/">JavaScript函数的call/apply/bind方法</a></p>
 <p>toStrint方法<br>函数的toString方法返回一个字符串，内容是函数的源码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x,y) &#123;</span><br><span class="line">  return x+y;</span><br><span class="line">&#125;</span><br><span class="line">add.toString()</span><br></pre></td></tr></table></figure></p>
-<h5 id="Rerfence"><a href="#Rerfence" class="headerlink" title="Rerfence"></a>Rerfence</h5><p><a href="http://javascript.ruanyifeng.com/grammar/function.html#toc7" target="_blank" rel="noopener">阮一峰Javascript标准参考教程——函数的属性和方法</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="noopener">Arguments对象</a></p>
+<h5 id="Rerfence"><a href="#Rerfence" class="headerlink" title="Rerfence"></a>Rerfence</h5><ul>
+<li><a href="http://javascript.ruanyifeng.com/grammar/function.html#toc7" target="_blank" rel="noopener">阮一峰Javascript标准参考教程——函数的属性和方法</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="noopener">Arguments对象</a></li>
+</ul>
 
       
 
@@ -422,7 +427,10 @@
 <p>&emsp;&emsp;我们可以将Function()构造函数认为是在全局作用域中执行的eval()。在实际编程中，Function()构造函数很少用到，前两中定义方法使用比较普遍。</p>
 <h5 id="return语句及其坑"><a href="#return语句及其坑" class="headerlink" title="return语句及其坑"></a>return语句及其坑</h5><p>&emsp;&emsp;在函数体内，遇到return，函数就执行完毕，并返回结果。如果没有 return ，函数执行完毕也会返回结果，只是返回的是undefined<br>&emsp;&emsp;我们要注意的是return有一个坑，在JavaScript中，有一个自动在行末添加分号的机制，看下面的示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return &#123;name: &apos;Felix Cao&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">person() // &#123;name: &apos;Felix Cao&apos;&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>如果我们写成这样的话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return  // 自动加了分好，相当于return undefined</span><br><span class="line">  &#123;name: &apos;Felix Cao&apos;&#125;; // 因为上面已经返回，所以这句无法执行</span><br><span class="line">&#125;</span><br><span class="line">person() // undefined</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符<br><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符</li>
+<li><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></li>
+</ul>
 
       
 
@@ -841,12 +849,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，</p>
+        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
 <ul>
-<li>原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的</li>
-<li>原型链的形成是真正是靠<strong>proto</strong> 而非prototype</li>
+<li>JavaScript的继承机制是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享。所以原型的主要作用在于共享，如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。</li>
+<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype</li>
 </ul>
-<p>To Be Continued</p>
+<h5 id="原型链的属性查找规则"><a href="#原型链的属性查找规则" class="headerlink" title="原型链的属性查找规则"></a>原型链的属性查找规则</h5><p>&emsp;&emsp;当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;注意： 在实际应用中，不要直接在Object.prototype中添加任何属性和方法，本文是为了方便理解原型链的属性查找才这么写的。<br>&emsp;&emsp;上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp; 当我们查找p1对象的name属性时，先去p1对象自身去搜索一通，发现没有，再去p1的原型对象Person.prototype上搜索，如果没有再去Person.prototype的原型对象Object.protptype上去搜，找到name属性，赋给p1.name; </p>
+<p>我们把上面的代码改一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Person原型上的name&apos;;</span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
+<p>上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp;从这个结构我们可以看出，从开始的p1对象，到众多原型对象组成的链，发挥这种原型链作用靠的是对象的__proto__属性。</p>
+<h5 id="原型链简单图解"><a href="#原型链简单图解" class="headerlink" title="原型链简单图解"></a>原型链简单图解</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">对象模型的细节</a></li>
+</ul>
 
       
 

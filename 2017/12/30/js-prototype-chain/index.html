@@ -8,16 +8,20 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>JavaScript的原型链(prototype chain) | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，  原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的 原型链的形成是真正是靠proto 而非prototype  To Be Continued">
+  <meta name="description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享。所以原型的主要作用在于共享，如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。 当访问一个对">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript的原型链(prototype chain)">
 <meta property="og:url" content="http://up8.wang/2017/12/30/js-prototype-chain/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，  原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的 原型链的形成是真正是靠proto 而非prototype  To Be Continued">
-<meta property="og:updated_time" content="2018-01-12T09:45:29.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享。所以原型的主要作用在于共享，如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。 当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型">
+<meta property="og:image" content="http://up8.wang/images/js-prototype-chain-01.png">
+<meta property="og:image" content="http://up8.wang/images/js-prototype-chain-01.png">
+<meta property="og:image" content="http://up8.wang/images/js-prototype-proto-05.png">
+<meta property="og:updated_time" content="2018-02-07T16:16:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript的原型链(prototype chain)">
-<meta name="twitter:description" content="在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，  原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的 原型链的形成是真正是靠proto 而非prototype  To Be Continued">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享。所以原型的主要作用在于共享，如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。 当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型">
+<meta name="twitter:image" content="http://up8.wang/images/js-prototype-chain-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -173,12 +177,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在函数的原型(prototype)属性和对象的__proto__属性，顺带提了下原型链，</p>
+        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
 <ul>
-<li>原型和原型链是JS实现继承的一种模型。或者说JS的继承是基于原型的</li>
-<li>原型链的形成是真正是靠<strong>proto</strong> 而非prototype</li>
+<li>JavaScript的继承机制是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享。所以原型的主要作用在于共享，如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。</li>
+<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype</li>
 </ul>
-<p>To Be Continued</p>
+<h5 id="原型链的属性查找规则"><a href="#原型链的属性查找规则" class="headerlink" title="原型链的属性查找规则"></a>原型链的属性查找规则</h5><p>&emsp;&emsp;当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;注意： 在实际应用中，不要直接在Object.prototype中添加任何属性和方法，本文是为了方便理解原型链的属性查找才这么写的。<br>&emsp;&emsp;上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp; 当我们查找p1对象的name属性时，先去p1对象自身去搜索一通，发现没有，再去p1的原型对象Person.prototype上搜索，如果没有再去Person.prototype的原型对象Object.protptype上去搜，找到name属性，赋给p1.name; </p>
+<p>我们把上面的代码改一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Person原型上的name&apos;;</span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
+<p>上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp;从这个结构我们可以看出，从开始的p1对象，到众多原型对象组成的链，发挥这种原型链作用靠的是对象的__proto__属性。</p>
+<h5 id="原型链简单图解"><a href="#原型链简单图解" class="headerlink" title="原型链简单图解"></a>原型链简单图解</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">对象模型的细节</a></li>
+</ul>
 
       
 

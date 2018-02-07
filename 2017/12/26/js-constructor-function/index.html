@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>JavaScript构造函数(constructor function) | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，">
+  <meta name="description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript构造函数(constructor function)">
 <meta property="og:url" content="http://up8.wang/2017/12/26/js-constructor-function/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函">
-<meta property="og:updated_time" content="2018-01-31T02:49:43.000Z">
+<meta property="og:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然可以通过多种方式创建，其中就有构造函数方式，使用new操作符调用构造函数从而生成一个对象实例。">
+<meta property="og:updated_time" content="2018-02-07T07:29:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript构造函数(constructor function)">
-<meta name="twitter:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函">
+<meta name="twitter:description" content="构造函数(constructor function)&amp;emsp;&amp;emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然可以通过多种方式创建，其中就有构造函数方式，使用new操作符调用构造函数从而生成一个对象实例。">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -173,7 +173,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="构造函数-constructor-function"><a href="#构造函数-constructor-function" class="headerlink" title="构造函数(constructor function)"></a>构造函数(constructor function)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES6之后加入了’class’关键词），JavaScript认为“万物皆对象，函数也是对象，对象可以继承对象”，所以构造函数可以构造（创建）对象的，使用new操作符调用构造函数从而生成一个对象实例。</p>
+        <h5 id="构造函数-constructor-function"><a href="#构造函数-constructor-function" class="headerlink" title="构造函数(constructor function)"></a>构造函数(constructor function)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然可以通过多种方式创建，其中就有构造函数方式，使用new操作符调用构造函数从而生成一个对象实例。</p>
 <p>&emsp;&emsp;因此我们也可以这么去理解JavaScript中的构造函数，构造函数只是一些使用new操作符调用的函数。他们并不属于某一个类，也不会实例化一个类！</p>
 <h5 id="JavaScript构造函数的书写规则和调用方式"><a href="#JavaScript构造函数的书写规则和调用方式" class="headerlink" title="JavaScript构造函数的书写规则和调用方式"></a>JavaScript构造函数的书写规则和调用方式</h5><ul>
 <li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>

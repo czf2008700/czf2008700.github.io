@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://up8.wang/2018/01/24/js-three-way-to-define-functions/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍 函数声明(Function declaration)12345function person(name) &amp;#123;  console.log(name);  return name;&amp;#125;person(&amp;apos;up8&amp;apos;);">
-<meta property="og:updated_time" content="2018-01-26T05:47:45.000Z">
+<meta property="og:updated_time" content="2018-02-07T01:43:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript的三种函数定义方式">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍 函数声明(Function declaration)12345function person(name) &amp;#123;  console.log(name);  return name;&amp;#125;person(&amp;apos;up8&amp;apos;);">
@@ -186,7 +186,10 @@
 <p>&emsp;&emsp;我们可以将Function()构造函数认为是在全局作用域中执行的eval()。在实际编程中，Function()构造函数很少用到，前两中定义方法使用比较普遍。</p>
 <h5 id="return语句及其坑"><a href="#return语句及其坑" class="headerlink" title="return语句及其坑"></a>return语句及其坑</h5><p>&emsp;&emsp;在函数体内，遇到return，函数就执行完毕，并返回结果。如果没有 return ，函数执行完毕也会返回结果，只是返回的是undefined<br>&emsp;&emsp;我们要注意的是return有一个坑，在JavaScript中，有一个自动在行末添加分号的机制，看下面的示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return &#123;name: &apos;Felix Cao&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">person() // &#123;name: &apos;Felix Cao&apos;&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>如果我们写成这样的话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return  // 自动加了分好，相当于return undefined</span><br><span class="line">  &#123;name: &apos;Felix Cao&apos;&#125;; // 因为上面已经返回，所以这句无法执行</span><br><span class="line">&#125;</span><br><span class="line">person() // undefined</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符<br><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符</li>
+<li><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></li>
+</ul>
 
       
 
