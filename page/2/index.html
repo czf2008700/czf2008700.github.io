@@ -151,6 +151,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-constructor-property" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/30/js-constructor-property/">JavaScript的constructor属性</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/30/js-constructor-property/" class="archive-article-date">
+  	<time datetime="2017-12-30T03:49:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="constructor-属性始终指向创建当前对象的构造函数。"><a href="#constructor-属性始终指向创建当前对象的构造函数。" class="headerlink" title="constructor 属性始终指向创建当前对象的构造函数。"></a>constructor 属性始终指向创建当前对象的构造函数。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var str = &apos;&apos;;</span><br><span class="line">console.log(&apos;str:&apos;, str.constructor);</span><br><span class="line">var num = 12;</span><br><span class="line">console.log(&apos;num:&apos;, num.constructor);</span><br><span class="line">var bool = false;</span><br><span class="line">console.log(&apos;bool:&apos;, bool.constructor);</span><br><span class="line">var obj = &#123;&#125;;</span><br><span class="line">console.log(&apos;obj:&apos;, obj.constructor);</span><br><span class="line">var arr = [];</span><br><span class="line">console.log(&apos;arr:&apos;, arr.constructor);</span><br><span class="line"></span><br><span class="line">function Person() &#123;&#125;;</span><br><span class="line">var objNew = new Person()</span><br><span class="line">console.log(&apos;objNew&apos;, objNew.constructor);</span><br><span class="line">console.log(&apos;constructor&apos;, Person.constructor);</span><br></pre></td></tr></table></figure>
+<p><img src="/images/js-constructor-property-01.png" width="350"></p>
+<h5 id="constructor属性和prototype属性"><a href="#constructor属性和prototype属性" class="headerlink" title="constructor属性和prototype属性"></a>constructor属性和prototype属性</h5><p>在 <a href="http://127.0.0.1:4000/2017/12/29/js-prototype-proto/" target="_blank" rel="noopener">JavaScript原型、原型对象、隐式原型</a> 中，我们知道每个函数都有prototype属性，prototype属性的constructor属性会指向这个函数本身。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;&#125;</span><br><span class="line">Person.prototype.sayName=function() &#123;&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.prototype.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.constructor); // ƒ Function() &#123; [native code] &#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们重写（重新定义）这个Person.prototype属性，那么constructor属性的指向就会发生改变了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;&#125;</span><br><span class="line">// Person的原型被重新赋值</span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">	sayName: function() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person.constructor); // ƒ Object() &#123; [native code] &#125;</span><br><span class="line">console.log(Person.prototype.constructor); // ƒ Object() &#123; [native code] &#125;</span><br><span class="line">console.log(Person.constructor); // ƒ Function() &#123; [native code] &#125;</span><br><span class="line"></span><br><span class="line">// 看到了吧，Person.prototype.constructor的指向已经发生了改变了</span><br><span class="line">// Person的原型被重新赋值, 可以这么来指向Object</span><br><span class="line">Person.prototype = new Object()&#123;</span><br><span class="line">	sayName: function() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 再次赋值指向Person</span><br><span class="line">Person.prototype.constructor = Person;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/30/js-constructor-property/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-prototype-proto" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -913,85 +980,9 @@
 
 
   
-    <article id="post-css-base-block-inline" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/23/css-base-block-inline/">CSS基础块级(block)元素与行内(inline)元素</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/23/css-base-block-inline/" class="archive-article-date">
-  	<time datetime="2017-11-23T14:36:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;块级元素是容器级的，行内元素是文本级的。</p>
-<h5 id="4点区别"><a href="#4点区别" class="headerlink" title="4点区别"></a>4点区别</h5><ul>
-<li><p>块级元素独自占一行且默认宽度会占满父元素宽度，即使设置宽度也还是独占一行， 行内元素不会独占一行，相邻行内元素可以排在同一行。</p>
-</li>
-<li><p>块级元素可以设置weith和height，行内元素设置width和height无效。</p>
-</li>
-<li><p>块级元素可以设置margin和padding属性，行内元素水平方向的margin和padding如margin-left、padding-right可以产生边距效果，但是竖直方向的如padding-top和margin-bottom不会产生边距效果</p>
-</li>
-<li><p>最后是块级元素和行内元素的相关属性：display，其中块级元素对应display：block，行内元素对应display：inline。可以通过修改元素的display属性来切换行内元素和块级元素。</p>
-</li>
-</ul>
-<h5 id="自由转换"><a href="#自由转换" class="headerlink" title="自由转换"></a>自由转换</h5><p>行内元素和块级元素可以自由转换，<br>给任何一个元素，设置→display:block;它将转为块级元素，拥有块级元素的所有性质；<br>相反的，给任何一个元素，设置→display:inline;它将转为行内元素，拥有行内元素的所有性质；</p>
-<h5 id="块级元素有哪些"><a href="#块级元素有哪些" class="headerlink" title="块级元素有哪些"></a>块级元素有哪些</h5><p>div -最常用的块级元素<br>dl -和dt dd搭配使用的块级元素<br>form -表单交互<br>h1 -大标题<br>hr -水平分隔符<br>ol -排序列表<br>ul -非排序列表<br>p -段落<br><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements" target="_blank" rel="noopener">More</a></p>
-<h5 id="内联元素有哪些"><a href="#内联元素有哪些" class="headerlink" title="内联元素有哪些"></a>内联元素有哪些</h5><p>a -锚点<br>b -粗体<br>br -换行<br>img -图片<br>input -输入框<br>label -label标签<br>select<br>small -小字体文本<br>strong -粗体强调<br>span -常用的内联容器，定义文本内区块<br>textarea -多行文本输入框<br><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements" target="_blank" rel="noopener">More</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/23/css-base-block-inline/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
