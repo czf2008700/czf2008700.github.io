@@ -151,6 +151,316 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-git-commands" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/26/git-commands/">Git commands</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/26/git-commands/" class="archive-article-date">
+  	<time datetime="2017-07-26T01:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Here is a list of some basic Git commands to get you going with Git.</p>
+<p>For more detail, check out the  <a href="https://www.atlassian.com/git" target="_blank" rel="noopener">Atlassian Git Tutorials</a>  for a visual introduction to Git commands and workflows, including examples. </p>
+<table>
+<thead>
+<tr>
+<th>Summary</th>
+<th>Commands</th>
+<th>Tips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>配置全局</td>
+<td>$ git config –global user.name “Your Name”<br>$ git config –global user.email “name@eb.com”</td>
+<td></td>
+</tr>
+<tr>
+<td>查看配置</td>
+<td>$ git config –list<br>$ git config –list –global</td>
+<td></td>
+</tr>
+<tr>
+<td>创建版本库</td>
+<td>$ git init</td>
+<td>通过git init命令把某个目录变成Git可以管理的仓库</td>
+</tr>
+<tr>
+<td>获取仓库状态</td>
+<td>$ git status</td>
+<td>随时掌握工作区的状态</td>
+</tr>
+<tr>
+<td>查看修改</td>
+<td>$ git diff readme.txt<br>$ git diff HEAD readme.txt</td>
+<td></td>
+</tr>
+<tr>
+<td>提交修改提交新文件</td>
+<td>$ git add readme.txt</td>
+<td></td>
+</tr>
+<tr>
+<td>提交</td>
+<td>$ git commit -m “add distributed”</td>
+<td>提交到版库</td>
+</tr>
+<tr>
+<td>查看提交日志</td>
+<td>$ git log<br>$ git log –pretty=oneline<br>$ git log –oneline –graph</td>
+<td><a href="#gitLog">More</a></td>
+</tr>
+<tr>
+<td>命令日志</td>
+<td>$ git reflog<br>$ git reflog –relative-date<br>$ git reflog –date=iso</td>
+<td></td>
+</tr>
+<tr>
+<td>版本回退</td>
+<td>$ git reset –hard commit_id<br> $ git reset –hard HEAD^</td>
+<td></td>
+</tr>
+<tr>
+<td>撤销修改</td>
+<td>$ git checkout — filename<br>$ git reset HEAD file</td>
+<td></td>
+</tr>
+<tr>
+<td>删除</td>
+<td>$ rm file<br>$ git rm file<br>$ git commit</td>
+<td>1.  删除也是一个修改操作</td>
+</tr>
+<tr>
+<td>远程库添加</td>
+<td>$ git remote add &lt;主机名&gt; &lt;网址&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>远程库删除</td>
+<td>$ git remote rm &lt;主机名&gt;<br>$ git remote remove &lt;主机名&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>远程库重命名</td>
+<td>$ git remote rename &lt;原主机名&gt; &lt;新主机名&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>远程库查看</td>
+<td>$ git remote<br>$ git remote -v</td>
+<td><a href="#viewRemote">More</a></td>
+</tr>
+<tr>
+<td>查看远程库详细信息</td>
+<td>$ git remote show &lt; hostname &gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>推送到远程库</td>
+<td>$ git push -u origin master</td>
+<td></td>
+</tr>
+<tr>
+<td>克隆</td>
+<td>$ git clone &lt;远程库网址&gt;</td>
+<td><a href="#gitClone">More</a></td>
+</tr>
+<tr>
+<td>创建分支</td>
+<td>$ git branch branchName<br>$ git checkout -b &lt;分支名&gt;</td>
+<td><a href="#gitBranch">More</a></td>
+</tr>
+<tr>
+<td>分支重命名</td>
+<td>$ git branch –m oldName newName</td>
+<td></td>
+</tr>
+<tr>
+<td>切换分支</td>
+<td>$ git checkout branchName</td>
+<td></td>
+</tr>
+<tr>
+<td>查看分支</td>
+<td>$ git branch <br> $ git branch -r<br>$ git branch -a 查看本地所有分支</td>
+<td>列出所有分支，当前分支前面会标一个*号</td>
+</tr>
+<tr>
+<td>合并分支</td>
+<td>$ git merge branchName <br>$ git cherry-pick <commit id=""> 合并某个commit ID 到当前分支</commit></td>
+<td>合并指定分支到当前分支</td>
+</tr>
+<tr>
+<td>删除分支</td>
+<td>$ git branch -d &lt;分支名&gt; 删除时提示分支没有合并<br>$ git branch -D &lt;分支名&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>分支重命名</td>
+<td>$  git branch -m oldname newname</td>
+<td></td>
+</tr>
+<tr>
+<td>删除远程分支</td>
+<td>$ git push origin :gemSCSS</td>
+<td>删除远程origin主机的gemSCSS分支</td>
+</tr>
+<tr>
+<td>推送分支到远程</td>
+<td>$ git push origin dev</td>
+<td></td>
+</tr>
+<tr>
+<td>取回远程库的更新</td>
+<td>$ git fetch &lt;远程主机名&gt;<br>$ git fetch &lt;远程主机名&gt; &lt;分支名&gt;</td>
+<td><a href="#gitFetch">More</a></td>
+</tr>
+<tr>
+<td>取回远程库某个分支的更新</td>
+<td>$ git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</td>
+<td><a href="#gitPull">More</a></td>
+</tr>
+<tr>
+<td>推送</td>
+<td>$ git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</td>
+<td><a href="#gitPush">More</a></td>
+</tr>
+<tr>
+<td>追踪关系</td>
+<td>tracking</td>
+<td><a href="#tracking">More</a></td>
+</tr>
+<tr>
+<td></td>
+<td>(f624f8e5f082f2df2bed8a4e09c12fd2943bdd40d)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="gitLog">git log</h5>
+
+<ol>
+<li>git log命令显示从最近到最远的提交日志 我们可以看到3次提交.</li>
+<li>如果嫌输出信息太多，看得眼花缭乱的，可以试试加上–pretty=oneline参数</li>
+<li>git log alias<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.gitconfig</span><br><span class="line">[alias]</span><br><span class="line">zclog=log --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cred%cn  %Cgreen(%ad)%Creset&apos; --abbrev --date=iso</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="viewRemote">远程库查看</h5>
+
+<ol>
+<li>为了便于管理，Git要求每个远程主机都必须指定一个主机名。git remote命令就用于管理主机名</li>
+<li>用git remote -v显示更详细的信息，可以看到抓取（fetch）和推送(push)的origin的地址。</li>
+<li>如果没有推送权限，就看不到push的地址。</li>
+<li>克隆版本库的时候，所使用的远程主机自动被Git命名为origin。 如果想用其他的主机名，需要用git clone命令的-o选项指定。（见git clone部分）</li>
+</ol>
+<h5 id="gitClone">git clone</h5>
+
+<ol>
+<li>Git支持多种协议，包括https，默认的git://使用ssh，但通过ssh支持的原生git协议速度最快。</li>
+<li>默认会在本地主机生成一个目录与远程主机的版本库同名</li>
+<li>如果要在本地指定不同的目录名，可以将目录名作为git clone命令的第二个参数。 $ git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;</li>
+<li>指定主机名,下面克隆的时候，指定远程主机叫做jQuery $ git clone -o jQuery <a href="https://github.com/jquery/jquery.git" target="_blank" rel="noopener">https://github.com/jquery/jquery.git</a> $ git remote jQuery</li>
+</ol>
+<h5 id="gitBranch">git branch</h5>
+
+<ol>
+<li>$ git branch branchName 基于当前分支创建分支名称为branchName</li>
+<li>$ git checkout -b branchName 相当于两步:<ul>
+<li>$ git branch branchName</li>
+<li>$ git checkout branchName</li>
+</ul>
+</li>
+</ol>
+<h5 id="gitFetch">git fetch</h5>
+
+<ol>
+<li>一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到git fetch命令。</li>
+<li>$ git fetch &lt;远程主机名&gt; 此命令将某个远程主机的更新，全部取回本地。</li>
+<li>$ git fetch origin master 所取回的更新，在本地主机上要用”远程主机名/分支名”的形式读取。比如origin主机的master，就要用origin/master读取。</li>
+<li>取回远程主机的更新以后，可以在它的基础上，使用git checkout命令创建一个新的分支。 $ git checkout -b newBrach origin/master， 该 命令表示，在origin/master的基础上，创建一个新分支</li>
+<li>在本地分支上合并远程分支， 使用git merge或者git rebase $ git merge origin/master # 或者 $ git rebase origin/master 上面命令表示在当前分支上，合并origin/master。</li>
+</ol>
+<h5 id="gitPull">git pull</h5>
+
+<ol>
+<li>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。 比如，取回origin主机的next分支，与本地的master分支合并，需要写成下面这样。 $ git pull origin next:master </li>
+<li>如果远程分支是与当前分支合并，则冒号后面的部分可以省略。 $ git pull origin next 上面命令表示，取回origin/next分支，再与当前分支合并。实质上，这等同于先做git fetch，再做git merge。 $ git fetch origin $ git merge origin/next</li>
+<li>git pull –rebase 表示把你的本地当前分支里的每个提交(commit)取消掉，并且把它们临时保存为补丁(patch)(这些补丁放到” .git/rebase”目录中),然后把本地当前分支更新 为最新的”origin”分支，最后把保存的这些补丁应用到本地当前分支上。</li>
+</ol>
+<h5 id="gitPush">git push</h5>
+
+<ol>
+<li>分支推送顺序的写法是&lt;来源地&gt;:&lt;目的地&gt;，所以git pull是&lt;远程分支&gt;:&lt;本地分支&gt;， 而git push是&lt;本地分支&gt;:&lt;远程分支&gt;。</li>
+<li>如果省略远程分支名，则表示将本地分支推送与之存在”追踪关系”的远程分支（通常两者同名）， 如果该远程分支不存在，则会被新建。 $ git push origin master 上面命令表示，将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建。</li>
+<li>如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。 $ git push origin :master # 等同于 $ git push origin –delete master</li>
+<li>如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。 $ git push origin 上面命令表示，将当前分支推送到origin主机的对应分支。</li>
+<li>如果当前分支只有一个追踪分支，那么主机名都可以省略。 $ git push</li>
+<li>如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机， 这样后面就可以不加任何参数使用git push $ git push -u origin master 上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。</li>
+<li>还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用–all选项。 $ git push –all origin</li>
+</ol>
+<h5 id="tracking">tracking追踪关系</h5>
+
+<ol>
+<li>在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。 比如，在git clone的时候， 所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动”追踪 “origin/master分支。</li>
+<li>手动建立追踪 $ git branch –set-upstream master origin/next 上面命令指定master分支追踪origin/next分支。</li>
+<li>如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。 $ git pull origin 上面命令表示，本地的当前分支自动与对应的origin主机”追踪分支”（remote-tracking branch）进行合并。</li>
+<li>如果当前分支只有一个追踪分支，连远程主机名都可以省略。 $ git pull 上面命令表示，当前分支自动与唯一一个追踪分支进行合并。</li>
+<li>如果合并需要采用rebase模式，可以使用–rebase选项。 $ git pull –rebase &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;<br>6.删除tracking追踪关系,git branch -d -r origin/branch name</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/26/git-commands/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hexo-deploy-github-pages" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -388,6 +698,10 @@
           
             <li class="search-li">
               <a href="https://www.termius.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Terminus</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://www.mailinator.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Mailinator</a>
             </li>
           
         </ul>

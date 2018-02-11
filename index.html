@@ -151,6 +151,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-variable-reference-values" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/09/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/09/js-variable-reference-values/" class="archive-article-date">
+  	<time datetime="2018-02-09T09:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;上一篇我们聊了 <a href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>, 本篇来聊一聊引用类型(Reference Values)</p>
+<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。</p>
+<h5 id="引用类型的值是可以改变的"><a href="#引用类型的值是可以改变的" class="headerlink" title="引用类型的值是可以改变的"></a>引用类型的值是可以改变的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123; age: 32 &#125;;</span><br><span class="line">person.age = 30; // 通过修改对象属性值更改对象</span><br><span class="line">person.name = &apos;Felix&apos;; // 再次更改对象，给它增加一个属性</span><br><span class="line"></span><br><span class="line">var arr = [1, 2, 3];</span><br><span class="line">a[0] = 0; // 更改数组的一个元素</span><br><span class="line">a[3] = 4; // 给数组增加一个元素</span><br></pre></td></tr></table></figure>
+<h5 id="引用类型可以添加属性和方法"><a href="#引用类型可以添加属性和方法" class="headerlink" title="引用类型可以添加属性和方法"></a>引用类型可以添加属性和方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">person.name = &apos;Felix Cao&apos;;</span><br><span class="line">person.getName = function() &#123;</span><br><span class="line">  console.log(&apos;Felix Cao&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="引用类型的值是对象引用"><a href="#引用类型的值是对象引用" class="headerlink" title="引用类型的值是对象引用"></a>引用类型的值是对象引用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">a.name = &apos;Felix Cao&apos;;</span><br><span class="line">console.log(a.name); // Felix Cao</span><br><span class="line">console.log(b.name); // Felix Cao</span><br><span class="line"></span><br><span class="line">b.age = 30;</span><br><span class="line">console.log(a.age); // 30</span><br><span class="line">console.log(b.age); // 30</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;当从一个变量向另一个变量赋值引用类型的值时，同样也会将储存在变量中的对象的值复制一份放到为新变量分配的空间中.<strong>引用类型保存在变量中的是堆区内存地址</strong>，该地址存放的是个对象，所以，与基本数据类型的简单赋值不同，这个值的副本实际上是一个指针，而这个指针指向存储在堆内存的一个对象.那么赋值操作后，两个变量都保存了同一个对象地址，而这两个地址指向了同一个对象.因此，改变其中任何一个变量，都会互相影响, 它们的关系如下图：</p>
+<p><img src="/images/js-variable-reference-values-01.png" width="600"></p>
+<p>&emsp;&emsp;因此，引用类型的赋值其实是对象保存在栈区地址指针的赋值，所以两个变量指向同一个对象，任何的操作都会互相影响。</p>
+<h5 id="引用类型的比较是引用的比较"><a href="#引用类型的比较是引用的比较" class="headerlink" title="引用类型的比较是引用的比较"></a>引用类型的比较是引用的比较</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">var person1 = &#123;&#125;;</span><br><span class="line">var person2 = &#123;&#125;;</span><br><span class="line">console.log(&apos;a == b: &apos;, a == b); // true</span><br><span class="line">console.log(&apos;person1 == person2: &apos;, person1 == person2); // false</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;为什么person1和person2两个对象看起来一摸一样，但是却不相等呢？</p>
+<p>&emsp;&emsp;因为引用类型的比较是引用的比较，换句话说，就是<strong>比较两个对象保存在栈区的指向堆内存的地址是否相同</strong>，此时，虽然person1和person2看起来都是一个”{}”，但是他们保存在栈区中的指向堆内存的地址却是不同的，所以两个对象不相等</p>
+<p><img src="/images/js-variable-reference-values-02.png" width="600"></p>
+<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区和堆区共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;name:&quot;change1&quot;&#125;;</span><br><span class="line">var person2 = &#123;name:&quot;change2&quot;&#125;;</span><br><span class="line">var person3 = &#123;name:&quot;change3&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;则这三个对象在内存中保存的情况如下图：</p>
+<p><img src="/images/js-variable-reference-values-03.png" width="600"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/09/js-variable-reference-values/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -659,9 +737,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;在<a href="">ES6模块(Module)</a>里介绍了ES6中利用关键词export、import使用模块，在<a href="">CommonJS的模块规范</a>介绍了CommonJS的模块规范。本篇主要搞搞两种模块的加载机制。</p>
+        <p>&emsp;&emsp;在 <a href="/2018/01/12/es6-module/">ES6模块(Module)</a> 里介绍了ES6中利用关键词export、import使用模块，在 <a href="/2018/01/12/js-commonjs/">CommonJS的模块规范</a> 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。</p>
 <blockquote>
-<p>ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
+<p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
 </blockquote>
 <h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
@@ -742,23 +820,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;上一篇介绍了[CommonJS的模块规范], 这一篇主要谈一下ES6的模块</p>
+        <p>&emsp;&emsp;上一篇介绍了<a href="/2018/01/12/es6-module/">CommonJS的模块规范</a>, 这一篇主要谈一下ES6的模块</p>
 <ul>
 <li>模块需要严格模式</li>
 <li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
 <li>导出：使用export声明需要导出的变量、函数或类</li>
 <li>导入：使用import声明从其他模块导入变量、函数或类。</li>
 </ul>
-<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>在变量、函数或类前面加上关键字<strong>export</strong>。<br>1). 写法1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>2). 写法2, <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br><strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
-<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
-<p>本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
-<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载"></a>模块的整体加载</h5><p>除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
-<h5 id="重命名模块输入和模块输出"><a href="#重命名模块输入和模块输出" class="headerlink" title="重命名模块输入和模块输出"></a>重命名模块输入和模块输出</h5><p>如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
+<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
+<p>2). 写法2,  <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br>&emsp;&emsp;<strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>&emsp;&emsp;如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
+<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>&emsp;&emsp;上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
+<p>&emsp;&emsp;本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
+<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载 *"></a>模块的整体加载 *</h5><p>&emsp;&emsp;除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
+<h5 id="重命名模块输入和模块输出-as"><a href="#重命名模块输入和模块输出-as" class="headerlink" title="重命名模块输入和模块输出 as"></a>重命名模块输入和模块输出 as</h5><p>&emsp;&emsp;如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>&emsp;&emsp;JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
 <ul>
 <li>你只可以在模块的最外层作用域使用import和export，不可在条件语句中使用，也不能在函数作用域中使用import。</li>
 <li>所有导出的标识符一定要在源代码中明确地导出它们的名称，你不能通过编写代码遍历一个数组然后用数据驱动的方式导出一堆名称。</li>
@@ -833,7 +911,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫 属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺 理成章地拥也了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发。</p>
+        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺理成章地有了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发之CommonJS规范。</p>
 <p>&emsp;&emsp;理想状态下，Developer只需要实现核心的业务逻辑，其他的可以加载别人已经写好的模块即可，因此JavaScript语言的模块化编程就显得异常重要了。然而，ES6之前JavaScript没有为组织管理代码提供任何方案，甚至没有类(Class)的概念，更不用说模块(Module)了.</p>
 <p>模块化管理需要具备：</p>
 <ul>
@@ -851,10 +929,10 @@
 <p>&emsp;&emsp;随着JavaScript作为后端语言的发展，CommonJS规范应运而生。参考 <a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a>， 需要注意的是CommonJS通常是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
 <p>&emsp;&emsp;CommonJS规范要点</p>
 <ul>
-<li>每个文件就是一个模块， 有自己的作用域</li>
-<li>在一个文件里定义的变量、函数、类都是私有的，对其他文件不可见</li>
-<li>每个模块内部，变量module代表当前模块，这个变量是一个对象。它的<strong>exports</strong>属性(即module.exports)是一个对外的接口</li>
-<li><strong>require</strong>方法用于加载模块</li>
+<li>每个文件就是一个模块， 有自己的作用域。</li>
+<li>在一个文件里定义的变量、函数、类都是私有的，对其他文件不可见。</li>
+<li>导出：每个模块内部，变量module代表当前模块，这个变量是一个对象。它的<strong>exports</strong>属性(即module.exports)是一个对外的接口。</li>
+<li>导入：<strong>require</strong>方法用于加载模块。</li>
 </ul>
 <p>&emsp;&emsp;CommonJS的特点</p>
 <ul>
@@ -864,7 +942,8 @@
 <li>模块加载的顺序，按其在代码中出现的顺序。</li>
 </ul>
 <h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a></li>
+<li><a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范 – 阮一峰</a></li>
+<li><a href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank" rel="noopener">CommonJS规范</a></li>
 <li><a href="http://blog.js-republic.com/start-of-art-of-javascript-modularization-why-choose-es2015/" target="_blank" rel="noopener">WHY CHOOSE ES2015 MODULES, BASED ON THE STATE OF THE ART OF JAVASCRIPT MODULARIZATION</a></li>
 </ul>
 
@@ -880,87 +959,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/12/js-commonjs/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/30/js-prototype-chain/">JavaScript的原型链(prototype chain)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/30/js-prototype-chain/" class="archive-article-date">
-  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
-<ul>
-<li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
-<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
-<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype</li>
-</ul>
-<h5 id="原型链的属性查找规则"><a href="#原型链的属性查找规则" class="headerlink" title="原型链的属性查找规则"></a>原型链的属性查找规则</h5><p>&emsp;&emsp;当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;注意： 在实际应用中，不要直接在Object.prototype中添加任何属性和方法，本文是为了方便理解原型链的属性查找才这么写的。<br>&emsp;&emsp;上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp; 当我们查找p1对象的name属性时，先去p1对象自身去搜索一通，发现没有，再去p1的原型对象Person.prototype上搜索，如果没有再去Person.prototype的原型对象Object.protptype上去搜，找到name属性，赋给p1.name; </p>
-<p>我们把上面的代码改一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Person原型上的name&apos;;</span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp;从这个结构我们可以看出，从开始的p1对象，到众多原型对象组成的链，发挥这种原型链作用靠的是对象的__proto__属性。</p>
-<h5 id="原型链简单图解"><a href="#原型链简单图解" class="headerlink" title="原型链简单图解"></a>原型链简单图解</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">对象模型的细节</a></li>
-<li><a href="https://www.jianshu.com/p/e858f729bf4c" target="_blank" rel="noopener">震惊！原来你是这样的原型继承。。。</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/30/js-prototype-chain/">展开全文 >></a>
         </p>
       
 
@@ -1149,6 +1147,10 @@
           
             <li class="search-li">
               <a href="https://www.termius.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Terminus</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://www.mailinator.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Mailinator</a>
             </li>
           
         </ul>

@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>聊一聊JS中的变量分类 | 专注高性能的WEB研发。</title>
+  <title>JavaScript中的数据类型之引用类型(Reference Values) | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 类型系统（">
+  <meta name="description" content="&amp;emsp;&amp;emsp;上一篇我们聊了 JavaScript中的数据类型之基本数据类型(Primitive Values), 本篇来聊一聊引用类型(Reference Values) &amp;emsp;&amp;emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="聊一聊JS中的变量分类">
-<meta property="og:url" content="http://up8.wang/2017/12/06/js-variable-caetgory/index.html">
+<meta property="og:title" content="JavaScript中的数据类型之引用类型(Reference Values)">
+<meta property="og:url" content="http://up8.wang/2018/02/09/js-variable-reference-values/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 类型系统（Type System）  变量本身数据类型不固定的语言称之为动态语言。与之相反的是静态类型的编">
-<meta property="og:image" content="http://up8.wang/images/js-variable-scope.png">
-<meta property="og:updated_time" content="2017-12-30T03:42:09.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;上一篇我们聊了 JavaScript中的数据类型之基本数据类型(Primitive Values), 本篇来聊一聊引用类型(Reference Values) &amp;emsp;&amp;emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的">
+<meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-01.png">
+<meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-02.png">
+<meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-03.png">
+<meta property="og:updated_time" content="2018-02-11T08:27:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="聊一聊JS中的变量分类">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 类型系统（Type System）  变量本身数据类型不固定的语言称之为动态语言。与之相反的是静态类型的编">
-<meta name="twitter:image" content="http://up8.wang/images/js-variable-scope.png">
+<meta name="twitter:title" content="JavaScript中的数据类型之引用类型(Reference Values)">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇我们聊了 JavaScript中的数据类型之基本数据类型(Primitive Values), 本篇来聊一聊引用类型(Reference Values) &amp;emsp;&amp;emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的">
+<meta name="twitter:image" content="http://up8.wang/images/js-variable-reference-values-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -155,32 +157,42 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-js-variable-caetgory" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-js-variable-reference-values" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      聊一聊JS中的变量分类
+      JavaScript中的数据类型之引用类型(Reference Values)
     </h1>
   
 
         
-        <a href="/2017/12/06/js-variable-caetgory/" class="archive-article-date">
-  	<time datetime="2017-12-06T00:48:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+        <a href="/2018/02/09/js-variable-reference-values/" class="archive-article-date">
+  	<time datetime="2018-02-09T09:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 <a href="https://en.wikipedia.org/wiki/Type_system" target="_blank" rel="noopener">类型系统（Type System）</a></p>
-<blockquote>
-<p>变量本身数据类型不固定的语言称之为动态语言。与之相反的是静态类型的编程语言，指的是在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。</p>
-</blockquote>
-<h5 id="全局、函数内部和块级作用域"><a href="#全局、函数内部和块级作用域" class="headerlink" title="全局、函数内部和块级作用域"></a>全局、函数内部和块级作用域</h5><p><img src="/images/js-variable-scope.png" width="600"><br>&emsp;&emsp; 块级作用域是ES6定义的，主要是通过let 和 const来声明的， 在函数内部的变量和块级作用域内的变量我称之为局部变量。</p>
-<p>To be continued.</p>
+        <p>&emsp;&emsp;上一篇我们聊了 <a href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>, 本篇来聊一聊引用类型(Reference Values)</p>
+<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。</p>
+<h5 id="引用类型的值是可以改变的"><a href="#引用类型的值是可以改变的" class="headerlink" title="引用类型的值是可以改变的"></a>引用类型的值是可以改变的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123; age: 32 &#125;;</span><br><span class="line">person.age = 30; // 通过修改对象属性值更改对象</span><br><span class="line">person.name = &apos;Felix&apos;; // 再次更改对象，给它增加一个属性</span><br><span class="line"></span><br><span class="line">var arr = [1, 2, 3];</span><br><span class="line">a[0] = 0; // 更改数组的一个元素</span><br><span class="line">a[3] = 4; // 给数组增加一个元素</span><br></pre></td></tr></table></figure>
+<h5 id="引用类型可以添加属性和方法"><a href="#引用类型可以添加属性和方法" class="headerlink" title="引用类型可以添加属性和方法"></a>引用类型可以添加属性和方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">person.name = &apos;Felix Cao&apos;;</span><br><span class="line">person.getName = function() &#123;</span><br><span class="line">  console.log(&apos;Felix Cao&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="引用类型的值是对象引用"><a href="#引用类型的值是对象引用" class="headerlink" title="引用类型的值是对象引用"></a>引用类型的值是对象引用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">a.name = &apos;Felix Cao&apos;;</span><br><span class="line">console.log(a.name); // Felix Cao</span><br><span class="line">console.log(b.name); // Felix Cao</span><br><span class="line"></span><br><span class="line">b.age = 30;</span><br><span class="line">console.log(a.age); // 30</span><br><span class="line">console.log(b.age); // 30</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;当从一个变量向另一个变量赋值引用类型的值时，同样也会将储存在变量中的对象的值复制一份放到为新变量分配的空间中.<strong>引用类型保存在变量中的是堆区内存地址</strong>，该地址存放的是个对象，所以，与基本数据类型的简单赋值不同，这个值的副本实际上是一个指针，而这个指针指向存储在堆内存的一个对象.那么赋值操作后，两个变量都保存了同一个对象地址，而这两个地址指向了同一个对象.因此，改变其中任何一个变量，都会互相影响, 它们的关系如下图：</p>
+<p><img src="/images/js-variable-reference-values-01.png" width="600"></p>
+<p>&emsp;&emsp;因此，引用类型的赋值其实是对象保存在栈区地址指针的赋值，所以两个变量指向同一个对象，任何的操作都会互相影响。</p>
+<h5 id="引用类型的比较是引用的比较"><a href="#引用类型的比较是引用的比较" class="headerlink" title="引用类型的比较是引用的比较"></a>引用类型的比较是引用的比较</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">var person1 = &#123;&#125;;</span><br><span class="line">var person2 = &#123;&#125;;</span><br><span class="line">console.log(&apos;a == b: &apos;, a == b); // true</span><br><span class="line">console.log(&apos;person1 == person2: &apos;, person1 == person2); // false</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;为什么person1和person2两个对象看起来一摸一样，但是却不相等呢？</p>
+<p>&emsp;&emsp;因为引用类型的比较是引用的比较，换句话说，就是<strong>比较两个对象保存在栈区的指向堆内存的地址是否相同</strong>，此时，虽然person1和person2看起来都是一个”{}”，但是他们保存在栈区中的指向堆内存的地址却是不同的，所以两个对象不相等</p>
+<p><img src="/images/js-variable-reference-values-02.png" width="600"></p>
+<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区和堆区共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;name:&quot;change1&quot;&#125;;</span><br><span class="line">var person2 = &#123;name:&quot;change2&quot;&#125;;</span><br><span class="line">var person3 = &#123;name:&quot;change3&quot;&#125;;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;则这三个对象在内存中保存的情况如下图：</p>
+<p><img src="/images/js-variable-reference-values-03.png" width="600"></p>
 
       
 
@@ -260,7 +272,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2017/12/06/js-variable-caetgory/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/02/09/js-variable-reference-values/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -274,18 +286,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/07/js-lexical-scope/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          JavaScript是词法作用域(Lexical Scope)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/04/js-short-circuit-logic/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JS中的逻辑运算符和短路表达式</div>
+    <a href="/2018/02/08/js-object/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript的Object对象</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -473,6 +476,10 @@
           
             <li class="search-li">
               <a href="https://www.termius.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Terminus</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://www.mailinator.com/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>Mailinator</a>
             </li>
           
         </ul>
