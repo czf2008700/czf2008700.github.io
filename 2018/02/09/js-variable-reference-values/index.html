@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-01.png">
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-02.png">
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-03.png">
-<meta property="og:updated_time" content="2018-02-11T08:27:43.000Z">
+<meta property="og:updated_time" content="2018-02-11T09:08:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript中的数据类型之引用类型(Reference Values)">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇我们聊了 JavaScript中的数据类型之基本数据类型(Primitive Values), 本篇来聊一聊引用类型(Reference Values) &amp;emsp;&amp;emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的">
@@ -189,10 +189,15 @@
 <p>&emsp;&emsp;为什么person1和person2两个对象看起来一摸一样，但是却不相等呢？</p>
 <p>&emsp;&emsp;因为引用类型的比较是引用的比较，换句话说，就是<strong>比较两个对象保存在栈区的指向堆内存的地址是否相同</strong>，此时，虽然person1和person2看起来都是一个”{}”，但是他们保存在栈区中的指向堆内存的地址却是不同的，所以两个对象不相等</p>
 <p><img src="/images/js-variable-reference-values-02.png" width="600"></p>
-<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区和堆区共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
+<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区(Stack)和堆区(Heap)共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;name:&quot;change1&quot;&#125;;</span><br><span class="line">var person2 = &#123;name:&quot;change2&quot;&#125;;</span><br><span class="line">var person3 = &#123;name:&quot;change3&quot;&#125;;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;则这三个对象在内存中保存的情况如下图：</p>
 <p><img src="/images/js-variable-reference-values-03.png" width="600"></p>
+<h5 id="instanceOf"><a href="#instanceOf" class="headerlink" title="instanceOf"></a>instanceOf</h5><p>&emsp;&emsp;判断是否是某个对象的类型, 回头单独拿一篇来聊聊indtanceOf.</p>
+<h5 id="基本类型和引用类型的区别"><a href="#基本类型和引用类型的区别" class="headerlink" title="基本类型和引用类型的区别"></a>基本类型和引用类型的区别</h5><ul>
+<li>基本类型变量存的是值，复杂类型的变量存的是内存地址。</li>
+<li>基本类型在赋值的时候拷贝值，复杂类型在赋值的时候只拷贝地址，不拷贝值。</li>
+</ul>
 
       
 
@@ -285,6 +290,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/02/11/js-thread-and-browser-process/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          浏览器进程、JavaScript单线程
+        
+      </div>
+    </a>
   
   
     <a href="/2018/02/08/js-object/" id="article-nav-older" class="article-nav-link-wrap">

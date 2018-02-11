@@ -151,6 +151,107 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-thread-and-browser-process" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/11/js-thread-and-browser-process/">浏览器进程、JavaScript单线程</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/11/js-thread-and-browser-process/" class="archive-article-date">
+  	<time datetime="2018-02-11T10:07:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。<br>&emsp;&emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是否分得清楚呢？</p>
+<p>&emsp;&emsp;进程（process）和线程（thread）是操作系统的基本概念，许多人会有所了解，但不能较为清晰的分辨。 这里我们需要了解下面几个点。</p>
+<p><img src="/images/js-thread-and-browser-process-01.png" width="600"></p>
+<h5 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h5><p>&emsp;&emsp;CPU是计算机的核心，其负责承担计算机的计算任务。这里我们比喻为一个工厂</p>
+<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>&emsp;&emsp;学术上说，进程是一个具有一定独立功能的程序在一个数据集上的一次动态执行的过程，是操作系统进行资源分配和调度的一个独立单位，是应用程序运行的载体。我们这里将进程比喻为工厂的车间，它代表CPU所能处理的单个任务。任一时刻，CPU总是运行一个进程，其他进程处于非运行状态。</p>
+<h5 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h5><p>&emsp;&emsp;在早期的操作系统中并没有线程的概念，进程是能拥有资源和独立运行的最小单位，也是程序执行的最小单位。任务调度采用的是时间片轮转的抢占式调度方式，而进程是任务调度的最小单位，每个进程有各自独立的一块内存，使得各个进程之间内存地址相互隔离。后来，随着计算机的发展，对CPU的要求越来越高，进程之间的切换开销较大，已经无法满足越来越复杂的程序的要求了。于是就发明了线程，线程是程序执行中一个单一的顺序控制流程，是程序执行流的最小单元。这里把线程比喻一个车间的工人，即一个车间可以允许由多个工人协同完成一个任务。</p>
+<h5 id="进程和线程的区别和关系"><a href="#进程和线程的区别和关系" class="headerlink" title="进程和线程的区别和关系"></a>进程和线程的区别和关系</h5><ul>
+<li>进程是操作系统分配资源的最小单位，线程是程序执行的最小单位。</li>
+<li>一个进程由一个或多个线程组成，线程是一个进程中代码的不同执行路线；</li>
+<li>进程之间相互独立，但同一进程下的各个线程之间共享程序的内存空间(包括代码段、数据集、堆等)及一些进程级的资源(如打开文件和信号)。</li>
+<li>调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
+</ul>
+<h5 id="多进程和多线程"><a href="#多进程和多线程" class="headerlink" title="多进程和多线程"></a>多进程和多线程</h5><ul>
+<li>多进程：多进程指的是在同一个时间里，同一个计算机系统中如果允许两个或两个以上的进程处于运行状态。多进程带来的好处是明显的，比如你可以听歌的同时，打开编辑器敲代码，编辑器和听歌软件的进程之间丝毫不会相互干扰。</li>
+<li>多线程是指程序中包含多个执行流，即在一个程序中可以同时运行多个不同的线程来执行不同的任务，也就是说允许单个程序创建多个并行执行的线程来完成各自的任务。</li>
+</ul>
+<h5 id="浏览器多进程架构"><a href="#浏览器多进程架构" class="headerlink" title="浏览器多进程架构"></a>浏览器多进程架构</h5><p>&emsp;&emsp;跟现在的很多多线程浏览器不一样，Chrome浏览器使用多个进程来隔离不同的网页。因此在Chrome中打开一个网页相当于起了一个进程</p>
+<p><strong>那么Chrome为什么要使用多进程架构?</strong></p>
+<p>&emsp;&emsp;在浏览器刚被设计出来的时候，那时的网页非常的简单，每个网页的资源占有率是非常低的，因此一个进程处理多个网页时可行的。然后在今天，大量网页变得日益复杂。把所有网页都放进一个进程的浏览器面临在健壮性，响应速度，安全性方面的挑战。因为如果浏览器中的一个tab网页崩溃的话，将会导致其他被打开的网页应用。另外相对于线程，进程之间是不共享资源和地址空间的,所以不会存在太多的安全问题，而由于多个线程共享着相同的地址空间和资源,所以会存在线程之间有可能会恶意修改或者获取非授权数据等复杂的安全问题。</p>
+<p>&emsp;&emsp;在了解这个知识点线，我们需要先说明下什么是浏览器内核。</p>
+<h5 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h5><p>&emsp;&emsp;简单来说浏览器内核是通过取得页面内容、整理信息（应用CSS）、计算和组合最终输出可视化的图像结果，通常也被称为渲染引擎。从上面我们可以知道，Chrome浏览器为每个tab页面单独启用进程，因此每个tab网页都有由其独立的渲染引擎实例。</p>
+<h5 id="浏览器内核是多线程"><a href="#浏览器内核是多线程" class="headerlink" title="浏览器内核是多线程"></a>浏览器内核是多线程</h5><p>&emsp;&emsp;浏览器内核是多线程，在内核控制下各线程相互配合以保持同步，一个浏览器通常由以下常驻线程组成：</p>
+<ul>
+<li>GUI 渲染线程</li>
+<li>JavaScript引擎线程</li>
+<li>定时触发器线程</li>
+<li>事件触发线程</li>
+<li>异步http请求线程</li>
+</ul>
+<h5 id="GUI渲染线程"><a href="#GUI渲染线程" class="headerlink" title="GUI渲染线程"></a>GUI渲染线程</h5><p>&emsp;&emsp;GUI渲染线程负责渲染浏览器界面HTML元素,当界面需要重绘(Repaint)或由于某种操作引发回流(reflow)时,该线程就会执行。在Javascript引擎运行脚本期间,GUI渲染线程都是处于挂起状态的,也就是说被”冻结”了.</p>
+<h5 id="Javascript引擎线程"><a href="#Javascript引擎线程" class="headerlink" title="Javascript引擎线程"></a>Javascript引擎线程</h5><p>&emsp;&emsp;Javascript引擎，也可以称为JS内核，主要负责处理Javascript脚本程序，例如V8引擎。Javascript引擎线程理所当然是负责解析Javascript脚本，运行代码。</p>
+<h5 id="Javascript是单线程的"><a href="#Javascript是单线程的" class="headerlink" title="Javascript是单线程的"></a>Javascript是单线程的</h5><p>&emsp;&emsp;Javascript是单线程的, 那么为什么Javascript要是单线程的？</p>
+<p>&emsp;&emsp;这是因为Javascript这门脚本语言诞生的使命所致：JavaScript为处理页面中用户的交互，以及操作DOM树、CSS样式树来给用户呈现一份动态而丰富的交互体验和服务器逻辑的交互处理。如果JavaScript是多线程的方式来操作这些UI DOM，则可能出现UI操作的冲突； 如果Javascript是多线程的话，在多线程的交互下，处于UI中的DOM节点就可能成为一个临界资源，假设存在两个线程同时操作一个DOM，一个负责修改一个负责删除，那么这个时候就需要浏览器来裁决如何生效哪个线程的执行结果。当然我们可以通过锁来解决上面的问题。但为了避免因为引入了锁而带来更大的复杂性，Javascript在最初就选择了单线程执行。</p>
+<h5 id="GUI-渲染线程-与-JavaScript引擎线程互斥！"><a href="#GUI-渲染线程-与-JavaScript引擎线程互斥！" class="headerlink" title="GUI 渲染线程 与 JavaScript引擎线程互斥！"></a>GUI 渲染线程 与 JavaScript引擎线程互斥！</h5><p>&emsp;&emsp;由于JavaScript是可操纵DOM的，如果在修改这些元素属性同时渲染界面（即JavaScript线程和UI线程同时运行），那么渲染线程前后获得的元素数据就可能不一致了。因此为了防止渲染出现不可预期的结果，浏览器设置GUI渲染线程与JavaScript引擎为互斥的关系，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到引擎线程空闲时立即被执行。</p>
+<h5 id="JS阻塞页面加载"><a href="#JS阻塞页面加载" class="headerlink" title="JS阻塞页面加载"></a>JS阻塞页面加载</h5><p>&emsp;&emsp;从上面我们可以推理出，由于GUI渲染线程与JavaScript执行线程是互斥的关系，当浏览器在执行JavaScript程序的时候，GUI渲染线程会被保存在一个队列中，直到JS程序执行完成，才会接着执行。因此如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。</p>
+<h5 id="定时触发器线程"><a href="#定时触发器线程" class="headerlink" title="定时触发器线程"></a>定时触发器线程</h5><p>&emsp;&emsp;浏览器定时计数器并不是由JavaScript引擎计数的, 因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确, 因此通过单独线程来计时并触发定时是更为合理的方案。</p>
+<h5 id="事件触发线程"><a href="#事件触发线程" class="headerlink" title="事件触发线程"></a>事件触发线程</h5><p>&emsp;&emsp;当一个事件被触发时该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理。这些事件可以是当前执行的代码块如定时任务、也可来自浏览器内核的其他线程如鼠标点击、AJAX异步请求等，但由于JS的单线程关系所有这些事件都得排队等待JS引擎处理。</p>
+<h5 id="异步http请求线程"><a href="#异步http请求线程" class="headerlink" title="异步http请求线程"></a>异步http请求线程</h5><p>&emsp;&emsp;在XMLHttpRequest在连接后是通过浏览器新开一个线程请求， 将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件放到 JavaScript引擎的处理队列中等待处理。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/11/js-thread-and-browser-process/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-variable-reference-values" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -183,10 +284,15 @@
 <p>&emsp;&emsp;为什么person1和person2两个对象看起来一摸一样，但是却不相等呢？</p>
 <p>&emsp;&emsp;因为引用类型的比较是引用的比较，换句话说，就是<strong>比较两个对象保存在栈区的指向堆内存的地址是否相同</strong>，此时，虽然person1和person2看起来都是一个”{}”，但是他们保存在栈区中的指向堆内存的地址却是不同的，所以两个对象不相等</p>
 <p><img src="/images/js-variable-reference-values-02.png" width="600"></p>
-<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区和堆区共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
+<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区(Stack)和堆区(Heap)共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;name:&quot;change1&quot;&#125;;</span><br><span class="line">var person2 = &#123;name:&quot;change2&quot;&#125;;</span><br><span class="line">var person3 = &#123;name:&quot;change3&quot;&#125;;</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;则这三个对象在内存中保存的情况如下图：</p>
 <p><img src="/images/js-variable-reference-values-03.png" width="600"></p>
+<h5 id="instanceOf"><a href="#instanceOf" class="headerlink" title="instanceOf"></a>instanceOf</h5><p>&emsp;&emsp;判断是否是某个对象的类型, 回头单独拿一篇来聊聊indtanceOf.</p>
+<h5 id="基本类型和引用类型的区别"><a href="#基本类型和引用类型的区别" class="headerlink" title="基本类型和引用类型的区别"></a>基本类型和引用类型的区别</h5><ul>
+<li>基本类型变量存的是值，复杂类型的变量存的是内存地址。</li>
+<li>基本类型在赋值的时候拷贝值，复杂类型在赋值的时候只拷贝地址，不拷贝值。</li>
+</ul>
 
       
 
@@ -862,103 +968,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/01/12/es6-module/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-commonjs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/js-commonjs/">CommonJS规范</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/js-commonjs/" class="archive-article-date">
-  	<time datetime="2018-01-12T01:56:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺理成章地有了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发之CommonJS规范。</p>
-<p>&emsp;&emsp;理想状态下，Developer只需要实现核心的业务逻辑，其他的可以加载别人已经写好的模块即可，因此JavaScript语言的模块化编程就显得异常重要了。然而，ES6之前JavaScript没有为组织管理代码提供任何方案，甚至没有类(Class)的概念，更不用说模块(Module)了.</p>
-<p>模块化管理需要具备：</p>
-<ul>
-<li>定义封装的模块。</li>
-<li>定义新模块对其他模块的依赖。</li>
-<li>可对其他模块的引入支持。</li>
-</ul>
-<p>要通用，则必须要有规范化，因此一系列的标准应运而生。</p>
-<h5 id="CommonJS模块规范"><a href="#CommonJS模块规范" class="headerlink" title="CommonJS模块规范"></a>CommonJS模块规范</h5><p>&emsp;&emsp;CommonJS规范历史：</p>
-<ul>
-<li>2009年1月，Mozilla 的工程师 Kevin Dangoor 创建了这个项目，当时的名字是 ServerJS。其是以在浏览器环境之外构建 JavaScript 生态系统为目标而产生的项目，比如在服务器和桌面环境中。</li>
-<li>2009年8月，这个项目改名为 CommonJS，以显示其 API 的更广泛实用性。</li>
-<li>2013年5月，Node.js 的包管理器 NPM 的作者 Isaac Z. Schlueter 说 <a href="https://github.com/nodejs/node-v0.x-archive/issues/5132#issuecomment-15432598" target="_blank" rel="noopener">CommonJS 已经过时，Node.js 的内核开发者已经废弃了该规范。</a></li>
-</ul>
-<p>&emsp;&emsp;随着JavaScript作为后端语言的发展，CommonJS规范应运而生。参考 <a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a>， 需要注意的是CommonJS通常是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
-<p>&emsp;&emsp;CommonJS规范要点</p>
-<ul>
-<li>每个文件就是一个模块， 有自己的作用域。</li>
-<li>在一个文件里定义的变量、函数、类都是私有的，对其他文件不可见。</li>
-<li>导出：每个模块内部，变量module代表当前模块，这个变量是一个对象。它的<strong>exports</strong>属性(即module.exports)是一个对外的接口。</li>
-<li>导入：<strong>require</strong>方法用于加载模块。</li>
-</ul>
-<p>&emsp;&emsp;CommonJS的特点</p>
-<ul>
-<li>所有代码都运行在模块作用域，不会污染全局作用域。</li>
-<li>由于Node.js主要用于服务器编程，模块文件一般都已经存在于本地硬盘，所以加载起来比较快，不用考虑非同步加载的方式，所以CommonJS规范比较适用。</li>
-<li>模块可以多次加载，但是只会在第一次加载时运行一次，然后运行结果就被缓存了，以后再加载，就直接读取缓存结果。要想让模块再次运行，必须清楚缓存</li>
-<li>模块加载的顺序，按其在代码中出现的顺序。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范 – 阮一峰</a></li>
-<li><a href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank" rel="noopener">CommonJS规范</a></li>
-<li><a href="http://blog.js-republic.com/start-of-art-of-javascript-modularization-why-choose-es2015/" target="_blank" rel="noopener">WHY CHOOSE ES2015 MODULES, BASED ON THE STATE OF THE ART OF JAVASCRIPT MODULARIZATION</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/js-commonjs/">展开全文 >></a>
         </p>
       
 
