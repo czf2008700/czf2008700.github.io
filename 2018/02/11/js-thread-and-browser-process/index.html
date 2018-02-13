@@ -9,13 +9,14 @@
   <title>浏览器进程、JavaScript单线程 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="&amp;emsp;&amp;emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。&amp;emsp;&amp;emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰">
+<meta name="keywords" content="process,thread">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器进程、JavaScript单线程">
 <meta property="og:url" content="http://up8.wang/2018/02/11/js-thread-and-browser-process/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。&amp;emsp;&amp;emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是">
 <meta property="og:image" content="http://up8.wang/images/js-thread-and-browser-process-01.png">
-<meta property="og:updated_time" content="2018-02-11T10:23:43.000Z">
+<meta property="og:updated_time" content="2018-02-13T01:58:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浏览器进程、JavaScript单线程">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。&amp;emsp;&amp;emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是">
@@ -213,7 +214,10 @@
 <h5 id="定时触发器线程"><a href="#定时触发器线程" class="headerlink" title="定时触发器线程"></a>定时触发器线程</h5><p>&emsp;&emsp;浏览器定时计数器并不是由JavaScript引擎计数的, 因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确, 因此通过单独线程来计时并触发定时是更为合理的方案。</p>
 <h5 id="事件触发线程"><a href="#事件触发线程" class="headerlink" title="事件触发线程"></a>事件触发线程</h5><p>&emsp;&emsp;当一个事件被触发时该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理。这些事件可以是当前执行的代码块如定时任务、也可来自浏览器内核的其他线程如鼠标点击、AJAX异步请求等，但由于JS的单线程关系所有这些事件都得排队等待JS引擎处理。</p>
 <h5 id="异步http请求线程"><a href="#异步http请求线程" class="headerlink" title="异步http请求线程"></a>异步http请求线程</h5><p>&emsp;&emsp;在XMLHttpRequest在连接后是通过浏览器新开一个线程请求， 将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件放到 JavaScript引擎的处理队列中等待处理。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></li>
+<li><a href="http://blog.jobbole.com/12749/" target="_blank" rel="noopener">现代浏览器的工作原理</a></li>
+</ul>
 
       
 
@@ -243,6 +247,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">process</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -306,6 +325,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/02/12/es5-object-new-feature/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          ES5 Object对象的几个不被熟知的特性
+        
+      </div>
+    </a>
   
   
     <a href="/2018/02/09/js-variable-reference-values/" id="article-nav-older" class="article-nav-link-wrap">
@@ -430,6 +458,30 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Object</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">process</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

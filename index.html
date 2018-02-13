@@ -151,6 +151,249 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-event-loop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/13/js-event-loop/">JavaScript Event Loop</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/13/js-event-loop/" class="archive-article-date">
+  	<time datetime="2018-02-13T02:44:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文自阮一峰老师的： <a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">JavaScript 运行机制详解：再谈Event Loop</a></p>
+<h5 id="一、为什么JavaScript是单线程的？"><a href="#一、为什么JavaScript是单线程的？" class="headerlink" title="一、为什么JavaScript是单线程的？"></a>一、为什么JavaScript是单线程的？</h5><p>&emsp;&emsp;JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。那么，为什么JavaScript不能有多个线程呢？这样能提高效率啊。</p>
+<p>&emsp;&emsp;JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？</p>
+<p>&emsp;&emsp;所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。</p>
+<p>&emsp;&emsp;为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
+<h5 id="二、任务队列"><a href="#二、任务队列" class="headerlink" title="二、任务队列"></a>二、任务队列</h5><p>单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。</p>
+<p>如果排队是因为计算量大，CPU忙不过来，倒也算了，但是很多时候CPU是闲着的，因为IO设备（输入输出设备）很慢（比如Ajax操作从网络读取数据），不得不等着结果出来，再往下执行。</p>
+<p>JavaScript语言的设计者意识到，这时主线程完全可以不管IO设备，挂起处于等待中的任务，先运行排在后面的任务。等到IO设备返回了结果，再回过头，把挂起的任务继续执行下去。</p>
+<p>于是，所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
+<p>具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）</p>
+<blockquote>
+<p>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。</p>
+</blockquote>
+<p>下图就是主线程和任务队列的示意图。</p>
+<p><img src="/images/js-event-loop-01.jpg" width="600"></p>
+<p>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。</p>
+<h5 id="三、事件和回调函数"><a href="#三、事件和回调函数" class="headerlink" title="三、事件和回调函数"></a>三、事件和回调函数</h5><p>“任务队列”是一个事件的队列（也可以理解成消息的队列），IO设备完成一项任务，就在”任务队列”中添加一个事件，表示相关的异步任务可以进入”执行栈”了。主线程读取”任务队列”，就是读取里面有哪些事件。</p>
+<p>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
+<p>所谓”回调函数”（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。</p>
+<p>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，”任务队列”上第一位的事件就自动进入主线程。但是，由于存在后文提到的”定时器”功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。</p>
+<h5 id="四、Event-Loop"><a href="#四、Event-Loop" class="headerlink" title="四、Event Loop"></a>四、Event Loop</h5><p>主线程从”任务队列”中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。</p>
+<p>为了更好地理解Event Loop，请看下图（转引自Philip Roberts的演讲<a href="https://vimeo.com/96425312" target="_blank" rel="noopener">《Help, I’m stuck in an event-loop》</a>）。</p>
+<p><img src="/images/js-event-loop-02.png" width="600"></p>
+<p>上图中，主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在”任务队列”中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取”任务队列”，依次执行那些事件所对应的回调函数。</p>
+<p>执行栈中的代码（同步任务），总是在读取”任务队列”（异步任务）之前执行。请看下面这个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);    </span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;    </span><br><span class="line">req.send();</span><br></pre></td></tr></table></figure>
+<p>上面代码中的req.send方法是Ajax操作向服务器发送数据，它是一个异步任务，意味着只有当前脚本的所有代码执行完，系统才会去读取”任务队列”。所以，它与下面的写法等价。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);</span><br><span class="line">req.send();</span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取”任务队列”。</p>
+<h5 id="五、定时器"><a href="#五、定时器" class="headerlink" title="五、定时器"></a>五、定时器</h5><p>除了放置异步任务的事件，”任务队列”还可以放置定时事件，即指定某些代码在多少时间之后执行。这叫做”定时器”（timer）功能，也就是定时执行的代码。</p>
+<p>定时器功能主要由setTimeout()和setInterval()这两个函数来完成，它们的内部运行机制完全一样，区别在于前者指定的代码是一次性执行，后者则为反复执行。以下主要讨论setTimeout()。</p>
+<p>setTimeout()接受两个参数，第一个是回调函数，第二个是推迟执行的毫秒数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line">setTimeout(function()&#123;console.log(2);&#125;,1000);</span><br><span class="line">console.log(3);</span><br></pre></td></tr></table></figure>
+<p>上面代码的执行结果是1，3，2，因为setTimeout()将第二行推迟到1000毫秒之后执行。</p>
+<p>如果将setTimeout()的第二个参数设为0，就表示当前代码执行完（执行栈清空）以后，立即执行（0毫秒间隔）指定的回调函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br></pre></td></tr></table></figure>
+<p>上面代码的执行结果总是2，1，因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。</p>
+<p>总之，setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
+<p>HTML5标准规定了setTimeout()的第二个参数的最小值（最短间隔），不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout()。</p>
+<p>需要注意的是，setTimeout()只是将事件插入了”任务队列”，必须等到当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码耗时很长，有可能要等很久，所以并没有办法保证，回调函数一定会在setTimeout()指定的时间执行。</p>
+<h5 id="六、Node-js的Event-Loop"><a href="#六、Node-js的Event-Loop" class="headerlink" title="六、Node.js的Event Loop"></a>六、Node.js的Event Loop</h5><p>Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。</p>
+<p>请看下面的示意图（作者<a href="https://twitter.com/BusyRich/status/494959181871316992" target="_blank" rel="noopener">@BusyRich</a>）。</p>
+<p><img src="/images/js-event-loop-03.png"></p>
+<p>根据上图，Node.js的运行机制如下。</p>
+<blockquote>
+<p>（1）V8引擎解析JavaScript脚本。<br>（2）解析后的代码，调用Node API。<br>（3）libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。<br>（4）V8引擎再将结果返回给用户。</p>
+</blockquote>
+<p>除了setTimeout和setInterval这两个方法，Node.js还提供了另外两个与”任务队列”有关的方法：process.nextTick和setImmediate。它们可以帮助我们加深对”任务队列”的理解。</p>
+<p>process.nextTick方法可以在当前”执行栈”的尾部—-下一次Event Loop（主线程读取”任务队列”）之前—-触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。setImmediate方法则是在当前”任务队列”的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行，这与setTimeout(fn, 0)很像。请看下面的例子（<a href="https://stackoverflow.com/questions/17502948/nexttick-vs-setimmediate-visual-explanation" target="_blank" rel="noopener">via StackOverflow</a>）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  process.nextTick(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0)</span><br><span class="line">// 1</span><br><span class="line">// 2</span><br><span class="line">// TIMEOUT FIRED</span><br></pre></td></tr></table></figure>
+<p>上面代码中，由于process.nextTick方法指定的回调函数，总是在当前”执行栈”的尾部触发，所以不仅函数A比setTimeout指定的回调函数timeout先执行，而且函数B也比timeout先执行。这说明，如果有多个process.nextTick语句（不管它们是否嵌套），将全部在当前”执行栈”执行。</p>
+<p>现在，再看setImmediate。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，setImmediate与setTimeout(fn,0)各自添加了一个回调函数A和timeout，都是在下一次Event Loop触发。那么，哪个回调函数先执行呢？答案是不确定。运行结果可能是1–TIMEOUT FIRED–2，也可能是TIMEOUT FIRED–1–2。</p>
+<p>令人困惑的是，Node.js文档中称，setImmediate指定的回调函数，总是排在setTimeout前面。实际上，这种情况只发生在递归调用的时候。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function ()&#123;</span><br><span class="line">  setImmediate(function A() &#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">    setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  setTimeout(function timeout() &#123;</span><br><span class="line">    console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">  &#125;, 0);</span><br><span class="line">&#125;);</span><br><span class="line">// 1</span><br><span class="line">// TIMEOUT FIRED</span><br><span class="line">// 2</span><br></pre></td></tr></table></figure>
+<p>上面代码中，setImmediate和setTimeout被封装在一个setImmediate里面，它的运行结果总是1–TIMEOUT FIRED–2，这时函数A一定在timeout前面触发。至于2排在TIMEOUT FIRED的后面（即函数B在timeout后面触发），是因为setImmediate总是将事件注册到下一轮Event Loop，所以函数A和timeout是在同一轮Loop执行，而函数B在下一轮Loop执行。</p>
+<p>我们由此得到了process.nextTick和setImmediate的一个重要区别：多个process.nextTick语句总是在当前”执行栈”一次执行完，多个setImmediate可能则需要多次loop才能执行完。事实上，这正是Node.js 10.0版添加setImmediate方法的原因，否则像下面这样的递归调用process.nextTick，将会没完没了，主线程根本不会去读取”事件队列”！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function foo() &#123;</span><br><span class="line">  process.nextTick(foo);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>事实上，现在要是你写出递归的process.nextTick，Node.js会抛出一个警告，要求你改成setImmediate。</p>
+<p>另外，由于process.nextTick指定的回调函数是在本次”事件循环”触发，而setImmediate指定的是在下次”事件循环”触发，所以很显然，前者总是比后者发生得早，而且执行效率也高（因为不用检查”任务队列”）。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">JavaScript 运行机制详解：再谈Event Loop</a></li>
+<li><a href="https://vimeo.com/96425312" target="_blank" rel="noopener">Help, I’m stuck in an event-loop</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Event Loop</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">定时器</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/13/js-event-loop/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-es5-object-new-feature" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/12/es5-object-new-feature/">ES5 Object对象的几个不被熟知的特性</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/12/es5-object-new-feature/" class="archive-article-date">
+  	<time datetime="2018-02-12T01:42:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="一-getter和setter属性方法"><a href="#一-getter和setter属性方法" class="headerlink" title="一. getter和setter属性方法"></a>一. getter和setter属性方法</h5><p>&emsp;&emsp;有点像php的魔术方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">    get name() &#123;</span><br><span class="line">        return &apos;Felix Cao&apos;;</span><br><span class="line">    &#125;,</span><br><span class="line">    set name(value) &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">console.log(&apos;Default: &apos;, person.name);</span><br><span class="line">person.name = &apos;up8.wang&apos;;</span><br><span class="line">console.log(&apos;After set: &apos;, person.name);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;在控制台console(F12)试一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; person.name;</span><br><span class="line">&apos;Felix Cao&apos;</span><br><span class="line">&gt; person.name = &apos;up8.wang&apos;;</span><br><span class="line">&apos;up8.wang&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="二-以逗号结尾是合法的"><a href="#二-以逗号结尾是合法的" class="headerlink" title="二. 以逗号结尾是合法的"></a>二. 以逗号结尾是合法的</h5><p>&emsp;&emsp;从ES5开始，它就是合法的了，你可以在最后一个属性之后加一个逗号。这将有助于你添加一个新的属性（一些人将逗号前置来避免书写错误）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  sex: &apos;male&apos;,</span><br><span class="line">  age: 30, // 合法的逗号</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="三-对象的属性通常不需要使用引号"><a href="#三-对象的属性通常不需要使用引号" class="headerlink" title="三. 对象的属性通常不需要使用引号"></a>三. 对象的属性通常不需要使用引号</h5><p>&emsp;&emsp;在ES5属性名的语法规范中规定，对象的属性可以是：</p>
+<ul>
+<li>唯一标识符</li>
+<li>字符串</li>
+<li>数字</li>
+</ul>
+<p>1). 字符串作为key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  &apos;#§$%&apos;: true,</span><br><span class="line">  &quot; \t\n&quot;: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2). 唯一标识符作为key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  π: true,</span><br><span class="line">  привет: true,</span><br><span class="line">  café: true,</span><br><span class="line">  $$$: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3). 数字作为key</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">    1e2: true,</span><br><span class="line">    1e-2: true,</span><br><span class="line">    .234: true,</span><br><span class="line">    0xFF: true,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;这些数字key会自动转换为字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; Object.keys(person)</span><br><span class="line">&lt; (4) [&quot;100&quot;, &quot;255&quot;, &quot;0.01&quot;, &quot;0.234&quot;]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;与标识符不同。数字不能被点号引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; person.0xFF</span><br><span class="line">&lt; SyntaxError: Unexpected token</span><br><span class="line">&gt; person[0xFF]</span><br><span class="line">&lt; ture</span><br></pre></td></tr></table></figure>
+<p>4). 可以使用保留字作为key</p>
+<p>&emsp;&emsp;在 ECMAScript 3中你需要将保留字用引号休修饰这些属性。在 ECMAScript 5没有必要了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; var person = &#123; class: &apos;.active&apos;&#125;;</span><br><span class="line">&gt; person.class;</span><br><span class="line">&apos;.active&apos;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ES5</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Object</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/12/es5-object-new-feature/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-thread-and-browser-process" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -209,7 +452,10 @@
 <h5 id="定时触发器线程"><a href="#定时触发器线程" class="headerlink" title="定时触发器线程"></a>定时触发器线程</h5><p>&emsp;&emsp;浏览器定时计数器并不是由JavaScript引擎计数的, 因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确, 因此通过单独线程来计时并触发定时是更为合理的方案。</p>
 <h5 id="事件触发线程"><a href="#事件触发线程" class="headerlink" title="事件触发线程"></a>事件触发线程</h5><p>&emsp;&emsp;当一个事件被触发时该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理。这些事件可以是当前执行的代码块如定时任务、也可来自浏览器内核的其他线程如鼠标点击、AJAX异步请求等，但由于JS的单线程关系所有这些事件都得排队等待JS引擎处理。</p>
 <h5 id="异步http请求线程"><a href="#异步http请求线程" class="headerlink" title="异步http请求线程"></a>异步http请求线程</h5><p>&emsp;&emsp;在XMLHttpRequest在连接后是通过浏览器新开一个线程请求， 将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件放到 JavaScript引擎的处理队列中等待处理。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></li>
+<li><a href="http://blog.jobbole.com/12749/" target="_blank" rel="noopener">现代浏览器的工作原理</a></li>
+</ul>
 
       
 
@@ -218,6 +464,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">process</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -823,180 +1084,6 @@
 
 
   
-    <article id="post-es6-module-load" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/es6-module-load/">ES6模块(Module)和CommonJS模块加载的实质。</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/es6-module-load/" class="archive-article-date">
-  	<time datetime="2018-01-12T09:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在 <a href="/2018/01/12/es6-module/">ES6模块(Module)</a> 里介绍了ES6中利用关键词export、import使用模块，在 <a href="/2018/01/12/js-commonjs/">CommonJS的模块规范</a> 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。</p>
-<blockquote>
-<p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
-</blockquote>
-<h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  counter: function() &#123;</span><br><span class="line">  return counter</span><br><span class="line"> &#125;,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p>
-<h5 id="ES6模块是动态引用，并且不会缓存值"><a href="#ES6模块是动态引用，并且不会缓存值" class="headerlink" title="ES6模块是动态引用，并且不会缓存值"></a>ES6模块是动态引用，并且不会缓存值</h5><p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，不会去执行模块，而是只生成一个动态的只读引用。等到真的需要用到时，再到模块里面去取值，换句话说，ES6的输入有点像Unix系统的“符号连接”，原始值变了，import输入的值也会跟着变。因此，ES6模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
-<p>还是举上面的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let counter = 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &apos;./lib&apos;;</span><br><span class="line">console.log(counter); // 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); // 4</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，ES6模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p>
-<p>由于ES6输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let obj = &#123;&#125;;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; obj &#125; from &apos;./lib&apos;;</span><br><span class="line">obj.prop = 123; // OK</span><br><span class="line">obj = &#123;&#125;; // TypeError</span><br></pre></td></tr></table></figure>
-<p>最后，export通过接口，输出的是同一个值。不同的脚本加载这个接口，得到的都是同样的实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// mod.js</span><br><span class="line">function C() &#123;</span><br><span class="line"> this.sum = 0;</span><br><span class="line"> this.add = function () &#123;</span><br><span class="line">  this.sum += 1;</span><br><span class="line"> &#125;;</span><br><span class="line"> this.show = function () &#123;</span><br><span class="line">  console.log(this.sum);</span><br><span class="line"> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">export let c = new C();</span><br></pre></td></tr></table></figure>
-<p>上面的脚本mod.js，输出的是一个C的实例。不同的脚本加载这个模块，得到的都是同一个实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// x.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.add();</span><br><span class="line">// y.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.show();</span><br><span class="line">// main.js</span><br><span class="line">import &apos;./x&apos;;</span><br><span class="line">import &apos;./y&apos;;</span><br></pre></td></tr></table></figure>
-<p>现在执行main.js，输出的是1。这就证明了x.js和y.js加载的都是C的同一个实例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/es6-module-load/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-es6-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/es6-module/">ES6模块(Module)</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/12/es6-module/" class="archive-article-date">
-  	<time datetime="2018-01-12T06:22:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;上一篇介绍了<a href="/2018/01/12/es6-module/">CommonJS的模块规范</a>, 这一篇主要谈一下ES6的模块</p>
-<ul>
-<li>模块需要严格模式</li>
-<li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
-<li>导出：使用export声明需要导出的变量、函数或类</li>
-<li>导入：使用import声明从其他模块导入变量、函数或类。</li>
-</ul>
-<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>2). 写法2,  <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br>&emsp;&emsp;<strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>&emsp;&emsp;如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
-<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>&emsp;&emsp;上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
-<p>&emsp;&emsp;本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
-<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载 *"></a>模块的整体加载 *</h5><p>&emsp;&emsp;除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
-<h5 id="重命名模块输入和模块输出-as"><a href="#重命名模块输入和模块输出-as" class="headerlink" title="重命名模块输入和模块输出 as"></a>重命名模块输入和模块输出 as</h5><p>&emsp;&emsp;如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>&emsp;&emsp;JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
-<ul>
-<li>你只可以在模块的最外层作用域使用import和export，不可在条件语句中使用，也不能在函数作用域中使用import。</li>
-<li>所有导出的标识符一定要在源代码中明确地导出它们的名称，你不能通过编写代码遍历一个数组然后用数据驱动的方式导出一堆名称。</li>
-<li>模块对象被冻结了，所以你无法hack模块对象并为其添加polyfill风格的新特性。</li>
-<li>一个模块的所有依赖必须在模块代码运行前完全加载、解析并且及早连接，不存在一种通过import来按需懒加载的语法。</li>
-<li>import模块产生的错误没有错误恢复机制。一个app可能囊括了上百个模块，一旦有一个模块无法加载或连接，所有的模块都不会运行，而且你不能在try/catch代码块中捕捉import的错误信息。（上面这些描述的本意是说：系统是静态的，webpack可在编译时为你检测那些错误。）</li>
-<li>不支持在模块加载依赖前运行其它代码的钩子，这也意味着无法控制模块的依赖加载过程。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://hacks.mozilla.org/category/es6-in-depth/" target="_blank" rel="noopener">ES6 in Depth</a> (关于 ES6 的一系列新特性的介绍。)</li>
-<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-modules" target="_blank" rel="noopener">深入浅出ES6（十六）：模块 Modules</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/12/es6-module/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1089,6 +1176,30 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Object</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">process</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

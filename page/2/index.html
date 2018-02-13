@@ -151,6 +151,180 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-es6-module-load" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/es6-module-load/">ES6模块(Module)和CommonJS模块加载的实质。</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/es6-module-load/" class="archive-article-date">
+  	<time datetime="2018-01-12T09:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在 <a href="/2018/01/12/es6-module/">ES6模块(Module)</a> 里介绍了ES6中利用关键词export、import使用模块，在 <a href="/2018/01/12/js-commonjs/">CommonJS的模块规范</a> 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。</p>
+<blockquote>
+<p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
+</blockquote>
+<h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
+<p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  counter: function() &#123;</span><br><span class="line">  return counter</span><br><span class="line"> &#125;,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p>
+<h5 id="ES6模块是动态引用，并且不会缓存值"><a href="#ES6模块是动态引用，并且不会缓存值" class="headerlink" title="ES6模块是动态引用，并且不会缓存值"></a>ES6模块是动态引用，并且不会缓存值</h5><p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，不会去执行模块，而是只生成一个动态的只读引用。等到真的需要用到时，再到模块里面去取值，换句话说，ES6的输入有点像Unix系统的“符号连接”，原始值变了，import输入的值也会跟着变。因此，ES6模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
+<p>还是举上面的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let counter = 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &apos;./lib&apos;;</span><br><span class="line">console.log(counter); // 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); // 4</span><br></pre></td></tr></table></figure>
+<p>上面代码说明，ES6模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p>
+<p>由于ES6输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let obj = &#123;&#125;;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; obj &#125; from &apos;./lib&apos;;</span><br><span class="line">obj.prop = 123; // OK</span><br><span class="line">obj = &#123;&#125;; // TypeError</span><br></pre></td></tr></table></figure>
+<p>最后，export通过接口，输出的是同一个值。不同的脚本加载这个接口，得到的都是同样的实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// mod.js</span><br><span class="line">function C() &#123;</span><br><span class="line"> this.sum = 0;</span><br><span class="line"> this.add = function () &#123;</span><br><span class="line">  this.sum += 1;</span><br><span class="line"> &#125;;</span><br><span class="line"> this.show = function () &#123;</span><br><span class="line">  console.log(this.sum);</span><br><span class="line"> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">export let c = new C();</span><br></pre></td></tr></table></figure>
+<p>上面的脚本mod.js，输出的是一个C的实例。不同的脚本加载这个模块，得到的都是同一个实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// x.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.add();</span><br><span class="line">// y.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.show();</span><br><span class="line">// main.js</span><br><span class="line">import &apos;./x&apos;;</span><br><span class="line">import &apos;./y&apos;;</span><br></pre></td></tr></table></figure>
+<p>现在执行main.js，输出的是1。这就证明了x.js和y.js加载的都是C的同一个实例。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/es6-module-load/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-es6-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/es6-module/">ES6模块(Module)</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/es6-module/" class="archive-article-date">
+  	<time datetime="2018-01-12T06:22:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;上一篇介绍了<a href="/2018/01/12/es6-module/">CommonJS的模块规范</a>, 这一篇主要谈一下ES6的模块</p>
+<ul>
+<li>模块需要严格模式</li>
+<li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
+<li>导出：使用export声明需要导出的变量、函数或类</li>
+<li>导入：使用import声明从其他模块导入变量、函数或类。</li>
+</ul>
+<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
+<p>2). 写法2,  <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br>&emsp;&emsp;<strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>&emsp;&emsp;如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
+<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>&emsp;&emsp;上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
+<p>&emsp;&emsp;本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
+<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载 *"></a>模块的整体加载 *</h5><p>&emsp;&emsp;除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
+<h5 id="重命名模块输入和模块输出-as"><a href="#重命名模块输入和模块输出-as" class="headerlink" title="重命名模块输入和模块输出 as"></a>重命名模块输入和模块输出 as</h5><p>&emsp;&emsp;如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>&emsp;&emsp;JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
+<ul>
+<li>你只可以在模块的最外层作用域使用import和export，不可在条件语句中使用，也不能在函数作用域中使用import。</li>
+<li>所有导出的标识符一定要在源代码中明确地导出它们的名称，你不能通过编写代码遍历一个数组然后用数据驱动的方式导出一堆名称。</li>
+<li>模块对象被冻结了，所以你无法hack模块对象并为其添加polyfill风格的新特性。</li>
+<li>一个模块的所有依赖必须在模块代码运行前完全加载、解析并且及早连接，不存在一种通过import来按需懒加载的语法。</li>
+<li>import模块产生的错误没有错误恢复机制。一个app可能囊括了上百个模块，一旦有一个模块无法加载或连接，所有的模块都不会运行，而且你不能在try/catch代码块中捕捉import的错误信息。（上面这些描述的本意是说：系统是静态的，webpack可在编译时为你检测那些错误。）</li>
+<li>不支持在模块加载依赖前运行其它代码的钩子，这也意味着无法控制模块的依赖加载过程。</li>
+</ul>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://hacks.mozilla.org/category/es6-in-depth/" target="_blank" rel="noopener">ES6 in Depth</a> (关于 ES6 的一系列新特性的介绍。)</li>
+<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-modules" target="_blank" rel="noopener">深入浅出ES6（十六）：模块 Modules</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/es6-module/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-commonjs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -440,8 +614,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">console.log(a.prototype);  //undefined</span><br><span class="line">console.log(a.__proto__);  //Object &#123;&#125;</span><br><span class="line"></span><br><span class="line">var b = function()&#123;&#125;</span><br><span class="line">console.log(b.prototype);  //b &#123;&#125;</span><br><span class="line">console.log(b.__proto__);  // ƒ () &#123; [native code] &#125;</span><br></pre></td></tr></table></figure>
 <h5 id="六、对象的-proto-属性指向谁"><a href="#六、对象的-proto-属性指向谁" class="headerlink" title="六、对象的__proto__属性指向谁"></a>六、对象的__proto__属性指向谁</h5><p><img src="/images/js-prototype-proto-04.png" width="600"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/*1、字面量方式*/</span><br><span class="line">var a = &#123;&#125;;</span><br><span class="line">console.log(a.__proto__);  //Object &#123;&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //true</span><br><span class="line"></span><br><span class="line">/*2、构造器方式*/</span><br><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //true</span><br><span class="line"></span><br><span class="line">/*3、Object.create()方式*/</span><br><span class="line">var a1 = &#123;a:1&#125;</span><br><span class="line">var a2 = Object.create(a1);</span><br><span class="line">console.log(a2.__proto__); //Object &#123;a: 1&#125;</span><br><span class="line"></span><br><span class="line">console.log(a.__proto__ === a.constructor.prototype); //false（此处即为图1中的例外情况）</span><br></pre></td></tr></table></figure>
-<h5 id="七、顺带提一下原型链"><a href="#七、顺带提一下原型链" class="headerlink" title="七、顺带提一下原型链"></a>七、顺带提一下原型链</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
 <h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="https://www.jianshu.com/p/dee9f8b14771" target="_blank" rel="noopener"></a></p>
 <ul>
 <li><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></li>
@@ -833,172 +1005,6 @@
 
 
   
-    <article id="post-js-lexical-scope" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/07/js-lexical-scope/">JavaScript是词法作用域(Lexical Scope)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/07/js-lexical-scope/" class="archive-article-date">
-  	<time datetime="2017-12-07T02:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="思考一下这两段代码的输出结果"><a href="#思考一下这两段代码的输出结果" class="headerlink" title="思考一下这两段代码的输出结果"></a>思考一下这两段代码的输出结果</h5><p>Case 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">  console.log(up);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">  var up = 88;</span><br><span class="line">  foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();</span><br></pre></td></tr></table></figure>
-<p>输出8还是88呢？</p>
-<p>Case 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">	up = 88</span><br><span class="line">	function bar() &#123;</span><br><span class="line">		up = 888</span><br><span class="line">		console.log(up);</span><br><span class="line">	&#125;</span><br><span class="line">	bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
-<p>输出8, 88 还是888呢？</p>
-<h5 id="JavaScript是词法作用域"><a href="#JavaScript是词法作用域" class="headerlink" title="JavaScript是词法作用域"></a>JavaScript是词法作用域</h5><p>作用域: Scope</p>
-<blockquote>
-<p>域表示的就是范围，即作业范围，具有访问权限的代码空间，作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。简单的讲就是在什么地方能使用，在什么不能使用。</p>
-</blockquote>
-<p>词法作用域： Lexical Scope (Sometimes known as static scope)</p>
-<blockquote>
-<p>词法作用域（通常也被叫做静态作用域）是代码在编写过程中就静态体现出来了作用范围，代码一旦写好，不用执行，他的作用范围就已经确定好了，这个就是所谓的词法作用域。</p>
-</blockquote>
-<p>动态作用域： Dynamic Scope, 与词法作用域相反。</p>
-<blockquote>
-<p>动态作用域并不关心函数和作用域是如何生命以及在何处声明的，之关心它们从何处调用。</p>
-</blockquote>
-<h5 id="回头分析下上面的两段代码"><a href="#回头分析下上面的两段代码" class="headerlink" title="回头分析下上面的两段代码"></a>回头分析下上面的两段代码</h5><p>在Case1中，函数foo执行时，内部查找是否有变量up, 如果没有向上, 就根据书写的位置，查找上面一层的代码（也叫父变量对象，当然是词法结构上的），查找up = 8, 因此输出为8</p>
-<p>在Case2中，函数bar执行，内部查找变量up, 就近原则，所以输出为888</p>
-<h5 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h5><p>JS的词法作用域有两种，一种是全局作用域，另外一种是函数作用域， <strong>在函数作用域内会屏蔽在全局作用域上的相同名称的变量。</strong></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h5><p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/07/js-lexical-scope/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-variable-primitive-value" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/06/js-variable-primitive-value/" class="archive-article-date">
-  	<time datetime="2017-12-06T00:48:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 <a href="https://en.wikipedia.org/wiki/Type_system" target="_blank" rel="noopener">类型系统（Type System）</a></p>
-<blockquote>
-<p>变量本身数据类型不固定的语言称之为动态语言。<br>与之相反的是静态类型的编程语言，指的是在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。</p>
-</blockquote>
-<p>&emsp;&emsp;JavaScript的变量的数据类型可以分为两类：<strong>基本类型(Primitive Values)和引用类型(Reference Values)</strong>, 也有其他的叫法。 引用类型请移步 <a href="/2018/02/09/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a><br>&emsp;&emsp;基本类型主要有五种： String, Number, Boolean, Null, undefined（ES6新增了Symbol ）。其访问方式是按值访问的，就是说你可以操作保存在变量中的实际值。基本类型的数据类型有以下4个特点：</p>
-<h5 id="基本类型的值是不可变的"><a href="#基本类型的值是不可变的" class="headerlink" title="基本类型的值是不可变的"></a>基本类型的值是不可变的</h5><p>&emsp;&emsp; 任何方法都无法改变一个基本类型的值，比如一个字符串：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;jozo&apos;;</span><br><span class="line">name.toUpperCase(); // 输出 &apos;JOZO&apos;</span><br><span class="line">console.log(name); // 输出  &apos;jozo&apos;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp; 上面的代码，我们可以看到name的值在toUpperCase后并未发生改变。toUpperCase返回的是一个新的字符串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &apos;jozo&apos;;</span><br><span class="line">person.age = 22;</span><br><span class="line">person.method = function()&#123;//...&#125;;</span><br><span class="line"> </span><br><span class="line">console.log(person.age); // undefined</span><br><span class="line">console.log(person.method); // undefined</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp; 通过上面的代码可知，我们不能给基本类型的数据添加属性和方法，再次说明基本类型的数据是不可变的。</p>
-<h5 id="基本类型的比较是值的比较"><a href="#基本类型的比较是值的比较" class="headerlink" title="基本类型的比较是值的比较"></a>基本类型的比较是值的比较</h5><p>&emsp;&emsp; 只有在他们的值相等的时候它们才相等。 也许你会遇见这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var b = true;</span><br><span class="line">console.log(a == b); // true</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp; 它们不是相等吗？其实这是类型转换和 == 运算符的知识了，也就是说在用==比较两个不同类型的变量时会进行一些类型转换。像上面的比较先会把a的数字1<br>转换为true再和数字b进行比较，结果就是true了。 这是当比较的两个值的类型不同的时候==运算符会进行类型转换，但是当两个值的类型相同的时候，<br>即使是==也相当于是===。</p>
-<h5 id="基本类型的变量是存放在栈区的（栈区指内存中的栈内存）"><a href="#基本类型的变量是存放在栈区的（栈区指内存中的栈内存）" class="headerlink" title="基本类型的变量是存放在栈区的（栈区指内存中的栈内存）"></a>基本类型的变量是存放在栈区的（栈区指内存中的栈内存）</h5><p>&emsp;&emsp; 假如有以下几个基本类型的变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;jozo&apos;;</span><br><span class="line">var city = &apos;guangzhou&apos;;</span><br><span class="line">var age = 22;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp; 那么它的存储结构如下图：</p>
-<p><img src="/images/js-variable-data-type-01.png" width="400"></p>
-<p>&emsp;&emsp; 栈区包括了变量的标识符和变量的值。</p>
-<h5 id="typeOf类型判断"><a href="#typeOf类型判断" class="headerlink" title="typeOf类型判断"></a>typeOf类型判断</h5><p>&emsp;&emsp; 基本数据类型的数据类型检测使用typeOf()函数。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Primitive" target="_blank" rel="noopener">Primitive – from MDN web docs</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures" target="_blank" rel="noopener">JavaScript data types and data structures – from MDN web docs</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/06/js-variable-primitive-value/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1091,6 +1097,30 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Object</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">process</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
