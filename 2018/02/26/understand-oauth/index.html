@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-05.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-06.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-07.png">
-<meta property="og:updated_time" content="2018-02-26T02:06:01.000Z">
+<meta property="og:updated_time" content="2018-02-26T02:40:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解OAuth2.0">
 <meta name="twitter:description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。  一、应用场景为了理解OAuth的适用场合，让我举一个假设的例子。 有一个”云冲印”的网站，可以将用户储存在Goog">
@@ -352,6 +352,11 @@
 <blockquote>
 <p>POST /token HTTP/1.1<br>     Host: server.example.com<br>     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br>     Content-Type: application/x-www-form-urlencoded<br>     grant_type=refresh_token&amp;refresh_token=tGzv3JOkF0XG5Qx2TlKWIA</p>
 </blockquote>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://en.wikipedia.org/wiki/OAuth" target="_blank" rel="noopener">OAuth</a></li>
+<li><a href="http://www.rfcreader.com/#rfc6749" target="_blank" rel="noopener">RFC 6749</a></li>
+<li><a href="http://www.cnblogs.com/sheng-jie/p/6564520.html" target="_blank" rel="noopener">OAuth2.0知多少</a></li>
+</ul>
 
       
 
@@ -593,19 +598,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">module</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">module</a>
               </li>
              
               <li class="article-tag-list-item">
