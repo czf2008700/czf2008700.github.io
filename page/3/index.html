@@ -151,6 +151,102 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-constructor-function" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/26/js-constructor-function/">JavaScript构造函数(constructor function)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/js-constructor-function/" class="archive-article-date">
+  	<time datetime="2017-12-26T10:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="构造函数-constructor-function"><a href="#构造函数-constructor-function" class="headerlink" title="构造函数(constructor function)"></a>构造函数(constructor function)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然可以通过多种方式创建，其中就有构造函数方式，使用new操作符调用构造函数从而生成一个对象实例。</p>
+<p>&emsp;&emsp;因此我们也可以这么去理解JavaScript中的构造函数，构造函数只是一些使用new操作符调用的函数。他们并不属于某一个类，也不会实例化一个类！</p>
+<h5 id="JavaScript构造函数的书写规则和调用方式"><a href="#JavaScript构造函数的书写规则和调用方式" class="headerlink" title="JavaScript构造函数的书写规则和调用方式"></a>JavaScript构造函数的书写规则和调用方式</h5><ul>
+<li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>
+<li>调用方式： 任何函数，只要通过new操作符来调用，那它就可以作为构造函数， 如果不通过new操作符来调用，那它跟普通函数没有什么区别。</li>
+</ul>
+<p>我们来看个Case</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// use stric</span><br><span class="line"></span><br><span class="line">function Person(name, age) &#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    console.log(this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
+<p>上面的代码，当构造函数作为普通函数使用时，我们可以发现一些坑， 构造函数与一个普通函数并无不同，如果你故意不使用new，或忘记用new，都会得到怪异的错误：</p>
+<ul>
+<li>person2并不是Person的实例, 其值为undefined</li>
+<li>this指向window, this下的变量和属性变为全局变量和属性。</li>
+<li>在严格模式下，当你不通过new 调用Person构造函数会出现错误。</li>
+</ul>
+<h5 id="构造函数的返回值"><a href="#构造函数的返回值" class="headerlink" title="构造函数的返回值"></a>构造函数的返回值</h5><p><strong>JavaScript中构造函数可以有返回值也可以没有</strong>。</p>
+<p>1.没有返回值的情况像其他传统语言一样，返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //undefined</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100&#125;</span><br></pre></td></tr></table></figure>
+<p>2.如果存在返回值则检查其返回值是否为引用类型，如果为非引用类型，如（string,number,boolean,null,undefined），上述几种类型的情况与没有返回值的情况相同，实际返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &quot;Felix Cao&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //Felix Cao</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100 &#125;</span><br></pre></td></tr></table></figure>
+<p>3.如果存在返回值是引用类型，则实际返回该引用类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    name: &apos;up8Wang&apos;,</span><br><span class="line">    age: 10</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  // &#123;name: &quot;up8Wang&quot;, age: 10&#125;</span><br><span class="line">console.log(new Person());// &#123;name: &quot;up8Wang&quot;, age: 10 &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="new操作符到底都干了啥？"><a href="#new操作符到底都干了啥？" class="headerlink" title="new操作符到底都干了啥？"></a>new操作符到底都干了啥？</h5><p>&emsp;&emsp;对于上面的Person构造函数，当我们执行var person1 = new Person()是，到底发生了什么？MDN上是这么说的 对于var o = new Foo();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//JavaScript 实际上执行的是：</span><br><span class="line">var o = new Object();</span><br><span class="line">o.[[Prototype]] = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们按照MDN上面的过程来理解下var person1 = new Person()的执行过程</p>
+<ul>
+<li>var obj = new Objec();                // 创建一个空对象obj</li>
+<li>obj.__proto__ = Person.prototype; // obj空对象的原型指向原型对象</li>
+<li>Person.call(obj);                     // Person构造函数中的this指向对象obj</li>
+<li>var person1 = obj;                    // 把这个obj赋给person1, 完成var person1 = new Person()的过程.</li>
+</ul>
+<h5 id="内置构造函数"><a href="#内置构造函数" class="headerlink" title="内置构造函数"></a>内置构造函数</h5><p>&emsp;&emsp;JavaScript有九种内置的构造函数：Object(), Function(), Array(), Number(), String(), Boolean(), RegExp(), Date(), Error().当我们需要创建这些值的时候，我们可以自由选择使用字面量或者构造函数。但是相同情况下，字面量对象不仅易读，而且运行速度更快，因为他们可以在解析的时候被优化。所以当你需要使用简单对象的时候就使用字面量吧。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">Inheritance and the prototype chain</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/26/js-constructor-function/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-global-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -876,73 +972,6 @@
 
 
   
-    <article id="post-jenkins-shell-root" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/28/jenkins-shell-root/">Jenkins运行shell脚本权限终极解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/28/jenkins-shell-root/" class="archive-article-date">
-  	<time datetime="2017-10-28T01:45:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在Jenkins中运行shell脚本经常遇到权限问题，解决起来也是比较烦神的事情，最后我生气了，索性来个终极解决办法，就是给<strong>jenkins一个root权限</strong></p>
-<p>1). vim /etc/sysconfig/jenkins</p>
-<p>2). Find this $JENKINS_USER and change to “root”:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$JENKINS_USER=&quot;root&quot;</span><br></pre></td></tr></table></figure></p>
-<p>3). Then change the ownership of Jenkins home, webroot and logs:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown -R root:root /var/lib/jenins</span><br><span class="line">chown -R root:root /var/cache/jenkins</span><br><span class="line">chown -R root:root /var/log/jenkins</span><br></pre></td></tr></table></figure></p>
-<p>4). Restart Jenkins and check the user has been changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service jenkins restart</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/28/jenkins-shell-root/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1037,6 +1066,14 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
@@ -1065,7 +1102,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">install</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1074,14 +1115,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">install</a>
               </li>
             
             <div class="clearfix"></div>

@@ -151,6 +151,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-lite-server" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/14/lite-server/">lite-server</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/14/lite-server/" class="archive-article-date">
+  	<time datetime="2017-08-14T01:01:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Github: <a href="https://github.com/johnpapa/lite-server" target="_blank" rel="noopener">johnpapa/lite-server</a><br>NPM package: <a href="https://www.npmjs.com/package/lite-server" target="_blank" rel="noopener">https://www.npmjs.com/package/lite-server</a></p>
+<p>早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-server是一个非常不错的选择。</p>
+<h5 id="summary-from-offical"><a href="#summary-from-offical" class="headerlink" title="summary from offical"></a>summary from offical</h5><p>Lightweight development only node server that serves a web app, opens it in the browser, refreshes when html or javascript change, injects CSS changes using sockets, and has a fallback page when a route is not found.</p>
+<ul>
+<li>轻量级仅适用开发的node服务</li>
+<li>仅支持 web app</li>
+<li>它能够为你打开浏览器，当你的html或js文件发送变化时，它能自动识别并自动帮你刷新浏览器。</li>
+<li>还能使用套接字自动注入变化的CSS，</li>
+</ul>
+<h5 id="Installation-and-Usage"><a href="#Installation-and-Usage" class="headerlink" title="Installation and Usage"></a>Installation and Usage</h5><p>Add lite-server and script entry within your project’s package.json file:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Inside package.json</span><br><span class="line"> &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;lite-server&quot;</span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"> &quot;devDependencies&quot;: &#123;</span><br><span class="line"> 	&quot;lite-server&quot;: &quot;^2.2.2&quot;,</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>Install and run script</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i</span><br><span class="line">$ npm run dev</span><br></pre></td></tr></table></figure>
+<p>Global Installation<br>lite-server can be also installed globally, if preferred:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g lite-server</span><br></pre></td></tr></table></figure>
+<h5 id="Custom-Configuration-自定义配置"><a href="#Custom-Configuration-自定义配置" class="headerlink" title="Custom Configuration 自定义配置"></a>Custom Configuration 自定义配置</h5><p>lite-server 使用BrowserSync, 它是允许你去覆盖默认的配置，这得通过你项目里的文件 bs-config.json 或 bs-config.js 来完成</p>
+<p>You can provide custom path to your config file via -c or –config= run time options:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lite-server -c configs/bs-config.js</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># bs-config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;port&quot;: 8000,</span><br><span class="line">  &quot;files&quot;: [&quot;./src/**/*.&#123;html,htm,css,js&#125;&quot;],</span><br><span class="line">  &quot;server&quot;: &#123; &quot;baseDir&quot;: &quot;./src&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="middleware"><a href="#middleware" class="headerlink" title="middleware"></a>middleware</h5><p><a href="https://github.com/webpack/webpack-dev-middleware" target="_blank" rel="noopener">webpack-dev-middleware</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/14/lite-server/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-one-way-data-binding-and" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1162,6 +1244,14 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
@@ -1190,7 +1280,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">thread</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">install</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1199,14 +1293,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">install</a>
               </li>
             
             <div class="clearfix"></div>

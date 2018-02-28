@@ -6,22 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>JavaScript的原型链(prototype chain) | 专注高性能的WEB研发。</title>
+  <title>Promise基础知识 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。 当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索">
+  <meta name="description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存">
+<meta name="keywords" content="异步回调,thread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript的原型链(prototype chain)">
-<meta property="og:url" content="http://up8.wang/2017/12/30/js-prototype-chain/index.html">
+<meta property="og:title" content="Promise基础知识">
+<meta property="og:url" content="http://up8.wang/2018/02/28/es6-promise/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。 当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型">
-<meta property="og:image" content="http://up8.wang/images/js-prototype-chain-01.png">
-<meta property="og:image" content="http://up8.wang/images/js-prototype-chain-01.png">
-<meta property="og:image" content="http://up8.wang/images/js-prototype-proto-05.png">
-<meta property="og:updated_time" content="2018-02-08T01:58:15.000Z">
+<meta property="og:description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise">
+<meta property="og:image" content="http://up8.wang/images/es6-promise-01.png">
+<meta property="og:updated_time" content="2018-02-28T08:35:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript的原型链(prototype chain)">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在上一节我们聊了 JavaScript原型、原型对象、隐式原型，我们知道  JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。 当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型">
-<meta name="twitter:image" content="http://up8.wang/images/js-prototype-chain-01.png">
+<meta name="twitter:title" content="Promise基础知识">
+<meta name="twitter:description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise">
+<meta name="twitter:image" content="http://up8.wang/images/es6-promise-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -157,44 +156,54 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-js-prototype-chain" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-es6-promise" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      JavaScript的原型链(prototype chain)
+      Promise基础知识
     </h1>
   
 
         
-        <a href="/2017/12/30/js-prototype-chain/" class="archive-article-date">
-  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
+        <a href="/2018/02/28/es6-promise/" class="archive-article-date">
+  	<time datetime="2018-02-28T06:12:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
+        <h5 id="什么是-Promise？"><a href="#什么是-Promise？" class="headerlink" title="什么是 Promise？"></a>什么是 Promise？</h5><p>Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。<br>它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
+<p>所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
+<h5 id="常见使用方法"><a href="#常见使用方法" class="headerlink" title="常见使用方法"></a>常见使用方法</h5><p>ES6规定， Promise对象是一个构造函数，用来生成Promise实例。下面代码创造了一个Promise实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */) &#123;</span><br><span class="line">  	resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">  	reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(</span><br><span class="line">  function(success) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  function(error) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>我们来看下步骤：</p>
+<ol>
+<li>new操作符调用Promise构造函数，并接受一个函数作为Promise构造函数的参数，该函数有两个参数，resolve和reject, 而resolve和reject是两个函数，由JavaScript引擎提供，不用自己部署。</li>
+<li>resolve用来将Promise对象的状态置为成功，并将异步操作结果value作为参数传递给成功回调函数</li>
+<li>reject用来将Promise对象的状态置为失败，并将异步操作结果error作为参数传递给失败回调函数</li>
+<li>then方法绑定两个回调函数，第一个用来处理Promise成功状态，第二个用来处理Promise失败状态。</li>
+</ol>
+<h5 id="Promise-状态"><a href="#Promise-状态" class="headerlink" title="Promise 状态"></a>Promise 状态</h5><p>Promise对象有三种状态：</p>
 <ul>
-<li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
-<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
-<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype</li>
+<li>Pending(进行中)</li>
+<li>Fulfilled(已完成，又称为Resolved)</li>
+<li>Rejected(已失败)<br><img src="/images/es6-promise-01.png"></li>
 </ul>
-<h5 id="原型链的属性查找规则"><a href="#原型链的属性查找规则" class="headerlink" title="原型链的属性查找规则"></a>原型链的属性查找规则</h5><p>&emsp;&emsp;当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;注意： 在实际应用中，不要直接在Object.prototype中添加任何属性和方法，本文是为了方便理解原型链的属性查找才这么写的。<br>&emsp;&emsp;上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp; 当我们查找p1对象的name属性时，先去p1对象自身去搜索一通，发现没有，再去p1的原型对象Person.prototype上搜索，如果没有再去Person.prototype的原型对象Object.protptype上去搜，找到name属性，赋给p1.name; </p>
-<p>我们把上面的代码改一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Person原型上的name&apos;;</span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp;从这个结构我们可以看出，从开始的p1对象，到众多原型对象组成的链，发挥这种原型链作用靠的是对象的__proto__属性。</p>
-<h5 id="原型链简单图解"><a href="#原型链简单图解" class="headerlink" title="原型链简单图解"></a>原型链简单图解</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
+<p>如上图所示，Promise对象有两个特点：<br>1、对象状态只由异步操作结果决定。resolve方法会使Promise对象由pendding状态变为fulfilled状态；reject方法或者异常会使得Promise对象由pendding状态变为rejected状态。Promise状态变化只有上图这两条路径。<br>2、对象状态一旦改变，任何时候都能得到这个结果。即状态一旦进入fulfilled或者rejected，promise便不再出现状态变化，同时我们再添加回调会立即得到结果。这点跟事件不一样，事件是发生后再绑定监听，就监听不到了。</p>
+<h5 id="Promise-的缺点"><a href="#Promise-的缺点" class="headerlink" title="Promise 的缺点"></a>Promise 的缺点</h5><p>有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。</p>
+<p>但是 Promise也有一些缺点：</p>
+<ul>
+<li>无法取消Promise，一旦新建它就会立即执行，无法中途取消。</li>
+<li>如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。</li>
+<li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</li>
+</ul>
 <h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">对象模型的细节</a></li>
-<li><a href="https://www.jianshu.com/p/e858f729bf4c" target="_blank" rel="noopener">震惊！原来你是这样的原型继承。。。</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2014/02/es6-javascript-promise-%E6%84%9F%E6%80%A7%E8%AE%A4%E7%9F%A5/" target="_blank" rel="noopener">ES6 JavaScript Promise的感性认知</a> —– 时间是单线程的</li>
+<li><a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">Promise 对象</a> —– 阮一峰</li>
+<li><a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000" target="_blank" rel="noopener">Promise 廖雪峰blog</a></li>
 </ul>
 
       
@@ -225,6 +234,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">异步回调</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">thread</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -275,7 +299,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2017/12/30/js-prototype-chain/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/02/28/es6-promise/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -289,18 +313,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/01/12/js-commonjs/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          CommonJS模块规范
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/12/30/js-constructor-property/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JavaScript的constructor属性</div>
+    <a href="/2018/02/26/understand-oauth/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">理解OAuth2.0</div>
       <i class="icon-circle-right"></i>
     </a>
   
