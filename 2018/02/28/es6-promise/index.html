@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>Promise基础知识 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存">
+  <meta name="description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面">
 <meta name="keywords" content="异步回调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Promise基础知识">
 <meta property="og:url" content="http://up8.wang/2018/02/28/es6-promise/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise">
+<meta property="og:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
 <meta property="og:image" content="http://up8.wang/images/es6-promise-01.png">
-<meta property="og:updated_time" content="2018-02-28T08:50:15.000Z">
+<meta property="og:updated_time" content="2018-03-01T01:14:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise基础知识">
-<meta name="twitter:description" content="什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise">
+<meta name="twitter:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
 <meta name="twitter:image" content="http://up8.wang/images/es6-promise-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
@@ -176,8 +176,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="什么是-Promise？"><a href="#什么是-Promise？" class="headerlink" title="什么是 Promise？"></a>什么是 Promise？</h5><p>Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。<br>它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
+        <h5 id="一、什么是-Promise？"><a href="#一、什么是-Promise？" class="headerlink" title="一、什么是 Promise？"></a>一、什么是 Promise？</h5><p>Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。<br>它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
 <p>所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
+<p>Promise字面上理解即承诺的意思，new一个Promise就是新建一个承诺。在新建一个承诺的时候你需要做两件事情：</p>
+<ul>
+<li>指定承诺所需完成的事</li>
+<li>设置承诺是否实现的标准</li>
+</ul>
 <h5 id="常见使用方法"><a href="#常见使用方法" class="headerlink" title="常见使用方法"></a>常见使用方法</h5><p>ES6规定， Promise对象是一个构造函数，用来生成Promise实例。下面代码创造了一个Promise实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */) &#123;</span><br><span class="line">  	resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">  	reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(</span><br><span class="line">  function(success) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  function(error) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
 <p>我们来看下步骤：</p>
 <ol>
@@ -470,19 +475,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">授权</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">install</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">授权</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
               </li>
             
             <div class="clearfix"></div>
