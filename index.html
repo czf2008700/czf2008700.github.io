@@ -151,6 +151,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-webpack-entry-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/01/webpack-entry-module/">Webpack入门之入口与模块</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/01/webpack-entry-module/" class="archive-article-date">
+  	<time datetime="2018-03-01T06:49:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="一、-入口"><a href="#一、-入口" class="headerlink" title="一、 入口"></a>一、 入口</h5><p>首先创建一个静态页面index.html和一个JavaScript入口文件main.js</p>
+<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>main.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br></pre></td></tr></table></figure>
+<p>然后编译main.js.js并打包到app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br></pre></td></tr></table></figure>
+<p>打包过程会显示日志：</p>
+<p><img src="/images/webpack-entry-module-01.png" width="400"></p>
+<p>让我们在浏览器show一把</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
+<p>用浏览器打开 index.html 将会看到 ‘这里是入口’</p>
+<h5 id="二、-加载模块"><a href="#二、-加载模块" class="headerlink" title="二、 加载模块"></a>二、 加载模块</h5><p>接下来，我们添加一个模块 module.js 并修改入口 main.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// module.js</span><br><span class="line">module.exports = &apos;这里是模块&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;)) // 添加模块</span><br></pre></td></tr></table></figure>
+<p>重新打包 webpack main.js app.js 后刷新页面.</p>
+<p>打包过程显示的日志：</p>
+<p><img src="/images/webpack-entry-module-02.png" width="400"></p>
+<p>Webpack 会分析入口文件，解析包含依赖关系的各个文件。这些文件（模块）都打包到 app.js 。Webpack 会给每个模块分配一个唯一的 id 并通过这个 id 索引和访问模块。在页面启动时，会先执行 main.js 中的代码，其它模块会在运行 require 的时候再执行。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">module</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/01/webpack-entry-module/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-es6-promise" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -530,7 +625,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先要安装 Node.js， Node.js 自带了软件包管理器 npm，建议使用最新版 Node.js。</p>
+        <p>首先要安装 Node.js， Node.js 自带了软件包管理器 npm，建议使用最新版 Node.js。也可以使用<a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">nvm</a>来管理你的node版本</p>
 <p>用npm安装 Webpack</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install webpack -g</span><br></pre></td></tr></table></figure>
 <p>此时 Webpack 已经安装到了全局环境下，可以通过命令行 webpack -h 试试。</p>
@@ -1239,78 +1334,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/02/08/js-object/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-function-role" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/26/js-function-role/">JavaScript中函数的三种角色</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/26/js-function-role/" class="archive-article-date">
-  	<time datetime="2018-01-26T08:18:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;函数在整个JavaScript中是最复杂也是最重要的知识，函数既可以调用也可以实例化的，既可以直接执行得到函数的返回值,也可以通过new操作符调用得到一个对象。对于一个函数来说，主要存在三种可能的角色：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;</span><br><span class="line">  var height = 170;</span><br><span class="line">  this.age = 30</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// code: s1</span><br><span class="line">var ali = Person(); // undefined</span><br><span class="line"></span><br><span class="line">// code: s2</span><br><span class="line">var Jack = new Person();</span><br><span class="line">Person.prototype.getAge = function() &#123;</span><br><span class="line">  console.log(this.age);</span><br><span class="line">&#125;</span><br><span class="line">Jack.height; // undefined</span><br><span class="line">Jack.sex; // undefined</span><br><span class="line"></span><br><span class="line">// code: s3</span><br><span class="line">console.log(Person.length);</span><br><span class="line">console.log(Person.name);</span><br><span class="line">console.log(Person.__proto__);</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>普通函数，上面s1部分code, 把Person当做普通函数使用，执行的时候会形成私有的作用域，然后进行形参赋值、预解析、代码执行、执行完成后内存销毁；</p>
-</li>
-<li><p>构造函数， new操作符 + 构造函数来构造对象， 相当于其他面向对象语言(Java, C#等)中的class, 定义一个类来实例化对象。 上面代码s2部分code, 就是将Person作为构造函数去使用的， Jack是用Person构造函数构造的一个对象，Person构造函数有一个叫做prototype的属性是自己的原型，它的实例都可以指向自己的原型；</p>
-</li>
-<li><p>普通对象， Person 与 var obj = {} 中的obj一样，就是一个普通的对象（所有的函数都是Function的实例），它作为对象可以有一些自己的私有属性（如name, length），也可以通过<strong>proto</strong>找到Function.prototype.</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/26/js-function-role/">展开全文 >></a>
         </p>
       
 

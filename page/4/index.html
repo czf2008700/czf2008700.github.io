@@ -151,6 +151,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jenkins-slave-node" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/03/jenkins-slave-node/">Jenkins之Slave节点集群配置</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/03/jenkins-slave-node/" class="archive-article-date">
+  	<time datetime="2017-11-03T02:49:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h5><p>To be continued<br>先占位，抽时间来整理吧。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/03/jenkins-slave-node/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jenkins-shell-root" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -934,107 +997,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/30/docker-brief-introduction-and-install/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-exploring-lifecycle-hooks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/11/exploring-lifecycle-hooks/">探讨Angular1.5的Lifecycle Hooks</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/11/exploring-lifecycle-hooks/" class="archive-article-date">
-  	<time datetime="2017-09-11T01:51:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前两篇博文，我试图将单向数据绑定的‘&lt;’和’&amp;’两种类型的数据绑定讲解清楚，但我发现，如果不理解Lifecycle Hooks, 还是很难搞清楚的，而且使得读者很容易绕进去的。所以本篇主要来探讨一下Lifecycle Hooks.</p>
-<h5 id="Lifecycle-Hooks"><a href="#Lifecycle-Hooks" class="headerlink" title="Lifecycle Hooks"></a>Lifecycle Hooks</h5><p>如何理解Lifecycle Hooks, </p>
-<ul>
-<li>玩过PHP的都知道PHP的魔术方法，在应用中有着相同的功效。</li>
-<li>玩过Github的，应该有知道github中的 Web Hook。</li>
-</ul>
-<p>在Angular 2 alpha release中首次提出了这个概念，有人说是受到了<a href="https://www.webcomponents.org" target="_blank" rel="noopener">webcomponent</a>中的一篇文章的启发（<a href="https://www.webcomponents.org/community/articles/introduction-to-custom-elements#lifecycle-callbacks" target="_blank" rel="noopener">Introduction to Custom Elements</a>）. 那么问题来了，使用Angular1.x的如何升级进化到Angular2呢，为了解决这个问题，所以在Angular1.5.3也引入了Lifecycle-hooks。</p>
-<p>Lifecycle Hooks在Angular组件的控制器中主要对外暴露了四个函数，分别为$onInit、$onChanges $onDestroy $postLink.</p>
-<h5 id="onInit"><a href="#onInit" class="headerlink" title="$onInit"></a>$onInit</h5><p>主要作用是为component提供了一个初始化的地方，<br>我们通常是通过bindings: {}对象把我们需要的数据传递到组件中，<br>当bindings对象所有数据传递到组件内部后，$onInit自然就被调用了。</p>
-<p>需要注意的是：</p>
-<ul>
-<li>$onInit 与 Angular2中的ngOnInit是对应的。</li>
-<li>一个组件可以从另外一个组件中继承方法，该方法可以在$onInit Lifecycle hooks中直接使用（$onInit + require）<br>这两点在以后的篇幅中有机会探讨。</li>
-</ul>
-<h5 id="onChanges"><a href="#onChanges" class="headerlink" title="$onChanges"></a>$onChanges</h5><p>在单向数据绑定中（one way data-binding）,即’&lt;’, 父组件向子组件传递的数据发生变化时， $onChanges会自动触发。</p>
-<p>This new hook is similar to ng2’s ngOnChanges. It is called whenever one way bindings are updated, with a hash containing the changes objects.</p>
-<p>在此之前，我们一般用$watch, $watchCollection去监控数据的变化</p>
-<ul>
-<li>$onChanges的参数中获取到一个变化对象, { previousValue, currentValue }</li>
-<li>$onChanges至少触发一次, </li>
-<li>双向数据绑定（=），不再被提倡了，单向已经被认为是数据流的最佳方式，React,Angular 2 以及其他的类库都是用单向数据流（ps: 我们的code review中，发现这种形式的数据绑定是不被approve, 也就进不了master）</li>
-</ul>
-<p>接下来，我们可以深入的理解一下这两篇文章了：  </p>
-<ul>
-<li><a href="http://up8.wang/2017/08/11/one-way-data-binding-less-than/">One way data-binding in angular1.5.x — Part 1</a> </li>
-<li><a href="http://up8.wang/2017/08/11/one-way-data-binding-and/">One way data-binding in angular1.5.x — Part 2</a><h5 id="onDestroy"><a href="#onDestroy" class="headerlink" title="$onDestroy"></a>$onDestroy</h5>$onDestroy() is a hook that is called when its containing scope is destroyed. We can use this hook to release external resources, watches and event handlers.</li>
-</ul>
-<p>这个hook比较简单，就是用来释放和清理资源的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function MyCmpController($element) &#123;</span><br><span class="line"></span><br><span class="line">  var clickHandler = function () &#123;</span><br><span class="line">    // do something</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  this.$onInit = function () &#123;</span><br><span class="line">    $element.on(&apos;click&apos;, clickHandler);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  this.$onDestroy = function () &#123;</span><br><span class="line">    $element.off(&apos;click&apos;, clickHandler);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="postLink"><a href="#postLink" class="headerlink" title="$postLink"></a>$postLink</h5><p>关于$postLink, 这里先占个位，后面抽时间来讲解。</p>
-<p>– To be continued.</p>
-<h5 id="References"><a href="#References" class="headerlink" title="References"></a>References</h5><ul>
-<li><p><a href="https://blog.thoughtram.io/angularjs/2016/03/29/exploring-angular-1.5-lifecycle-hooks.html" target="_blank" rel="noopener">EXPLORING ANGULAR 1.5: LIFECYCLE HOOKS</a></p>
-</li>
-<li><p><a href="https://toddmotto.com/angular-1-5-lifecycle-hooks" target="_blank" rel="noopener">Lifecycle hooks in Angular 1.5</a></p>
-</li>
-<li><p><a href="http://www.codelord.net/2016/04/14/angular-1-dot-5-new-component-lifecycle-hooks/" target="_blank" rel="noopener">Angular 1.5 new component lifecycle hooks</a></p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/11/exploring-lifecycle-hooks/">展开全文 >></a>
         </p>
       
 
