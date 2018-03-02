@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>lite-server | 专注高性能的WEB研发。</title>
+  <title>Webpack入门四：loader使用 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Github: johnpapa/lite-serverNPM package: https://www.npmjs.com/package/lite-server 早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-serve">
+  <meta name="description" content="上一篇Webpack入门之入口与模块, 我们聊了 Webpack 入口并构建了一个采用 CommonJS 规范的模块，本篇来聊一聊利用 loader 加载 css 模块。 Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件">
+<meta name="keywords" content="webpack">
 <meta property="og:type" content="article">
-<meta property="og:title" content="lite-server">
-<meta property="og:url" content="http://up8.wang/2017/08/14/lite-server/index.html">
+<meta property="og:title" content="Webpack入门四：loader使用">
+<meta property="og:url" content="http://up8.wang/2018/03/02/webpack-loader/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="Github: johnpapa/lite-serverNPM package: https://www.npmjs.com/package/lite-server 早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-server是一个非常不错的选择。 summary from officalLightwe">
-<meta property="og:updated_time" content="2017-08-15T03:37:06.000Z">
+<meta property="og:description" content="上一篇Webpack入门之入口与模块, 我们聊了 Webpack 入口并构建了一个采用 CommonJS 规范的模块，本篇来聊一聊利用 loader 加载 css 模块。 Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件，就需要使用 loader 进行转换。 Loader 可以理解为是模块和资源的转">
+<meta property="og:image" content="http://up8.wang/images/webpack-loader-01.png">
+<meta property="og:updated_time" content="2018-03-02T03:11:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lite-server">
-<meta name="twitter:description" content="Github: johnpapa/lite-serverNPM package: https://www.npmjs.com/package/lite-server 早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-server是一个非常不错的选择。 summary from officalLightwe">
+<meta name="twitter:title" content="Webpack入门四：loader使用">
+<meta name="twitter:description" content="上一篇Webpack入门之入口与模块, 我们聊了 Webpack 入口并构建了一个采用 CommonJS 规范的模块，本篇来聊一聊利用 loader 加载 css 模块。 Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件，就需要使用 loader 进行转换。 Loader 可以理解为是模块和资源的转">
+<meta name="twitter:image" content="http://up8.wang/images/webpack-loader-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -153,46 +156,42 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-lite-server" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-webpack-loader" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      lite-server
+      Webpack入门四：loader使用
     </h1>
   
 
         
-        <a href="/2017/08/14/lite-server/" class="archive-article-date">
-  	<time datetime="2017-08-14T01:01:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-14</time>
+        <a href="/2018/03/02/webpack-loader/" class="archive-article-date">
+  	<time datetime="2018-03-02T02:02:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Github: <a href="https://github.com/johnpapa/lite-server" target="_blank" rel="noopener">johnpapa/lite-server</a><br>NPM package: <a href="https://www.npmjs.com/package/lite-server" target="_blank" rel="noopener">https://www.npmjs.com/package/lite-server</a></p>
-<p>早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-server是一个非常不错的选择。</p>
-<h5 id="summary-from-offical"><a href="#summary-from-offical" class="headerlink" title="summary from offical"></a>summary from offical</h5><p>Lightweight development only node server that serves a web app, opens it in the browser, refreshes when html or javascript change, injects CSS changes using sockets, and has a fallback page when a route is not found.</p>
-<ul>
-<li>轻量级仅适用开发的node服务</li>
-<li>仅支持 web app</li>
-<li>它能够为你打开浏览器，当你的html或js文件发送变化时，它能自动识别并自动帮你刷新浏览器。</li>
-<li>还能使用套接字自动注入变化的CSS，</li>
-</ul>
-<h5 id="Installation-and-Usage"><a href="#Installation-and-Usage" class="headerlink" title="Installation and Usage"></a>Installation and Usage</h5><p>Add lite-server and script entry within your project’s package.json file:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Inside package.json</span><br><span class="line"> &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;lite-server&quot;</span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"> &quot;devDependencies&quot;: &#123;</span><br><span class="line"> 	&quot;lite-server&quot;: &quot;^2.2.2&quot;,</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>Install and run script</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i</span><br><span class="line">$ npm run dev</span><br></pre></td></tr></table></figure>
-<p>Global Installation<br>lite-server can be also installed globally, if preferred:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g lite-server</span><br></pre></td></tr></table></figure>
-<h5 id="Custom-Configuration-自定义配置"><a href="#Custom-Configuration-自定义配置" class="headerlink" title="Custom Configuration 自定义配置"></a>Custom Configuration 自定义配置</h5><p>lite-server 使用BrowserSync, 它是允许你去覆盖默认的配置，这得通过你项目里的文件 bs-config.json 或 bs-config.js 来完成</p>
-<p>You can provide custom path to your config file via -c or –config= run time options:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lite-server -c configs/bs-config.js</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># bs-config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;port&quot;: 8000,</span><br><span class="line">  &quot;files&quot;: [&quot;./src/**/*.&#123;html,htm,css,js&#125;&quot;],</span><br><span class="line">  &quot;server&quot;: &#123; &quot;baseDir&quot;: &quot;./src&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="middleware"><a href="#middleware" class="headerlink" title="middleware"></a>middleware</h5><p><a href="https://github.com/webpack/webpack-dev-middleware" target="_blank" rel="noopener">webpack-dev-middleware</a></p>
+        <p>上一篇<a href="/2018/03/01/webpack-entry-module/">Webpack入门之入口与模块</a>, 我们聊了 Webpack 入口并构建了一个采用 CommonJS 规范的模块，本篇来聊一聊利用 loader 加载 css 模块。</p>
+<p>Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件，就需要使用 loader 进行转换。</p>
+<p>Loader 可以理解为是模块和资源的转换器，它本身是一个函数，接受源文件作为参数，返回转换的结果。这样，我们就可以通过 require 来加载任何类型的模块或文件，比如 CoffeeScript、 JSX、 LESS 或图片。</p>
+<p>接上一节的例子，我们要在页面中引入一个CSS样式文件main.css, 在入口文件main.js将main.css看成一个模块， 然后用 css-loader 来读取它， 再用 style-loader 把它插入到页面中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* main.css */</span><br><span class="line">body &#123; background: yellow; &#125;</span><br></pre></td></tr></table></figure>
+<p>修改 main.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require(&quot;!style-loader!css-loader!./main.css&quot;) // 载入 main.css</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;));</span><br></pre></td></tr></table></figure>
+<p>安装 loader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i css-loader style-loader</span><br></pre></td></tr></table></figure>
+<p>重新编译打包，清除缓存刷新页面，就可以看到黄色的页面背景了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
+<p><img src="/images/webpack-loader-01.png" width="800"></p>
+<p>可是，如果每次 require CSS 文件的时候都要写 loader 前缀，是一件很繁琐的事情。我们可以根据模块类型（文件扩展名）来自动绑定需要的 loader。</p>
+<p>将 main.js 中的 require(“!style-loader!css-loader!./main.css”) 修改为 require(“./main.css”) ，然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js --module-bind &apos;css=style-loader!css-loader&apos;</span><br></pre></td></tr></table></figure>
+<p>显然，这两种使用 loader 的方式，效果是一样的。</p>
 
       
 
@@ -222,6 +221,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -272,7 +282,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2017/08/14/lite-server/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/03/02/webpack-loader/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -286,18 +296,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/09/11/exploring-lifecycle-hooks/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/02/webpack-config/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          探讨Angular1.5的Lifecycle Hooks
+          Webpack入门五：配置文件
         
       </div>
     </a>
   
   
-    <a href="/2017/08/11/one-way-data-binding-and/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">One way data-binding in angular1.5.x --- Part 2</div>
+    <a href="/2018/03/01/webpack-entry-module/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Webpack入门三：入口与模块</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -151,6 +151,219 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-nginx-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/03/nginx-base-on-docker/" class="archive-article-date">
+  	<time datetime="2017-10-02T16:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;Docker的安装请阅读上一篇  <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>。如今的nginx可以说是一个web服务中的一个标配，网上已经有很多很多成熟的教程和案例. 本篇不对nginx的搭建和配置做详细介绍。</p>
+<p>&emsp;&emsp;题外话：提到Nginx， 有一段很艰辛的经历，时至今日，回想起来像是发生在昨天， 感谢当时自己的奋斗和学习。 2010年我做广告联盟时， 一开始采用的Win+IIS+做了简单的MySql读写分离，后来IIS换为Apache, 悲剧的是连续半个月我解决不了高并发高负载的问题， 为此我研究了一个月，每天加班只睡3个小时，期间骑摩托车回家，骑着骑着就睡着了，一次撞到大树，一次撞到电线杆，一次撞到石墩上，想来自己命大。最后在网上看到张宴的博客详细阐述了LNMP性能是Apache的十倍，当时对Linux命令根本是从零开始，当我用Nginx成功解决当时的问题后， 自此我就很开心的用上了Nginx.</p>
+<h5 id="直接利用官方-Docker-Hub-的Nginx镜像"><a href="#直接利用官方-Docker-Hub-的Nginx镜像" class="headerlink" title="直接利用官方(Docker Hub)的Nginx镜像"></a>直接利用官方(Docker Hub)的Nginx镜像</h5><ul>
+<li>拉取镜像</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>docker pull: 从Docker Hub中拉取或者更新指定镜。（是不是有点像git pull命令）<br>docker images: 列出本地所有docker镜像。（是不是有点像git branch）</p>
+<ul>
+<li>基于镜像创建新的容器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mynginx -p 80:80 nginx // 见注释1</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p>注释1：使用docker镜像nginx启动一个容器，将这个容器命名为mynginx, 同时将容器的80端口映射到宿主机的80端口上。<br>docker ps: 列出所有在运行中的容器。</p>
+<p>这个时候，我们在浏览器中输入IP地址即可访问到nginx的默认的欢迎页面。OK, 到这里如果你觉得已经完成了本篇的主题， 那么如此简单的操作步骤其实也不值得我花精力去写这个的。</p>
+<ul>
+<li>来一个复杂一点的： 自定义配置</li>
+</ul>
+<p>&emsp;&emsp;Nginx的配置项很多， 从而满足我们各种需求，上一步 <strong>基于镜像创建新的容器</strong>中，当访问宿主机的80端口， docker会自动将访问引入mynginx容器中，利用容器中的nginx配置进行相关的服务。可是现在的需求是这样的：</p>
+<ol>
+<li>定义自己的配置文件nginx.conf及用于include的vhost文件夹方便管理，放置于宿主机目录下/home/nginx下</li>
+<li>定义自己的WEB根目录www, 放置于宿主机目录下/home/nginx下。</li>
+<li>创建自己的两个日志追踪文件nginx_error.log和access.log，放置于宿主机目录下/home/nginx/logs下</li>
+</ol>
+<p>于是我们得研究一下docker run 命令了</p>
+<blockquote>
+<p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>-d: 后台运行容器，并返回容器UUID；<br>-i: 以交互模式运行容器，通常与 -t 同时使用；<br>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>-v, –volume=[]            给容器挂载存储卷，挂载到容器的某个目录<br>–privileged=false         指定容器是否为特权容器，特权容器拥有所有的capabilities<br>–name=””                  指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字</p>
+</blockquote>
+<p>详情参考<a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="noopener">Docker run reference</a></p>
+<p>根据docker run的语法，我们得到如下命令写法即可满足需求。我们可以将这些写入到一个shell脚本里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx-atlascca3 --privileged=true -p 80:80 -v /home/nginx/nginx.conf:/etc/nginx/nginx.conf -v /home/nginx/vhost:/home/nginx/vhost -v /home/nginx/logs/nginx_error.log:/home/nginx/logs/nginx_error -v /home/nginx/www:/home/nginx/www -d nginx</span><br></pre></td></tr></table></figure>
+<p>注意，在调试过程中，利用docker ps查看容器是否创建， 利用docker rm containerid删除一个容器，<br>若没有创建说明命令执行不成功，可以把命令行中的 -d 选项去掉即将显示出相关错误信息。</p>
+<p>另外一个方法利用Dockerfile搭建Nginx服务器将来单独开个主题再写。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/03/nginx-base-on-docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-docker-brief-introduction-and-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/30/docker-brief-introduction-and-install/" class="archive-article-date">
+  	<time datetime="2017-09-30T02:09:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker是一个开源的引擎，可以轻松的为任何应用创建一个轻量级的、可移植的、自给自足的容器。<br>Docker是一个新的容器化的技术，它轻巧，且易移植，号称“build once, configure once and run anywhere”  <a href="https://www.docker.com/" target="_blank" rel="noopener">官网</a> <a href="https://hub.docker.com" target="_blank" rel="noopener">Docker镜像</a></p>
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><ul>
+<li>先确定Linux的版本（我需要 centos7.2）.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/redhat-release</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一步安装。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker</span><br></pre></td></tr></table></figure>
+<p>   安装过程中你的服务器环境也许可能缺少yum源， 可以参考阅读： <a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html" target="_blank" rel="noopener">http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html</a></p>
+<ul>
+<li>启动Docker。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<p>systemctl status docker<br>systemctl enable docker</p>
+<ul>
+<li>查看Docker 版本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker --version</span><br></pre></td></tr></table></figure>
+<h5 id="八个Docker的真实应用场景"><a href="#八个Docker的真实应用场景" class="headerlink" title="八个Docker的真实应用场景"></a>八个Docker的真实应用场景</h5><p>这段摘自：<a href="http://dockone.io/article/126" target="_blank" rel="noopener">http://dockone.io/article/126</a></p>
+<ul>
+<li>简化配置</li>
+</ul>
+<p>这是Docker公司宣传的Docker的主要使用场景。虚拟机的最大好处是能在你的硬件设施上运行各种配置不一样的平台（软件、系统），Docker在降低额外开销的情况下提供了同样的功能。它能让你将运行环境和配置放在代码中然后部署，同一个Docker的配置可以在不同的环境中使用，这样就降低了硬件要求和应用环境之间耦合度。</p>
+<ul>
+<li>代码流水线（Code Pipeline）管理</li>
+</ul>
+<p>前一个场景对于管理代码的流水线起到了很大的帮助。代码从开发者的机器到最终在生产环境上的部署，需要经过很多的中间环境。而每一个中间环境都有自己微小的差别，Docker给应用提供了一个从开发到上线均一致的环境，让代码的流水线变得简单不少。</p>
+<ul>
+<li>提高开发效率</li>
+</ul>
+<p>这就带来了一些额外的好处：Docker能提升开发者的开发效率。如果你想看一个详细一点的例子，可以参考Aater在DevOpsDays Austin 2014 大会或者是DockerCon上的演讲。</p>
+<p>不同的开发环境中，我们都想把两件事做好。一是我们想让开发环境尽量贴近生产环境，二是我们想快速搭建开发环境。</p>
+<p>理想状态中，要达到第一个目标，我们需要将每一个服务都跑在独立的虚拟机中以便监控生产环境中服务的运行状态。然而，我们却不想每次都需要网络连接，每次重新编译的时候远程连接上去特别麻烦。这就是Docker做的特别好的地方，开发环境的机器通常内存比较小，之前使用虚拟的时候，我们经常需要为开发环境的机器加内存，而现在Docker可以轻易的让几十个服务在Docker中跑起来。</p>
+<ul>
+<li>隔离应用</li>
+</ul>
+<p>有很多种原因会让你选择在一个机器上运行不同的应用，比如之前提到的提高开发效率的场景等。</p>
+<p>我们经常需要考虑两点，一是因为要降低成本而进行服务器整合，二是将一个整体式的应用拆分成松耦合的单个服务（译者注：微服务架构）。如果你想了解为什么松耦合的应用这么重要，请参考Steve Yege的这篇论文，文中将Google和亚马逊做了比较。</p>
+<ul>
+<li>整合服务器</li>
+</ul>
+<p>正如通过虚拟机来整合多个应用，Docker隔离应用的能力使得Docker可以整合多个服务器以降低成本。由于没有多个操作系统的内存占用，以及能在多个实例之间共享没有使用的内存，Docker可以比虚拟机提供更好的服务器整合解决方案。</p>
+<ul>
+<li>调试能力</li>
+</ul>
+<p>Docker提供了很多的工具，这些工具不一定只是针对容器，但是却适用于容器。它们提供了很多的功能，包括可以为容器设置检查点、设置版本和查看两个容器之间的差别，这些特性可以帮助调试Bug。你可以在《Docker拯救世界》的文章中找到这一点的例证。</p>
+<ul>
+<li>多租户环境</li>
+</ul>
+<p>另外一个Docker有意思的使用场景是在多租户的应用中，它可以避免关键应用的重写。我们一个特别的关于这个场景的例子是为IoT（译者注：物联网）的应用开发一个快速、易用的多租户环境。这种多租户的基本代码非常复杂，很难处理，重新规划这样一个应用不但消耗时间，也浪费金钱。</p>
+<p>使用Docker，可以为每一个租户的应用层的多个实例创建隔离的环境，这不仅简单而且成本低廉，当然这一切得益于Docker环境的启动速度和其高效的diff命令。</p>
+<p>你可以在这里了解关于此场景的更多信息。</p>
+<ul>
+<li>快速部署</li>
+</ul>
+<p>在虚拟机之前，引入新的硬件资源需要消耗几天的时间。虚拟化技术（Virtualization）将这个时间缩短到了分钟级别。而Docker通过为进程仅仅创建一个容器而无需启动一个操作系统，再次将这个过程缩短到了秒级。这正是Google和Facebook都看重的特性。</p>
+<p>你可以在数据中心创建销毁资源而无需担心重新启动带来的开销。通常数据中心的资源利用率只有30%，通过使用Docker并进行有效的资源分配可以提高资源的利用率。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/30/docker-brief-introduction-and-install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-exploring-lifecycle-hooks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -863,397 +1076,9 @@
 
 
   
-    <article id="post-git-commands" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/26/git-commands/">Git commands</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/26/git-commands/" class="archive-article-date">
-  	<time datetime="2017-07-26T01:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Here is a list of some basic Git commands to get you going with Git.</p>
-<p>For more detail, check out the  <a href="https://www.atlassian.com/git" target="_blank" rel="noopener">Atlassian Git Tutorials</a>  for a visual introduction to Git commands and workflows, including examples. </p>
-<table>
-<thead>
-<tr>
-<th>Summary</th>
-<th>Commands</th>
-<th>Tips</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>配置全局</td>
-<td>$ git config –global user.name “Your Name”<br>$ git config –global user.email “name@eb.com”</td>
-<td></td>
-</tr>
-<tr>
-<td>查看配置</td>
-<td>$ git config –list<br>$ git config –list –global</td>
-<td></td>
-</tr>
-<tr>
-<td>创建版本库</td>
-<td>$ git init</td>
-<td>通过git init命令把某个目录变成Git可以管理的仓库</td>
-</tr>
-<tr>
-<td>获取仓库状态</td>
-<td>$ git status</td>
-<td>随时掌握工作区的状态</td>
-</tr>
-<tr>
-<td>查看修改</td>
-<td>$ git diff readme.txt<br>$ git diff HEAD readme.txt</td>
-<td></td>
-</tr>
-<tr>
-<td>提交修改提交新文件</td>
-<td>$ git add readme.txt</td>
-<td></td>
-</tr>
-<tr>
-<td>提交</td>
-<td>$ git commit -m “add distributed”</td>
-<td>提交到版库</td>
-</tr>
-<tr>
-<td>查看提交日志</td>
-<td>$ git log<br>$ git log –pretty=oneline<br>$ git log –oneline –graph</td>
-<td><a href="#gitLog">More</a></td>
-</tr>
-<tr>
-<td>命令日志</td>
-<td>$ git reflog<br>$ git reflog –relative-date<br>$ git reflog –date=iso</td>
-<td></td>
-</tr>
-<tr>
-<td>版本回退</td>
-<td>$ git reset –hard commit_id<br> $ git reset –hard HEAD^</td>
-<td></td>
-</tr>
-<tr>
-<td>撤销修改</td>
-<td>$ git checkout — filename<br>$ git reset HEAD file</td>
-<td></td>
-</tr>
-<tr>
-<td>删除</td>
-<td>$ rm file<br>$ git rm file<br>$ git commit</td>
-<td>1.  删除也是一个修改操作</td>
-</tr>
-<tr>
-<td>远程库添加</td>
-<td>$ git remote add &lt;主机名&gt; &lt;网址&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库删除</td>
-<td>$ git remote rm &lt;主机名&gt;<br>$ git remote remove &lt;主机名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库重命名</td>
-<td>$ git remote rename &lt;原主机名&gt; &lt;新主机名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库查看</td>
-<td>$ git remote<br>$ git remote -v</td>
-<td><a href="#viewRemote">More</a></td>
-</tr>
-<tr>
-<td>查看远程库详细信息</td>
-<td>$ git remote show &lt; hostname &gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>推送到远程库</td>
-<td>$ git push -u origin master</td>
-<td></td>
-</tr>
-<tr>
-<td>克隆</td>
-<td>$ git clone &lt;远程库网址&gt;</td>
-<td><a href="#gitClone">More</a></td>
-</tr>
-<tr>
-<td>创建分支</td>
-<td>$ git branch branchName<br>$ git checkout -b &lt;分支名&gt;</td>
-<td><a href="#gitBranch">More</a></td>
-</tr>
-<tr>
-<td>分支重命名</td>
-<td>$ git branch –m oldName newName</td>
-<td></td>
-</tr>
-<tr>
-<td>切换分支</td>
-<td>$ git checkout branchName</td>
-<td></td>
-</tr>
-<tr>
-<td>查看分支</td>
-<td>$ git branch <br> $ git branch -r<br>$ git branch -a 查看本地所有分支</td>
-<td>列出所有分支，当前分支前面会标一个*号</td>
-</tr>
-<tr>
-<td>合并分支</td>
-<td>$ git merge branchName <br>$ git cherry-pick <commit id=""> 合并某个commit ID 到当前分支</commit></td>
-<td>合并指定分支到当前分支</td>
-</tr>
-<tr>
-<td>删除分支</td>
-<td>$ git branch -d &lt;分支名&gt; 删除时提示分支没有合并<br>$ git branch -D &lt;分支名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>分支重命名</td>
-<td>$  git branch -m oldname newname</td>
-<td></td>
-</tr>
-<tr>
-<td>删除远程分支</td>
-<td>$ git push origin :gemSCSS</td>
-<td>删除远程origin主机的gemSCSS分支</td>
-</tr>
-<tr>
-<td>推送分支到远程</td>
-<td>$ git push origin dev</td>
-<td></td>
-</tr>
-<tr>
-<td>取回远程库的更新</td>
-<td>$ git fetch &lt;远程主机名&gt;<br>$ git fetch &lt;远程主机名&gt; &lt;分支名&gt;</td>
-<td><a href="#gitFetch">More</a></td>
-</tr>
-<tr>
-<td>取回远程库某个分支的更新</td>
-<td>$ git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</td>
-<td><a href="#gitPull">More</a></td>
-</tr>
-<tr>
-<td>推送</td>
-<td>$ git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</td>
-<td><a href="#gitPush">More</a></td>
-</tr>
-<tr>
-<td>追踪关系</td>
-<td>tracking</td>
-<td><a href="#tracking">More</a></td>
-</tr>
-<tr>
-<td></td>
-<td>(f624f8e5f082f2df2bed8a4e09c12fd2943bdd40d)</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="gitLog">git log</h5>
-
-<ol>
-<li>git log命令显示从最近到最远的提交日志 我们可以看到3次提交.</li>
-<li>如果嫌输出信息太多，看得眼花缭乱的，可以试试加上–pretty=oneline参数</li>
-<li>git log alias<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.gitconfig</span><br><span class="line">[alias]</span><br><span class="line">zclog=log --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cred%cn  %Cgreen(%ad)%Creset&apos; --abbrev --date=iso</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="viewRemote">远程库查看</h5>
-
-<ol>
-<li>为了便于管理，Git要求每个远程主机都必须指定一个主机名。git remote命令就用于管理主机名</li>
-<li>用git remote -v显示更详细的信息，可以看到抓取（fetch）和推送(push)的origin的地址。</li>
-<li>如果没有推送权限，就看不到push的地址。</li>
-<li>克隆版本库的时候，所使用的远程主机自动被Git命名为origin。 如果想用其他的主机名，需要用git clone命令的-o选项指定。（见git clone部分）</li>
-</ol>
-<h5 id="gitClone">git clone</h5>
-
-<ol>
-<li>Git支持多种协议，包括https，默认的git://使用ssh，但通过ssh支持的原生git协议速度最快。</li>
-<li>默认会在本地主机生成一个目录与远程主机的版本库同名</li>
-<li>如果要在本地指定不同的目录名，可以将目录名作为git clone命令的第二个参数。 $ git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;</li>
-<li>指定主机名,下面克隆的时候，指定远程主机叫做jQuery $ git clone -o jQuery <a href="https://github.com/jquery/jquery.git" target="_blank" rel="noopener">https://github.com/jquery/jquery.git</a> $ git remote jQuery</li>
-</ol>
-<h5 id="gitBranch">git branch</h5>
-
-<ol>
-<li>$ git branch branchName 基于当前分支创建分支名称为branchName</li>
-<li>$ git checkout -b branchName 相当于两步:<ul>
-<li>$ git branch branchName</li>
-<li>$ git checkout branchName</li>
-</ul>
-</li>
-</ol>
-<h5 id="gitFetch">git fetch</h5>
-
-<ol>
-<li>一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到git fetch命令。</li>
-<li>$ git fetch &lt;远程主机名&gt; 此命令将某个远程主机的更新，全部取回本地。</li>
-<li>$ git fetch origin master 所取回的更新，在本地主机上要用”远程主机名/分支名”的形式读取。比如origin主机的master，就要用origin/master读取。</li>
-<li>取回远程主机的更新以后，可以在它的基础上，使用git checkout命令创建一个新的分支。 $ git checkout -b newBrach origin/master， 该 命令表示，在origin/master的基础上，创建一个新分支</li>
-<li>在本地分支上合并远程分支， 使用git merge或者git rebase $ git merge origin/master # 或者 $ git rebase origin/master 上面命令表示在当前分支上，合并origin/master。</li>
-</ol>
-<h5 id="gitPull">git pull</h5>
-
-<ol>
-<li>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。 比如，取回origin主机的next分支，与本地的master分支合并，需要写成下面这样。 $ git pull origin next:master </li>
-<li>如果远程分支是与当前分支合并，则冒号后面的部分可以省略。 $ git pull origin next 上面命令表示，取回origin/next分支，再与当前分支合并。实质上，这等同于先做git fetch，再做git merge。 $ git fetch origin $ git merge origin/next</li>
-<li>git pull –rebase 表示把你的本地当前分支里的每个提交(commit)取消掉，并且把它们临时保存为补丁(patch)(这些补丁放到” .git/rebase”目录中),然后把本地当前分支更新 为最新的”origin”分支，最后把保存的这些补丁应用到本地当前分支上。</li>
-</ol>
-<h5 id="gitPush">git push</h5>
-
-<ol>
-<li>分支推送顺序的写法是&lt;来源地&gt;:&lt;目的地&gt;，所以git pull是&lt;远程分支&gt;:&lt;本地分支&gt;， 而git push是&lt;本地分支&gt;:&lt;远程分支&gt;。</li>
-<li>如果省略远程分支名，则表示将本地分支推送与之存在”追踪关系”的远程分支（通常两者同名）， 如果该远程分支不存在，则会被新建。 $ git push origin master 上面命令表示，将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建。</li>
-<li>如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。 $ git push origin :master # 等同于 $ git push origin –delete master</li>
-<li>如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。 $ git push origin 上面命令表示，将当前分支推送到origin主机的对应分支。</li>
-<li>如果当前分支只有一个追踪分支，那么主机名都可以省略。 $ git push</li>
-<li>如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机， 这样后面就可以不加任何参数使用git push $ git push -u origin master 上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。</li>
-<li>还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用–all选项。 $ git push –all origin</li>
-</ol>
-<h5 id="tracking">tracking追踪关系</h5>
-
-<ol>
-<li>在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。 比如，在git clone的时候， 所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动”追踪 “origin/master分支。</li>
-<li>手动建立追踪 $ git branch –set-upstream master origin/next 上面命令指定master分支追踪origin/next分支。</li>
-<li>如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。 $ git pull origin 上面命令表示，本地的当前分支自动与对应的origin主机”追踪分支”（remote-tracking branch）进行合并。</li>
-<li>如果当前分支只有一个追踪分支，连远程主机名都可以省略。 $ git pull 上面命令表示，当前分支自动与唯一一个追踪分支进行合并。</li>
-<li>如果合并需要采用rebase模式，可以使用–rebase选项。 $ git pull –rebase &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;<br>6.删除tracking追踪关系,git branch -d -r origin/branch name</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/26/git-commands/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hexo-deploy-github-pages" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/07/hexo-deploy-github-pages/">How to use Hexo and deploy to GitHub Pages</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/07/hexo-deploy-github-pages/" class="archive-article-date">
-  	<time datetime="2017-07-07T09:41:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="1-Install-Hexo"><a href="#1-Install-Hexo" class="headerlink" title="1. Install Hexo"></a>1. Install Hexo</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">$ hexo -v</span><br><span class="line">hexo-cli: 0.1.9</span><br><span class="line">os: Darwin 14.3.0 darwin x64</span><br><span class="line">http_parser: 2.3</span><br><span class="line">node: 0.12.7</span><br><span class="line">v8: 3.28.71.19</span><br><span class="line">uv: 1.6.1</span><br><span class="line">zlib: 1.2.8</span><br><span class="line">modules: 14</span><br><span class="line">openssl: 1.0.1p</span><br></pre></td></tr></table></figure>
-<h5 id="2-Create-a-project-for-your-GitHub-Pages"><a href="#2-Create-a-project-for-your-GitHub-Pages" class="headerlink" title="2. Create a project for your GitHub Pages"></a>2. Create a project for your GitHub Pages</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br><span class="line">INFO  Copying data to ~/***/blog</span><br><span class="line">INFO  You are almost done! Don&apos;t forget to run &apos;npm install&apos; before you start blogging with Hexo!</span><br><span class="line"></span><br><span class="line">$ cd blog</span><br><span class="line"></span><br><span class="line">$ yarn install</span><br></pre></td></tr></table></figure>
-<h5 id="3-Run-a-test-server-for-your-page-on-Mac"><a href="#3-Run-a-test-server-for-your-page-on-Mac" class="headerlink" title="3. Run a test server for your page on Mac"></a>3. Run a test server for your page on Mac</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">INFO  Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
-<h5 id="4-Set-information-for-your-new-blog"><a href="#4-Set-information-for-your-new-blog" class="headerlink" title="4. Set information for your new blog"></a>4. Set information for your new blog</h5><p><a href="https://hexo.io/docs/configuration.html" target="_blank" rel="noopener">https://hexo.io/docs/configuration.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Site</span><br><span class="line">title: up8.wang</span><br><span class="line">subtitle:</span><br><span class="line">description: yt8yt&apos;s personal blog</span><br><span class="line">author: yt8yt</span><br><span class="line">language:</span><br><span class="line">timezone: Japan</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://up8.wang</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br></pre></td></tr></table></figure></p>
-<h5 id="5-Set-information-to-use-Git"><a href="#5-Set-information-to-use-Git" class="headerlink" title="5. Set information to use Git"></a>5. Set information to use Git</h5><p><a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">https://github.com/hexojs/hexo-deployer-git</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Deployment</span><br><span class="line">## Docs: http://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/felix-cao/felix-cao.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<h5 id="6-Set-“watch”-before-starting-your-work"><a href="#6-Set-“watch”-before-starting-your-work" class="headerlink" title="6. Set “watch” before starting your work"></a>6. Set “watch” before starting your work</h5><p>“watch” command can monitor your files.<br><a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">https://hexo.io/docs/generating.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate --watch</span><br></pre></td></tr></table></figure></p>
-<h5 id="7-Create-a-new-post-file"><a href="#7-Create-a-new-post-file" class="headerlink" title="7. Create a new post file"></a>7. Create a new post file</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new first-post</span><br><span class="line">INFO  Created: ~/***/felix-cao.github.io/source/_posts/first-post.md</span><br></pre></td></tr></table></figure>
-<h5 id="8-Edit-the-above-file-with-Markdown-or-Hexo’s-Helper"><a href="#8-Edit-the-above-file-with-Markdown-or-Hexo’s-Helper" class="headerlink" title="8. Edit the above file with Markdown or Hexo’s Helper"></a>8. Edit the above file with Markdown or Hexo’s Helper</h5><p>Hexo’s Helper<br><a href="https://hexo.io/docs/helpers.html" target="_blank" rel="noopener">https://hexo.io/docs/helpers.html</a><br>I use Atom with “shift + control + m” when I use Markdown :-)<br><a href="https://atom.io/" target="_blank" rel="noopener">https://atom.io/</a></p>
-<h5 id="9-Delete-“source-posts-hello-world-md”"><a href="#9-Delete-“source-posts-hello-world-md”" class="headerlink" title="9. Delete “source/_posts/hello-world.md”"></a>9. Delete “source/_posts/hello-world.md”</h5><p>It’s not necessary to deploy.</p>
-<h5 id="10-Deploy-your-new-blog"><a href="#10-Deploy-your-new-blog" class="headerlink" title="10. Deploy your new blog!!"></a>10. Deploy your new blog!!</h5><p><a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">https://hexo.io/docs/deployment.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
-<p>After writting the above command, you can see your new blog on GitHub Pages.<br><a href="http://******.github.io/" target="_blank" rel="noopener">http://******.github.io/</a></p>
-<h5 id="11-Change-your-blog-theme"><a href="#11-Change-your-blog-theme" class="headerlink" title="11. Change your blog theme"></a>11. Change your blog theme</h5><p><a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="noopener">https://github.com/hexojs/hexo/wiki/Themes</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">For instance, How to use the following theme.</span><br><span class="line">https://hexo.io/hexo-theme-light/</span><br><span class="line"></span><br><span class="line">## Install it</span><br><span class="line">$ cd blog</span><br><span class="line">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</span><br><span class="line"></span><br><span class="line">## Update the above files</span><br><span class="line">$ themes/yilia</span><br><span class="line">$ git pull</span><br><span class="line"></span><br><span class="line">## Set information to use the theme</span><br><span class="line">$ cd ../</span><br><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: http://hexo.io/plugins/</span><br><span class="line">## Themes: http://hexo.io/themes/</span><br><span class="line">theme: yilia</span><br></pre></td></tr></table></figure></p>
-<h5 id="12-Create-a-new-page-file"><a href="#12-Create-a-new-page-file" class="headerlink" title="12. Create a new page file"></a>12. Create a new page file</h5><p><a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">https://hexo.io/docs/writing.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page aboutme</span><br><span class="line">INFO  Created: ~/***/felix-cao.github.io/source/aboutme/index.md</span><br><span class="line"></span><br><span class="line">$ cd source/aboutme/</span><br><span class="line"></span><br><span class="line">$ vi index.md</span><br></pre></td></tr></table></figure></p>
-<h5 id="13-部署自己的域名"><a href="#13-部署自己的域名" class="headerlink" title="13. 部署自己的域名"></a>13. 部署自己的域名</h5><p>接着你需要做的是在hexo根目录的source文件夹里创建CNAME文件，不带任何后缀，里面添加你的域名信息，如：up8.wang。实践证明如果此时你填写的是www.up8.wang那么以后你只能用www.up8.wang访问，而如果你填写的是up8.wang。那么用www.up8.wang和up8.wang访问都是可以的。重新清理hexo clean,并发布即可用新的域名访问。 </p>
-<h5 id="14-Use-Plugins"><a href="#14-Use-Plugins" class="headerlink" title="14. Use Plugins"></a>14. Use Plugins</h5><p><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="noopener">https://github.com/hexojs/hexo/wiki/Plugins</a></p>
-<p>Reprint: <a href="https://gist.github.com/btfak/18938572f5df000ebe06fbd1872e4e39#file-usehexo-md target=_blank" target="_blank" rel="noopener">btfak/useHexo.md</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/07/hexo-deploy-github-pages/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1382,10 +1207,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">install</a>
               </li>
              
               <li class="article-tag-list-item">
