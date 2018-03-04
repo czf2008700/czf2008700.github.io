@@ -151,6 +151,214 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-centos-jenkins" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/12/centos-jenkins/" class="archive-article-date">
+  	<time datetime="2017-10-12T07:05:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要讲述在Centos7.2系统下搭建Jenkins环境， 在上一篇文章讲述了<a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>，但是在实际应用中，性能很差。因此我决定去Docker,直接在Centos中安装。</p>
+<h5 id="安装Java-环境"><a href="#安装Java-环境" class="headerlink" title="安装Java 环境"></a>安装Java 环境</h5><ul>
+<li>下载JDK8<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracal JDK8</a></li>
+</ul>
+<p>下载后上传至服务器目录下/home/software</p>
+<ul>
+<li><p>解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">mkdir /usr/java</span><br><span class="line">mv jdk1.8.0_144 /usr/java/jdk1.8.0_144</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置java环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在文件的末尾增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_144</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br></pre></td></tr></table></figure></p>
+<p>保存退出后执行命令source /etc/profile, 使得新增的环境变量立即生效</p>
+<ul>
+<li>查看java环境变量是否生效<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@atlascca001 ~]# java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>也可以用javac看一看</p>
+<ul>
+<li>安装过程可能错误解析</li>
+</ul>
+<ol>
+<li>有时候在您的系统可能已经用RPM方式装了openjdk.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep java // 先查看</span><br><span class="line">rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.144-0.b01.el7_4.x86_64 // 对查看列表中的软件卸载</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h5><ul>
+<li><p>Jenkins默认用8080端口，先查下8080端口是否被占用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp|grep 8080</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置yum源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>jenkins.repo内容是这样：</p>
+<p>[jenkins]<br>name=Jenkins-stable<br>baseurl=<a href="http://pkg.jenkins.io/redhat-stable" target="_blank" rel="noopener">http://pkg.jenkins.io/redhat-stable</a><br>gpgcheck=1</p>
+<ul>
+<li>导入公钥</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装Jenkins</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins</span><br><span class="line">＃或者 加`-y`参数：回答全部问题为是</span><br><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Jenkins配置<br>vi /etc/rc.d/init.d/jenkins, 搜索candidates, 添加一行/usr/java/jdk1.8.0_144/bin/java<br>修改默认端口8080: vi /etc/sysconfig/jenkins, 搜索JENKINS_PORT。</p>
+</li>
+<li><p>安装过程错误解析<br>1). 选择Jenkins版本<br>  a). 列出jenkins所有版本</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --showduplicates list jenkins</span><br></pre></td></tr></table></figure>
+<p>  b). 安装2.70-1.1版本</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins-2.70-1.1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2). Job for jenkins.service failed because the control process exited with error code. See “systemctl status jenkins.service” and “journalctl -xe” for details.</p>
+<p>a). 执行 journalctl -xe， 我们发现</p>
+<p>error: Could not load host key: /etc/ssh/ssh_host_dsa_key, 显然是没有SSH KEY造成的，<br>解决：  ssh-keygen  -t  rsa -C “user-id@cisco.com”</p>
+<p>b). 执行 journalctl -xe， 我们发现<br>Caused by: java.lang.UnsatisfiedLinkError: /tmp/jna–1712433994/jna1777215790425700984<br>这个问题花了我2天的时间，最终在<a href="https://support.cloudbees.com/hc/en-us/articles/215281717-Jenkins-fails-to-start-with-JNA-error" target="_blank" rel="noopener">Jenkins fails to start with JNA error</a>找到了解决方案<br>解决：vi /etc/fstab<br>As root, edit /etc/fstab configuration file and remove noexec from the mount option of /tmp directory. Then run:<br>mount -o remount /tmp</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/12/centos-jenkins/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jenkins-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/10/jenkins-base-on-docker/" class="archive-article-date">
+  	<time datetime="2017-10-10T06:55:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;本篇开始之前，新手还是阅读一下 <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>, <a href="https://jenkins.io/index.html" target="_blank" rel="noopener">Jenkins官网</a></p>
+<h5 id="Jenkins简介"><a href="#Jenkins简介" class="headerlink" title="Jenkins简介"></a>Jenkins简介</h5><p>&emsp;&emsp;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。我们主要用它来构建一个自动化的持续集成环境来“自动化”编译、打包、分发部署你的应用。</p>
+<h5 id="基于Docker的Jenkins镜像搭建jenkins"><a href="#基于Docker的Jenkins镜像搭建jenkins" class="headerlink" title="基于Docker的Jenkins镜像搭建jenkins"></a>基于Docker的Jenkins镜像搭建jenkins</h5><ul>
+<li><p>创建 /home/jenkins_home, 用于挂载（挂载的目的是持久化Jenkins配置数据）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir jenkins_home</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拉取Jenkins镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动jenkins Docker 在8080端口 （如果已经被占用，可以换成对应其他的端口）</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -p 50000:50000 --privileged=true -v /home/jenkins_home:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
+<p>备注：</p>
+<p>1). 可能会报错：</p>
+<blockquote>
+<p>touch: cannot touch ‘/var/jenkins_home/copy_reference_file.log’: Permission denied<br>Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?</p>
+</blockquote>
+<p>解决方法：把jenkins_home文件夹给jenkins用户操作权限， 参考<a href="http://blog.csdn.net/yulei_qq/article/details/53228601" target="_blank" rel="noopener">Docker Volume之权限管理</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /home/jenkins_home</span><br></pre></td></tr></table></figure></p>
+<p>2). 有时候，由于网络等因素导致有些插件安装不成功，耐心retry几次就OK了。</p>
+<h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
+<p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/10/jenkins-base-on-docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-nginx-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -856,226 +1064,6 @@
 
 
   
-    <article id="post-timezoneDropdown" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/timezoneDropdown/">How to implement timezone dropdown with moment.js?</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/07/timezoneDropdown/" class="archive-article-date">
-  	<time datetime="2017-08-07T03:35:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://ojlty2hua.qnssl.com/image-1502097193722-MTIzLmdpZg==.gif?imageMogr2/auto-orient/thumbnail/x300/blur/1x0/quality/75|watermark/2/text/RmVsaXggQ2Fv/font/5a6L5L2T/fontsize/280/fill/I0VFRUVFRQ==/dissolve/75/gravity/SouthEast/dx/10/dy/10|imageslim" alt="timeZone Dropdown"></p>
-<h5 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h5><p> <a href="http://up8.wang/demo/timezoneDropdownDemo">Demo</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/07/timezoneDropdown/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-keyboard-shortcuts-webstorm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/27/keyboard-shortcuts-webstorm/">Keyboard Shortcuts for WebStorm(MAC)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/27/keyboard-shortcuts-webstorm/" class="archive-article-date">
-  	<time datetime="2017-07-27T03:16:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h5><ol>
-<li>Command+alt+T 用 (if..else, try..catch, for, etc.)包住</li>
-<li>Command+/ 注释/取消注释的行注释</li>
-<li>Command+alt+/ 注释/取消注释与块注释</li>
-<li>alt+↑ 向上选取代码块</li>
-<li>alt+↓ 向下选取代码块</li>
-<li>Command+alt+L 格式化代码</li>
-<li>tab,shift+tab 调整缩进</li>
-<li>Control+alt+I 快速调整缩进</li>
-<li>Command+C 复制</li>
-<li>Command+X 剪切</li>
-<li>Command+V 粘贴</li>
-<li>Command+shift+V 从剪贴板里选择粘贴</li>
-<li>Command+D 复制代码副本</li>
-<li>Command+delete 删除当前行</li>
-<li>Control+Shift+J 清除缩进变成单行</li>
-<li>shift+回车 快速换行</li>
-<li>Command+回车 换行光标还在原先位置</li>
-<li>Command+shift+U 大小写转换</li>
-<li>Command+shift+[,Command+shift+] 文件选项卡快速切换</li>
-<li>Command+加号,Command+减号 收缩代码块</li>
-<li>Command+shift+加号，Command+shift+减号 收缩整个文档的代码块</li>
-<li>Command+W 关闭当前文件选项卡</li>
-<li>alt+单击 光标在多处定位</li>
-<li>Control+shift+J 把下面行的缩进收上来</li>
-<li>shift + F6 高级修改，可快速修改光标所在的标签、变量、函数等</li>
-<li>alt+/ 代码补全</li>
-</ol>
-<h5 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h5><ol>
-<li>Control+alt+R 运行项目</li>
-<li>Command+Control+R 运行Debug</li>
-<li>Command+F8 添加断点</li>
-<li>Command+shift+F8 打开断点列表</li>
-</ol>
-<h5 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h5><ol>
-<li>Command+O 跳转到某个类</li>
-<li>Command+shift+O 跳转到某个文件</li>
-<li>Command+alt+O 跳转到某个符号</li>
-<li>Control+←,Control+→ 转到上/下一个编辑器选项卡</li>
-<li>F12 打开之前打开的工具窗口（TODO、终端等）</li>
-<li>Command+L 跳转行</li>
-<li>Command+E 弹出最近文件</li>
-<li>Command+alt+←,Command+alt+→ 向前向后导航到代码块交接处（一般是空行处）</li>
-<li>Command+shift+delete 导航到上一个编辑位置的位置</li>
-<li>Command+B 跳转到变量声明处</li>
-<li>Control+J 获取变量相关信息（类型、注释等，注释是拿上一行的注释）</li>
-<li>Command+Y 小浮窗显示变量声明时的行</li>
-<li>Command+[,Command+] 光标现在的位置和之前的位置切换</li>
-<li>Command+F12 文件结构弹出式菜单</li>
-<li>alt+H 类的层次结构</li>
-<li>F2,shift+F2 切换到上\下一个突出错误的位置</li>
-<li>Command+↑ 跳转到导航栏</li>
-<li>F3 添加书签</li>
-<li>alt+F3 添加带助记的书签</li>
-<li>alt+1,alt+2… 切换到相应助记的书签位置</li>
-<li>Command+F3 打开书签列表</li>
-</ol>
-<h5 id="VCS-本地历史记录"><a href="#VCS-本地历史记录" class="headerlink" title="VCS/本地历史记录"></a>VCS/本地历史记录</h5><ol>
-<li>control+V 打开VST小浮窗</li>
-<li>Command+K 提交项目</li>
-<li>Command+T 更新项目</li>
-<li>alt+shift+C 打开最近修改列表</li>
-</ol>
-<h5 id="搜索和替换"><a href="#搜索和替换" class="headerlink" title="搜索和替换"></a>搜索和替换</h5><ol>
-<li>Command+F 搜索</li>
-<li>Command+R 替换</li>
-<li>Command+G 查找下一个</li>
-<li>Command+shift+G 查找下一个</li>
-<li>Command+shift+F 按路径搜索</li>
-<li>Command+shift+R 按路径替换</li>
-</ol>
-<h5 id="选中文字的搜索"><a href="#选中文字的搜索" class="headerlink" title="选中文字的搜索"></a>选中文字的搜索</h5><ol>
-<li>Command+F7 向声明的地方搜索并选中</li>
-<li>Command+shift+F7 打开搜索框进行搜索</li>
-<li>Command+alt+F7 打开小浮窗显示搜索列表</li>
-</ol>
-<h5 id="对项目文件的操作（重构）"><a href="#对项目文件的操作（重构）" class="headerlink" title="对项目文件的操作（重构）"></a>对项目文件的操作（重构）</h5><ol>
-<li>F5 复制文件到某个目录</li>
-<li>F6 移动文件到某个目录</li>
-<li>Command+delete 安全删除</li>
-<li>shift+F6 重命名</li>
-</ol>
-<h5 id="全局的"><a href="#全局的" class="headerlink" title="全局的"></a>全局的</h5><ol>
-<li>双击shift 弹出小浮窗搜索所有</li>
-<li>Command+切换项目 Command+shift+ 反向切换项目</li>
-<li>Command+shift+A 整个工程的查找操作</li>
-<li>Command+1,Command+2… 打开各种工具窗口</li>
-<li>alt+shift+F 把文件添加到收藏夹</li>
-<li>alt+shift+I 打开项目描述</li>
-<li>alt+~ 快速切换当前计划</li>
-<li>Command+, 设置编辑器</li>
-<li>Control+Tab 选项卡和工具窗口之间进行切换</li>
-<li>alert+回车 显示npm版本升级列表</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/27/keyboard-shortcuts-webstorm/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1206,15 +1194,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
             
             <div class="clearfix"></div>

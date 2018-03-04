@@ -151,6 +151,192 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-variable-primitive-value" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/06/js-variable-primitive-value/" class="archive-article-date">
+  	<time datetime="2017-12-06T00:48:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 <a href="https://en.wikipedia.org/wiki/Type_system" target="_blank" rel="noopener">类型系统（Type System）</a></p>
+<blockquote>
+<p>变量本身数据类型不固定的语言称之为动态语言。<br>与之相反的是静态类型的编程语言，指的是在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。</p>
+</blockquote>
+<p>&emsp;&emsp;JavaScript的变量的数据类型可以分为两类：<strong>基本类型(Primitive Values)和引用类型(Reference Values)</strong>, 也有其他的叫法。 引用类型请移步 <a href="/2018/02/09/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a><br>&emsp;&emsp;基本类型主要有五种： String, Number, Boolean, Null, undefined（ES6新增了Symbol ）。其访问方式是按值访问的，就是说你可以操作保存在变量中的实际值。基本类型的数据类型有以下4个特点：</p>
+<h5 id="基本类型的值是不可变的"><a href="#基本类型的值是不可变的" class="headerlink" title="基本类型的值是不可变的"></a>基本类型的值是不可变的</h5><p>&emsp;&emsp; 任何方法都无法改变一个基本类型的值，比如一个字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;jozo&apos;;</span><br><span class="line">name.toUpperCase(); // 输出 &apos;JOZO&apos;</span><br><span class="line">console.log(name); // 输出  &apos;jozo&apos;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 上面的代码，我们可以看到name的值在toUpperCase后并未发生改变。toUpperCase返回的是一个新的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &apos;jozo&apos;;</span><br><span class="line">person.age = 22;</span><br><span class="line">person.method = function()&#123;//...&#125;;</span><br><span class="line"> </span><br><span class="line">console.log(person.age); // undefined</span><br><span class="line">console.log(person.method); // undefined</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 通过上面的代码可知，我们不能给基本类型的数据添加属性和方法，再次说明基本类型的数据是不可变的。</p>
+<h5 id="基本类型的比较是值的比较"><a href="#基本类型的比较是值的比较" class="headerlink" title="基本类型的比较是值的比较"></a>基本类型的比较是值的比较</h5><p>&emsp;&emsp; 只有在他们的值相等的时候它们才相等。 也许你会遇见这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br><span class="line">var b = true;</span><br><span class="line">console.log(a == b); // true</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 它们不是相等吗？其实这是类型转换和 == 运算符的知识了，也就是说在用==比较两个不同类型的变量时会进行一些类型转换。像上面的比较先会把a的数字1<br>转换为true再和数字b进行比较，结果就是true了。 这是当比较的两个值的类型不同的时候==运算符会进行类型转换，但是当两个值的类型相同的时候，<br>即使是==也相当于是===。</p>
+<h5 id="基本类型的变量是存放在栈区的（栈区指内存中的栈内存）"><a href="#基本类型的变量是存放在栈区的（栈区指内存中的栈内存）" class="headerlink" title="基本类型的变量是存放在栈区的（栈区指内存中的栈内存）"></a>基本类型的变量是存放在栈区的（栈区指内存中的栈内存）</h5><p>&emsp;&emsp; 假如有以下几个基本类型的变量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;jozo&apos;;</span><br><span class="line">var city = &apos;guangzhou&apos;;</span><br><span class="line">var age = 22;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp; 那么它的存储结构如下图：</p>
+<p><img src="/images/js-variable-data-type-01.png" width="400"></p>
+<p>&emsp;&emsp; 栈区包括了变量的标识符和变量的值。</p>
+<h5 id="typeOf类型判断"><a href="#typeOf类型判断" class="headerlink" title="typeOf类型判断"></a>typeOf类型判断</h5><p>&emsp;&emsp; 基本数据类型的数据类型检测使用typeOf()函数。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Primitive" target="_blank" rel="noopener">Primitive – from MDN web docs</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures" target="_blank" rel="noopener">JavaScript data types and data structures – from MDN web docs</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/06/js-variable-primitive-value/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/04/js-short-circuit-logic/">JS中的逻辑运算符和短路表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/04/js-short-circuit-logic/" class="archive-article-date">
+  	<time datetime="2017-12-04T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>逻辑运算 Logical operators<br>短路计算 Short-circuit evaluation</p>
+<blockquote>
+<p>短路表达式，JS逻辑计算有一个短路计算原则, MDN描述如下：由于逻辑表达式的运算的顺序是从左到右的，利用其规则进行“短路”运算。</p>
+</blockquote>
+<h5 id="JS逻辑运算符的说明："><a href="#JS逻辑运算符的说明：" class="headerlink" title="JS逻辑运算符的说明："></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank" rel="noopener">JS逻辑运算符</a>的说明：</h5><table>
+<thead>
+<tr>
+<th>运算法</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逻辑与(&amp;&amp;)</td>
+<td>expr1 &amp;&amp; expr2</td>
+<td>如果expr1 能转换成false则返回expr1,否则返回expr2<br>因此, 在Boolean环境中使用时, 两个操作结果都为true时返回true,否则返回false.</td>
+</tr>
+<tr>
+<td>逻辑或(ll)</td>
+<td>expr1 ll expr2</td>
+<td>如果expr1能转换成true则返回expr1,否则返回expr2.<br> 因此,在boolean环境(在if的条件判断中)中使用时, 二者操作结果中只要有一个为true,返回true;<br>二者操作结果都为false时返回false.</td>
+</tr>
+<tr>
+<td>逻辑非(!)</td>
+<td>!expr</td>
+<td>如果单个表达式能转换为true的话返回false,否则返回true.</td>
+</tr>
+</tbody>
+</table>
+<p>能够转换为false的表达式有:””(空字符串), 0和NaN, false, null, undefined.</p>
+<h5 id="短路计算-Short-circuit-evaluation"><a href="#短路计算-Short-circuit-evaluation" class="headerlink" title="短路计算 Short-circuit evaluation"></a>短路计算 Short-circuit evaluation</h5><p>由于逻辑表达式的运算的顺序是从左到右,也可以用以下规则进行”短路”计算:</p>
+<ul>
+<li>false &amp;&amp; (anything)  短路计算的结果为false.</li>
+<li>true || (anything)  短路计算的结果为 true</li>
+</ul>
+<p>理解为逻辑中断。<br>是否执行第二个语句（操作数）取决于第一个操作数的结果</p>
+<h5 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h5><ul>
+<li>在需要访问某个对象的属性时，使用这个特性可以事先检测该对象是否为空：var name = o &amp;&amp; o.getName();</li>
+<li>或运算可以用来设置默认值：var name = otherName || “default”;</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/04/js-short-circuit-logic/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-css-normal-flow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -752,214 +938,6 @@
 
 
   
-    <article id="post-centos-jenkins" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/12/centos-jenkins/" class="archive-article-date">
-  	<time datetime="2017-10-12T07:05:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要讲述在Centos7.2系统下搭建Jenkins环境， 在上一篇文章讲述了<a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>，但是在实际应用中，性能很差。因此我决定去Docker,直接在Centos中安装。</p>
-<h5 id="安装Java-环境"><a href="#安装Java-环境" class="headerlink" title="安装Java 环境"></a>安装Java 环境</h5><ul>
-<li>下载JDK8<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracal JDK8</a></li>
-</ul>
-<p>下载后上传至服务器目录下/home/software</p>
-<ul>
-<li><p>解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">mkdir /usr/java</span><br><span class="line">mv jdk1.8.0_144 /usr/java/jdk1.8.0_144</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置java环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>在文件的末尾增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_144</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br></pre></td></tr></table></figure></p>
-<p>保存退出后执行命令source /etc/profile, 使得新增的环境变量立即生效</p>
-<ul>
-<li>查看java环境变量是否生效<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@atlascca001 ~]# java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>也可以用javac看一看</p>
-<ul>
-<li>安装过程可能错误解析</li>
-</ul>
-<ol>
-<li>有时候在您的系统可能已经用RPM方式装了openjdk.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep java // 先查看</span><br><span class="line">rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.144-0.b01.el7_4.x86_64 // 对查看列表中的软件卸载</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h5><ul>
-<li><p>Jenkins默认用8080端口，先查下8080端口是否被占用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp|grep 8080</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置yum源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>jenkins.repo内容是这样：</p>
-<p>[jenkins]<br>name=Jenkins-stable<br>baseurl=<a href="http://pkg.jenkins.io/redhat-stable" target="_blank" rel="noopener">http://pkg.jenkins.io/redhat-stable</a><br>gpgcheck=1</p>
-<ul>
-<li>导入公钥</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装Jenkins</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins</span><br><span class="line">＃或者 加`-y`参数：回答全部问题为是</span><br><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Jenkins配置<br>vi /etc/rc.d/init.d/jenkins, 搜索candidates, 添加一行/usr/java/jdk1.8.0_144/bin/java<br>修改默认端口8080: vi /etc/sysconfig/jenkins, 搜索JENKINS_PORT。</p>
-</li>
-<li><p>安装过程错误解析<br>1). 选择Jenkins版本<br>  a). 列出jenkins所有版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --showduplicates list jenkins</span><br></pre></td></tr></table></figure>
-<p>  b). 安装2.70-1.1版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins-2.70-1.1</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>2). Job for jenkins.service failed because the control process exited with error code. See “systemctl status jenkins.service” and “journalctl -xe” for details.</p>
-<p>a). 执行 journalctl -xe， 我们发现</p>
-<p>error: Could not load host key: /etc/ssh/ssh_host_dsa_key, 显然是没有SSH KEY造成的，<br>解决：  ssh-keygen  -t  rsa -C “user-id@cisco.com”</p>
-<p>b). 执行 journalctl -xe， 我们发现<br>Caused by: java.lang.UnsatisfiedLinkError: /tmp/jna–1712433994/jna1777215790425700984<br>这个问题花了我2天的时间，最终在<a href="https://support.cloudbees.com/hc/en-us/articles/215281717-Jenkins-fails-to-start-with-JNA-error" target="_blank" rel="noopener">Jenkins fails to start with JNA error</a>找到了解决方案<br>解决：vi /etc/fstab<br>As root, edit /etc/fstab configuration file and remove noexec from the mount option of /tmp directory. Then run:<br>mount -o remount /tmp</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/12/centos-jenkins/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jenkins-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/10/jenkins-base-on-docker/" class="archive-article-date">
-  	<time datetime="2017-10-10T06:55:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;本篇开始之前，新手还是阅读一下 <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>, <a href="https://jenkins.io/index.html" target="_blank" rel="noopener">Jenkins官网</a></p>
-<h5 id="Jenkins简介"><a href="#Jenkins简介" class="headerlink" title="Jenkins简介"></a>Jenkins简介</h5><p>&emsp;&emsp;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。我们主要用它来构建一个自动化的持续集成环境来“自动化”编译、打包、分发部署你的应用。</p>
-<h5 id="基于Docker的Jenkins镜像搭建jenkins"><a href="#基于Docker的Jenkins镜像搭建jenkins" class="headerlink" title="基于Docker的Jenkins镜像搭建jenkins"></a>基于Docker的Jenkins镜像搭建jenkins</h5><ul>
-<li><p>创建 /home/jenkins_home, 用于挂载（挂载的目的是持久化Jenkins配置数据）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir jenkins_home</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>拉取Jenkins镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动jenkins Docker 在8080端口 （如果已经被占用，可以换成对应其他的端口）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -p 50000:50000 --privileged=true -v /home/jenkins_home:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
-<p>备注：</p>
-<p>1). 可能会报错：</p>
-<blockquote>
-<p>touch: cannot touch ‘/var/jenkins_home/copy_reference_file.log’: Permission denied<br>Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?</p>
-</blockquote>
-<p>解决方法：把jenkins_home文件夹给jenkins用户操作权限， 参考<a href="http://blog.csdn.net/yulei_qq/article/details/53228601" target="_blank" rel="noopener">Docker Volume之权限管理</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /home/jenkins_home</span><br></pre></td></tr></table></figure></p>
-<p>2). 有时候，由于网络等因素导致有些插件安装不成功，耐心retry几次就OK了。</p>
-<h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
-<p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
-<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/10/jenkins-base-on-docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1090,15 +1068,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
             
             <div class="clearfix"></div>

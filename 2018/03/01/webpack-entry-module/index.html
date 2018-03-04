@@ -17,7 +17,7 @@
 <meta property="og:description" content="安装 http-server1npm i http-server 一、 入口首先创建一个静态页面index.html和一个JavaScript入口文件main.js index.html123456789&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;  &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;  &amp;lt;script src=&amp;quot;app.js&amp;quot">
 <meta property="og:image" content="http://up8.wang/images/webpack-entry-module-01.png">
 <meta property="og:image" content="http://up8.wang/images/webpack-entry-module-02.png">
-<meta property="og:updated_time" content="2018-03-02T03:11:09.000Z">
+<meta property="og:updated_time" content="2018-03-04T08:47:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack入门三：入口与模块">
 <meta name="twitter:description" content="安装 http-server1npm i http-server 一、 入口首先创建一个静态页面index.html和一个JavaScript入口文件main.js index.html123456789&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;  &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;  &amp;lt;script src=&amp;quot;app.js&amp;quot">
@@ -196,6 +196,7 @@
 <p>打包过程显示的日志：</p>
 <p><img src="/images/webpack-entry-module-02.png" width="400"></p>
 <p>Webpack 会分析入口文件，解析包含依赖关系的各个文件。这些文件（模块）都打包到 app.js 。Webpack 会给每个模块分配一个唯一的 id 并通过这个 id 索引和访问模块。在页面启动时，会先执行 main.js 中的代码，其它模块会在运行 require 的时候再执行。</p>
+<p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/03-entry-module" target="_blank" rel="noopener">源码</a></p>
 
       
 
@@ -470,15 +471,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
             
             <div class="clearfix"></div>
