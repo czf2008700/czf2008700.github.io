@@ -151,6 +151,182 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-centos-self-reboot" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/15/centos-self-reboot/">Centos开机启动自己的脚本</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/15/centos-self-reboot/" class="archive-article-date">
+  	<time datetime="2017-10-15T03:08:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="Create-一个脚本myService-sh"><a href="#Create-一个脚本myService-sh" class="headerlink" title="Create 一个脚本myService.sh"></a>Create 一个脚本myService.sh</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">touch myService.sh</span><br></pre></td></tr></table></figure>
+<h5 id="在脚本中输入启动服务的命令"><a href="#在脚本中输入启动服务的命令" class="headerlink" title="在脚本中输入启动服务的命令"></a>在脚本中输入启动服务的命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start jenkins</span><br></pre></td></tr></table></figure>
+<h5 id="添加可执行权限"><a href="#添加可执行权限" class="headerlink" title="添加可执行权限"></a>添加可执行权限</h5><p>chmod +x ./myService.sh</p>
+<h5 id="两种方法自启动"><a href="#两种方法自启动" class="headerlink" title="两种方法自启动"></a>两种方法自启动</h5><ul>
+<li>/etc/rc.d/rc.local里</li>
+</ul>
+<p>1). 打开/etc/rc.d/rc.local文件，在末尾增加如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/myService.sh</span><br></pre></td></tr></table></figure>
+<p>2). 在centos7中，/etc/rc.d/rc.local的权限被降低了，所以需要执行如下命令赋予其可执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/15/centos-self-reboot/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jenkins-github-push" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/14/jenkins-github-push/">Jenkins自动化部署(Github之Push)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/14/jenkins-github-push/" class="archive-article-date">
+  	<time datetime="2017-10-14T01:19:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;前面我们已经讲过Jenkins的安装，<a href="http://up8.wang/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a> 和 <a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>, 建议先在Centos下搭建Jenkins环境。本篇主要讲解一下如何利用Jenkins进行简单的自动化部署。</p>
+<p>我要实现的目标是这样的：</p>
+<blockquote>
+<p>在Team内部我们使用Github这个平台管理Code, 团队里的每个人都要push自己的Code(具体的流程，抽时间来讲讲)，我希望每次push Code时，能自动部署到我的测试环境中以便实时测试新feature.</p>
+</blockquote>
+<p>在进行下面的步骤之前请安装好git。最好使用Safari浏览器(我在Chrome下出现错误直接至卡死)</p>
+<ul>
+<li><p>安装Github Integration Plugin<br><img src="/images/jenkins-github-push-0.gif" width="700"> </p>
+</li>
+<li><p>配置Github中Hooks &amp; services</p>
+</li>
+</ul>
+<p>Jenkins hook url 格式为 ： /github-webhook/</p>
+<p><img src="/images/jenkins-github-push-0-1.gif" width="700"></p>
+<ul>
+<li>配置Github中的Display keys</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">ssh-keygen // 一路回车</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub //获取key</span><br></pre></td></tr></table></figure>
+<p>打开自己在Github中的仓库，点击右上角的setting –&gt; Display keys, 输入刚才获取到的key.</p>
+<ul>
+<li>检测Jenkins是否可以访问Github</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">cd /var/lib/jenkins/.ssh</span><br><span class="line">ssh git@github.com //</span><br></pre></td></tr></table></figure>
+<p>如果jenkins成功访问Github,则提示如下信息</p>
+<blockquote>
+<p>Warning: Permanently added the RSA host key for IP address ‘{YOUR_SERVER_IP}’ to the list of known hosts.<br>PTY allocation request failed on channel 0<br>Hi marcbest/medium-jenkins-git-tut! You’ve successfully authenticated, but GitHub does not provide shell access.<br>Connection to github.com closed.</p>
+</blockquote>
+<ul>
+<li>进入Jenkins, 创建item</li>
+</ul>
+<p><img src="/images/jenkins-github-push-1.gif" width="700"></p>
+<ul>
+<li>Job配置</li>
+</ul>
+<p><img src="/images/jenkins-github-push-2.gif" width="700"></p>
+<p>总结：</p>
+<p>1）. Jenkins安装后，会在Centos中自动创建一个用户jenkins, 可以通过命令cat /etc/passwd | grep jenkins查看</p>
+<blockquote>
+<p>jenkins:x:497:188:Jenkins Automation Server:/var/lib/jenkins:/bin/false</p>
+</blockquote>
+<p>2）. 执行命令ssh-keygen 和 ssh git@github.com 务必以jenkins身份登录到centos中<br>3）. 对于Github Enterprise级的用户， 有可能会自定义域名point at Github, 因此执行ssh git@github.com， 要换成自己的domain.</p>
+<p>好了，可以去试试push到自己的repository去看看了。</p>
+<p>Jenkins的功能非常强大，对于持续集成（Continuous Integration, 简称CI）持续部署(Continuous Deploy, 简称CD)的配置也是相当的复杂，由于精力和知识有限，本文仅仅起到抛砖引玉之作用。后面将抽时间整理一下jenkins的pipeline以及如何用jenkins自动化部署前端代码。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/14/jenkins-github-push/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-centos-jenkins" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -898,172 +1074,6 @@
 
 
   
-    <article id="post-etlKettleBased" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/09/etlKettleBased/">ETL利器kettle基础</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/09/etlKettleBased/" class="archive-article-date">
-  	<time datetime="2017-08-09T09:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="ETL（Extract-Transform-Load"><a href="#ETL（Extract-Transform-Load" class="headerlink" title="ETL（Extract-Transform-Load)"></a>ETL（Extract-Transform-Load)</h5><ul>
-<li><p>ETL，是英文 Extract-Transform-Load 的缩写，用来描述将数据从来源端经过抽取（extract）、转换（transform）、加载（load）至目的端的过程。ETL一词较常用在数据仓库，但其对象并不限于数据仓库。</p>
-</li>
-<li><p>ETL是构建数据仓库的重要一环，用户从数据源抽取出所需的数据，经过数据清洗,最终按照预先定义好的数据仓库模型，将数据加载到数据仓库中去。</p>
-</li>
-</ul>
-<h5 id="Kettle概念"><a href="#Kettle概念" class="headerlink" title="Kettle概念"></a>Kettle概念</h5><ul>
-<li><p>Kettle是一款国外开源的ETL工具，纯java编写，可以在Window、Linux、Unix上运行，绿色无需安装，数据抽取高效稳定。</p>
-</li>
-<li><p>Kettle 中文名称叫水壶，该项目的主程序员MATT希望把各种数据放到一个壶里，然后以一种指定的格式流出。</p>
-</li>
-<li><p>Kettle这个ETL工具集，它允许你管理来自不同数据库的数据，通过提供一个图形化的用户环境来描述你想做什么，而不是你想怎么做。</p>
-</li>
-<li><p>Kettle中有两种脚本文件，transformation和job，transformation完成针对数据的基础转换，job则完成整个工作流的控制。</p>
-</li>
-<li><p>Kettle组件：</p>
-<ul>
-<li>Spoon.sh: 图形界面方式启动左右和转换设计器</li>
-<li>Pan.sh 命令行方式执行转换 </li>
-<li>Kitchen.sh 命令行方式执行作业</li>
-<li>Carte.sh 启动web服务， 用于Kettle的远程运行和集群运行。</li>
-</ul>
-</li>
-</ul>
-<h5 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h5><ul>
-<li><p>下载： <a href="http://community.pentaho.com/projects/data-integration/" target="_blank" rel="noopener">http://community.pentaho.com/projects/data-integration/</a></p>
-</li>
-<li><p>安装：因kettle为绿色软件，解压缩到任意本地路径即可， 到该路径下执行相应的脚本， 如 ./spoon.sh</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/09/etlKettleBased/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-gmt-utc-dst-timezone" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/08/gmt-utc-dst-timezone/">GMT UTC DST and time zone</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/08/gmt-utc-dst-timezone/" class="archive-article-date">
-  	<time datetime="2017-08-08T03:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="GMT-–-Greenwich-Mean-Time"><a href="#GMT-–-Greenwich-Mean-Time" class="headerlink" title="GMT – Greenwich Mean Time"></a>GMT – Greenwich Mean Time</h5><ul>
-<li><p>Greenwich Mean Time or GMT is the clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.</p>
-</li>
-<li><p>GMT is still widely used as the standard time against which all the other time zones in the world are referenced.</p>
-</li>
-</ul>
-<h5 id="Time-Zone"><a href="#Time-Zone" class="headerlink" title="Time Zone"></a>Time Zone</h5><p>There are 25 integer World Time Zones from -12 through 0 (GMT) to +12. Each one is 15° of Longitude as measured East and West from the Prime Meridian of the World at Greenwich, England. Some countries have adopted non-standard time zones, usually 30 minutes offset which have a * designation.</p>
-<p><img src="https://ojlty2hua.qnssl.com/image-1502162724224-MS5naWY=.gif?imageMogr2/auto-orient/blur/1x0/quality/75|watermark/2/text/RmVsaXggQ2Fv/font/5a6L5L2T/fontsize/480/fill/IzAwMDAwMA==/dissolve/50/gravity/SouthEast/dx/10/dy/10|imageslim" alt="Time Zone"></p>
-<h5 id="UTC-–-Coordinated-Universal-Time-Standard-Time"><a href="#UTC-–-Coordinated-Universal-Time-Standard-Time" class="headerlink" title="UTC – Coordinated Universal Time (Standard Time)"></a>UTC – Coordinated Universal Time (Standard Time)</h5><ul>
-<li>is the primary time standard by which the world regulates clocks and time. It is within about 1 second of mean solar time at 0° longitude;[1] it does not observe daylight saving time. For most purposes, UTC is considered interchangeable with Greenwich Mean Time (GMT), but GMT is no longer precisely defined by the scientific community.</li>
-</ul>
-<h5 id="DST-–-Daylight-saving-time-Summer-time"><a href="#DST-–-Daylight-saving-time-Summer-time" class="headerlink" title="DST – Daylight saving time/Summer time"></a>DST – Daylight saving time/Summer time</h5><p>Daylight Saving Time (DST) is the practice of setting the clocks forward 1 hour from standard time during the summer months, and back again in the fall, in order to make better use of natural daylight.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/08/gmt-utc-dst-timezone/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1194,6 +1204,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
@@ -1202,7 +1216,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
             
             <div class="clearfix"></div>

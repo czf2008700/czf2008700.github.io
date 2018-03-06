@@ -151,6 +151,175 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-this-bind" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/23/js-this-bind/" class="archive-article-date">
+  	<time datetime="2018-01-23T06:44:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的<strong>this在运行期进行的绑定</strong>，这是JavaScript中this关键词具备多重含义的本质原因。</p>
+<p>&emsp;&emsp;人们对JavaScript中this的绑定常常有两个误解，一是指向函数本身，二是指向函数作用域，这两种想法都是错误的。<strong>this并不指向函数本身，也不指向函数作用域</strong></p>
+<p>&emsp;&emsp;由于JavaScript中this在运行期进行绑定的特性，因此this可以<strong>指向全局对象，指向新创建的对象，指向dot之前的对象</strong>，这个完全取决于函数的调用方式。JavaScript函数的调用有以下几种方式：普通函数调用，构造函数调用，对象方法调用，和使用call和apply调用。</p>
+<h5 id="普通函数调用（指向全局对象）"><a href="#普通函数调用（指向全局对象）" class="headerlink" title="普通函数调用（指向全局对象）"></a>普通函数调用（指向全局对象）</h5><p>  在JavaScript中，最常见的函数调用类型就是普通函数调用，也就是“光秃秃”的调用this默认指向的是全局作用域。这条作为<strong>默认绑定规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function up8Wang() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.local: &apos;, this.local);</span><br><span class="line">&#125;</span><br><span class="line">var local = &quot;In global&quot;;</span><br><span class="line">up8Wang(); // this绑定了window, 输出“In global”</span><br></pre></td></tr></table></figure>
+<p><strong>默认绑定里的严格模式</strong><br>&emsp;&emsp;在普通函数调用方式之前加上’use strict’, 则this不能绑定到全局对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;</span><br><span class="line">function up8Wang() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.local: &apos;, this.local);</span><br><span class="line">&#125;</span><br><span class="line">var local = &quot;In global&quot;;</span><br><span class="line">up8Wang(); //Uncaught TypeError: Cannot read property &apos;local&apos; of undefined</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;可以看出，在严格模式下，普通函数调用中的this实际上指向的是<strong>undefined</strong></p>
+<h5 id="new-绑定-指向新创建的对象"><a href="#new-绑定-指向新创建的对象" class="headerlink" title="new 绑定(指向新创建的对象)"></a>new 绑定(指向新创建的对象)</h5><p>&emsp;&emsp;通过new操作符调用构造函数时发生的this绑定，关于构造函数，请移步阅读 <a href="http://up8.wang/2017/12/26/js-constructor/">JavaScript构造函数(constructor)</a> 一文。在这篇文章中有段代码，我们拿过来继续分析分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age) &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    onsole.log(this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面定义的Person函数，既可以作普通函数调用，又可以作构造函数调用，</p>
+<ul>
+<li><p>普通函数： 当作普通函数调用时this绑定在了全局对象window上，此时全局对象上增加了name和age属性, 还增加了getName方法(因此可以直接调用geName函数)，Person用作普通函数时，没有return语句，因此person2的值为undefined。</p>
+</li>
+<li><p>构造函数： person1对象是用new操作符调用构造函数Person创建的新对象，并且会把构造函数内的this绑定到这个对象上。</p>
+</li>
+</ul>
+<h5 id="对象方法调用的隐式绑定"><a href="#对象方法调用的隐式绑定" class="headerlink" title="对象方法调用的隐式绑定"></a>对象方法调用的隐式绑定</h5><p>&emsp;&emsp;如果函数有所谓的“落脚点”，即有上下文对象时，隐式绑定规则会把函数中的this绑定到这个上下文对象。通俗点讲<strong>函数作为对象的一个属性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;</span><br><span class="line">  name: &apos;up8&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person2 = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line">person1.getName();</span><br><span class="line">person2.getName();</span><br><span class="line"></span><br><span class="line">function getName() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;上面的代码利用对象字面量创建的对象person1和person2对象就是getName函数的<strong>落脚点</strong>， 专业一点的说法就是上下文对象。</p>
+<p><strong>隐式绑定中的上下文丢失</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;up8--global&apos;</span><br><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line">var personName = person.getName // 设置一个简写 s1</span><br><span class="line">personName(); // up8--global s2</span><br><span class="line"></span><br><span class="line">function getName() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;输出的结果是up8–global， 在s1的位置，我们只是给person.getName换了个personName名字。就是这个换名赋值语句操作出事的，因为在javascript中，函数是对象，对象之间是引用传递而不是传值传递， 因此s1位置的赋值实际上是这样的： personName = person.getName = getName, personName = getName, personName最终引用的是getName函数的地址，而与person对象无关了，这就是所谓的丢失上下文。</p>
+<h5 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h5><p>&emsp;&emsp;JavaScript为每个函数提供三种显示绑定的方法： apply, call, bind, 而bind则返回一个新函数。关于三者的具体用法，请移步 <a href="/2018/01/25/js-call-apply-bind/">JavaScript函数的call/apply/bind方法</a>。</p>
+<h5 id="箭头函数中的this绑定"><a href="#箭头函数中的this绑定" class="headerlink" title="箭头函数中的this绑定"></a>箭头函数中的this绑定</h5><p>&emsp;&emsp;箭头函数是ES6里一个重要特性，其this绑定规则跟以上四条都不一样，<strong>ES6的this遵循着JS的词法作用域, 而不是在运行期进行绑定</strong>， 本篇也不做详细介绍，回头拉出来一篇做专门介绍。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/23/js-this-bind/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-es6-module-load" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/es6-module-load/">ES6模块(Module)和CommonJS模块加载的实质。</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/es6-module-load/" class="archive-article-date">
+  	<time datetime="2018-01-12T09:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在 <a href="/2018/01/12/es6-module/">ES6模块(Module)</a> 里介绍了ES6中利用关键词export、import使用模块，在 <a href="/2018/01/12/js-commonjs/">CommonJS的模块规范</a> 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。</p>
+<blockquote>
+<p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
+</blockquote>
+<h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
+<p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  counter: function() &#123;</span><br><span class="line">  return counter</span><br><span class="line"> &#125;,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p>
+<h5 id="ES6模块是动态引用，并且不会缓存值"><a href="#ES6模块是动态引用，并且不会缓存值" class="headerlink" title="ES6模块是动态引用，并且不会缓存值"></a>ES6模块是动态引用，并且不会缓存值</h5><p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，不会去执行模块，而是只生成一个动态的只读引用。等到真的需要用到时，再到模块里面去取值，换句话说，ES6的输入有点像Unix系统的“符号连接”，原始值变了，import输入的值也会跟着变。因此，ES6模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
+<p>还是举上面的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let counter = 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &apos;./lib&apos;;</span><br><span class="line">console.log(counter); // 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); // 4</span><br></pre></td></tr></table></figure>
+<p>上面代码说明，ES6模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p>
+<p>由于ES6输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let obj = &#123;&#125;;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; obj &#125; from &apos;./lib&apos;;</span><br><span class="line">obj.prop = 123; // OK</span><br><span class="line">obj = &#123;&#125;; // TypeError</span><br></pre></td></tr></table></figure>
+<p>最后，export通过接口，输出的是同一个值。不同的脚本加载这个接口，得到的都是同样的实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// mod.js</span><br><span class="line">function C() &#123;</span><br><span class="line"> this.sum = 0;</span><br><span class="line"> this.add = function () &#123;</span><br><span class="line">  this.sum += 1;</span><br><span class="line"> &#125;;</span><br><span class="line"> this.show = function () &#123;</span><br><span class="line">  console.log(this.sum);</span><br><span class="line"> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">export let c = new C();</span><br></pre></td></tr></table></figure>
+<p>上面的脚本mod.js，输出的是一个C的实例。不同的脚本加载这个模块，得到的都是同一个实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// x.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.add();</span><br><span class="line">// y.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.show();</span><br><span class="line">// main.js</span><br><span class="line">import &apos;./x&apos;;</span><br><span class="line">import &apos;./y&apos;;</span><br></pre></td></tr></table></figure>
+<p>现在执行main.js，输出的是1。这就证明了x.js和y.js加载的都是C的同一个实例。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/es6-module-load/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-es6-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -852,174 +1021,6 @@
 
 
   
-    <article id="post-js-execution-context-stack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/js-execution-context-stack/">JavaScript执行上下文栈(Execution Context Stack简称ECS)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/18/js-execution-context-stack/" class="archive-article-date">
-  	<time datetime="2017-12-18T14:01:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  本文重点讲解JavaScript的执行上下文栈，顺带稍稍提了下执行上下文。</p>
-<ul>
-<li>执行上下文栈来管理执行上下文的顺序。</li>
-<li>JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(Execution Context简称EC)。</li>
-</ul>
-<h5 id="JavaScript代码是如何执行的"><a href="#JavaScript代码是如何执行的" class="headerlink" title="JavaScript代码是如何执行的"></a>JavaScript代码是如何执行的</h5><p>  JavaScript语言执行时是自上而下的，JavaScript执行程序的时候，会首先创建一个全局的执行上下文，将其放入栈中，成为栈底。而后每次执行一个函数的时候，都会去创建一个当前函数的执行上下文，然后将其压入栈中，当函数结束或者返回的时候，再从栈中弹出当前函数的执行上下文。</p>
-<h5 id="执行上下文的生命周期"><a href="#执行上下文的生命周期" class="headerlink" title="执行上下文的生命周期"></a>执行上下文的生命周期</h5><p>&emsp;&emsp;仔细琢磨<strong>JavaScript代码是如何执行的</strong>的描述，相信我们大家都可以看出一个执行上下文的生命周期通常包含三个发展阶段：创建阶段、代码执行阶段、执行完毕阶段。</p>
-<ul>
-<li>创建阶段：在这个阶段中，执行上下文会分别创建变量对象，建立作用域链，以及确定this的指向.</li>
-<li>代码执行阶段：创建完成之后，就会开始执行代码，这个时候，会完成变量赋值，函数引用，以及执行其他代码。</li>
-<li>执行完毕阶段：执行完毕之后，就会开始将执行上下文出栈，随后释放掉所占用的内存</li>
-</ul>
-<h5 id="执行上下文栈-Execution-Context-Stack简称ECS"><a href="#执行上下文栈-Execution-Context-Stack简称ECS" class="headerlink" title="执行上下文栈(Execution Context Stack简称ECS)"></a>执行上下文栈(Execution Context Stack简称ECS)</h5><p>&emsp;&emsp;JavaScript引擎创建了执行上下文栈来管理执行上下文的顺序</p>
-<blockquote>
-<p>栈stack是数据结构上的概念，用来处理数据的存放方式，特点为LIFO，即后进先出（Last in, first out）。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var a = 10;</span><br><span class="line"></span><br><span class="line">function functionA() &#123;</span><br><span class="line"></span><br><span class="line">	console.log(&quot;Start function A&quot;);</span><br><span class="line"></span><br><span class="line">	function functionB()&#123;</span><br><span class="line">		console.log(&quot;In function B&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	functionB();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">functionA();</span><br><span class="line"></span><br><span class="line">console.log(&quot;GlobalContext&quot;);</span><br></pre></td></tr></table></figure>
-<p>  在浏览器中，javascript引擎的工作方式是单线程的。也就是说，某一时刻只有唯一的一个事件是被激活处理的，其它的事件被放入队列中，等待被处理。下面的示例图描述了这样的一个堆栈：</p>
-<p><img src="/images/js-execution-context.gif" width="800"></p>
-<ul>
-<li>  当javascript代码文件被浏览器载入后，首先进入全局环境，创建一个全局执行上下文，全局变量对象window，全局作用域Global，确定this指向，this==window。当在全局上下文中调用执行一个函数时，程序流就进入该被调用函数内，此时引擎就会为该函数创建一个新的执行上下文，并且将其压入到执行上下文堆栈的顶部。浏览器总是执行当前在堆栈顶部的上下文，一旦执行完毕，该上下文就会从堆栈顶部被弹出，然后，进入其下的上下文执行代码。这样，堆栈中的上下文就会被依次执行并且弹出堆栈，直到回到全局的上下文。</li>
-</ul>
-<h5 id="Reference-Doc"><a href="#Reference-Doc" class="headerlink" title="Reference Doc"></a>Reference Doc</h5><p><a href="https://hackernoon.com/execution-context-in-javascript-319dd72e8e2c" target="_blank" rel="noopener">Execution context, Scope chain and JavaScript internals</a><br><a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/" target="_blank" rel="noopener">ECMA-262-3 in detail. Chapter 1. Execution Contexts.</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/18/js-execution-context-stack/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-lexical-scope" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/07/js-lexical-scope/">JavaScript是词法作用域(Lexical Scope)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/07/js-lexical-scope/" class="archive-article-date">
-  	<time datetime="2017-12-07T02:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="思考一下这两段代码的输出结果"><a href="#思考一下这两段代码的输出结果" class="headerlink" title="思考一下这两段代码的输出结果"></a>思考一下这两段代码的输出结果</h5><p>Case 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">  console.log(up);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">  var up = 88;</span><br><span class="line">  foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();</span><br></pre></td></tr></table></figure>
-<p>输出8还是88呢？</p>
-<p>Case 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">	up = 88</span><br><span class="line">	function bar() &#123;</span><br><span class="line">		up = 888</span><br><span class="line">		console.log(up);</span><br><span class="line">	&#125;</span><br><span class="line">	bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
-<p>输出8, 88 还是888呢？</p>
-<h5 id="JavaScript是词法作用域"><a href="#JavaScript是词法作用域" class="headerlink" title="JavaScript是词法作用域"></a>JavaScript是词法作用域</h5><p>作用域: Scope</p>
-<blockquote>
-<p>域表示的就是范围，即作业范围，具有访问权限的代码空间，作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。简单的讲就是在什么地方能使用，在什么不能使用。</p>
-</blockquote>
-<p>词法作用域： Lexical Scope (Sometimes known as static scope)</p>
-<blockquote>
-<p>词法作用域（通常也被叫做静态作用域）是代码在编写过程中就静态体现出来了作用范围，代码一旦写好，不用执行，他的作用范围就已经确定好了，这个就是所谓的词法作用域。</p>
-</blockquote>
-<p>动态作用域： Dynamic Scope, 与词法作用域相反。</p>
-<blockquote>
-<p>动态作用域并不关心函数和作用域是如何生命以及在何处声明的，之关心它们从何处调用。</p>
-</blockquote>
-<h5 id="回头分析下上面的两段代码"><a href="#回头分析下上面的两段代码" class="headerlink" title="回头分析下上面的两段代码"></a>回头分析下上面的两段代码</h5><p>在Case1中，函数foo执行时，内部查找是否有变量up, 如果没有向上, 就根据书写的位置，查找上面一层的代码（也叫父变量对象，当然是词法结构上的），查找up = 8, 因此输出为8</p>
-<p>在Case2中，函数bar执行，内部查找变量up, 就近原则，所以输出为888</p>
-<h5 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h5><p>JS的词法作用域有两种，一种是全局作用域，另外一种是函数作用域， <strong>在函数作用域内会屏蔽在全局作用域上的相同名称的变量。</strong></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h5><p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/07/js-lexical-scope/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1150,6 +1151,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
@@ -1158,7 +1163,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
             
             <div class="clearfix"></div>

@@ -151,6 +151,193 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-webpack-scss" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/06/webpack-scss/">Webpack入门九：使用SCSS</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/06/webpack-scss/" class="archive-article-date">
+  	<time datetime="2018-03-06T14:14:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i sass-loader node-sass postcss-loader autoprefixer -D</span><br></pre></td></tr></table></figure>
+<p>webpack.config.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line">const ExtractTextPlugin = require(&apos;extract-text-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &apos;./app/main.ts&apos;,</span><br><span class="line">  devtool: &apos;inline-source-map&apos;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + &apos;/dist&apos;, // 将输出放到dist文件夹</span><br><span class="line">    filename: &apos;app-[hash].js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: &apos;./dist&apos;,</span><br><span class="line">    host: &apos;127.0.0.1&apos;,</span><br><span class="line">    port: 8080,</span><br><span class="line">    inline: true,</span><br><span class="line">    compress: false</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [&apos;.ts&apos;, &apos;.js&apos;]</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; </span><br><span class="line">        test: /\.scss$/, </span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: [&apos;css-loader&apos;, &apos;postcss-loader&apos;, &apos;sass-loader&apos;], // 转换 .scss 文件需要使用的 Loader</span><br><span class="line">          fallback: &apos;style-loader&apos;,</span><br><span class="line">        &#125;),</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.ts$/,</span><br><span class="line">        use: [&apos;awesome-typescript-loader&apos;],</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.BannerPlugin(&apos;版权所有，翻版必究&apos;),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">            template: __dirname + &quot;/app/index.html&quot; //new 一个这个插件的实例，并传入相关的参数</span><br><span class="line">        &#125;),</span><br><span class="line">    new ExtractTextPlugin(&#123;</span><br><span class="line">      filename: `[name]_[contenthash:8].css` // 从 .js 文件中提取出来的 .css 文件的名称</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在根目录下创建postcss.config.js, 来指定postcss所使用的插件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    require(&apos;autoprefixer&apos;)(&#123;</span><br><span class="line">      browsers: [&apos;last 2 version&apos;],</span><br><span class="line">    &#125;),</span><br><span class="line">    require(&apos;cssnano&apos;)(&#123;</span><br><span class="line">      reduceIdents: false, // http://cssnano.co/optimisations/reduceidents/</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">SASS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/06/webpack-scss/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-webpack-typescript" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/06/webpack-typescript/">Webpack入门八：使用TypeScript</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/06/webpack-typescript/" class="archive-article-date">
+  	<time datetime="2018-03-06T02:06:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 <a href="https://github.com/Microsoft/TypeScript" target="_blank" rel="noopener">GitHub 上托管</a>。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。</p>
+<p>TypeScript 是为大型应用程序开发而设计的， 它的第一个版本发布于 2012 年 10 月，经历了多次更新后，现在已成为前端社区中不可忽视的力量，不仅在 Microsoft 内部得到广泛运用，Angular, React, Vue这些开源框架都在广泛的使用。本篇主要聊一聊利用 Webpack 去处理 TypeScript 程序。</p>
+<h5 id="一、TypeScript-Loader"><a href="#一、TypeScript-Loader" class="headerlink" title="一、TypeScript Loader"></a>一、TypeScript Loader</h5><p>在 <a href="http://127.0.0.1:4000/2018/02/13/webpack-start/" target="_blank" rel="noopener">Webpack入门一：模块化</a>中我们知道 Webpack 是一个 module bundler, 在 <a href="http://127.0.0.1:4000/2018/03/02/webpack-loader/" target="_blank" rel="noopener">Webpack入门四：loader使用</a>中我们知道 Webpack 本身只能处理 JavaScript 模块，对于css格式的文件我们使用css-loader去读取它，那么对于 TypeScript 规范的语言标准是不是有 ts-loader 去处理呢？没错, TypeScript 的 loader有两种：</p>
+<ul>
+<li>ts-loader</li>
+<li>awesome-typescript-loader</li>
+</ul>
+<p>Github上的 <a href="https://github.com/s-panferov/awesome-typescript-loader#differences-between-ts-loader" target="_blank" rel="noopener">Awesome TypeScript loader for webpack</a> 有关于 ts-loader和awesome-typescript-loader之间的区别精彩的解释.</p>
+<h5 id="二、配置环境及文件目录改造"><a href="#二、配置环境及文件目录改造" class="headerlink" title="二、配置环境及文件目录改造"></a>二、配置环境及文件目录改造</h5><p>接上一篇的代码， 在这里使用 TypeScript 需要干四件事</p>
+<ul>
+<li>安装一个Typescript加载器。</li>
+<li>创建一个tsconfig.json文件来包含我们的TypeScript编译配置。</li>
+<li>配置webpack.config.js</li>
+<li>改造文件管理结构， 这一步的改造是为了方便后面的管理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i typescript awesome-typescript-loader -D</span><br></pre></td></tr></table></figure>
+<p>tsconfig.json<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;compilerOptions&quot;: &#123;</span><br><span class="line">    &quot;baseUrl&quot;: &quot;./app&quot;,</span><br><span class="line">    &quot;module&quot;: &quot;commonjs&quot;,</span><br><span class="line">    &quot;noEmitOnError&quot;: true,</span><br><span class="line">    &quot;noUnusedLocals&quot;: true,</span><br><span class="line">    &quot;noUnusedParameters&quot;: true,</span><br><span class="line">    &quot;preserveConstEnums&quot;: true,</span><br><span class="line">    &quot;removeComments&quot;: false,</span><br><span class="line">    &quot;sourceMap&quot;: true,</span><br><span class="line">    &quot;strictNullChecks&quot;: true,</span><br><span class="line">    &quot;target&quot;: &quot;ES5&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>关于这个配置文件可以阅读 TypeScript 官方的<a href="https://www.typescriptlang.org/docs/handbook/tsconfig-json.html" target="_blank" rel="noopener">文档</a></p>
+<p>配置 webpack.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line">const ExtractTextPlugin = require(&apos;extract-text-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &apos;./main.ts&apos;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + &apos;/dist&apos;, // 将输出放到dist文件夹</span><br><span class="line">    filename: &apos;app-[hash].js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: &apos;./dist&apos;,</span><br><span class="line">    host: &apos;127.0.0.1&apos;,</span><br><span class="line">    port: 8080,</span><br><span class="line">    inline: true,</span><br><span class="line">    compress: false</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [&apos;.ts&apos;, &apos;.js&apos;]</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; </span><br><span class="line">        test: /\.css$/, </span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: [&apos;css-loader&apos;], // 转换 .css 文件需要使用的 Loader</span><br><span class="line">        &#125;),</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.ts$/,</span><br><span class="line">        use: [&apos;awesome-typescript-loader&apos;],</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.BannerPlugin(&apos;版权所有，翻版必究&apos;),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">            template: __dirname + &quot;/index.html&quot; //new 一个这个插件的实例，并传入相关的参数</span><br><span class="line">        &#125;),</span><br><span class="line">    new ExtractTextPlugin(&#123;</span><br><span class="line">      filename: `[name]_[contenthash:8].css` // 从 .js 文件中提取出来的 .css 文件的名称</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面来改造一下文件目录结构，新建app文件夹，将下列文件移入app文件夹</p>
+<ul>
+<li>index.html</li>
+<li>main.css</li>
+<li>main.js 并将文件名改为main.ts</li>
+<li>module.js 并将文件名改为module.ts</li>
+</ul>
+<p>module.ts (原来的module.js使用的是CommonJS的模块化规范，这里我们改为ES6自己的模块规范语法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function setName(name) &#123;</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;add, setName&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>main.ts (同module.ts一样， 原来的main.js使用的是CommonJS的模块化规范，这里我们改为ES6自己的模块规范语法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import &apos;./main.css&apos; // 载入 main.css</span><br><span class="line">import * as mdl from &apos;./module&apos;</span><br><span class="line"></span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line"></span><br><span class="line">var person = &#123;</span><br><span class="line">	age: mdl.add(10, 20),</span><br><span class="line">	getName: mdl.setName(&apos;Felix Cao&apos;)</span><br><span class="line">&#125;;</span><br><span class="line">document.write(`姓名： $&#123;person.getName&#125;&lt;br&gt;`);</span><br><span class="line">document.write(`年龄： $&#123;person.age&#125;`);</span><br></pre></td></tr></table></figure></p>
+<p>需要额外提一下的是，如果继续想使用CommonJS的require模块加载方法的话，需要额外安装第三方库node去识别require.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i @types/node</span><br></pre></td></tr></table></figure></p>
+<p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/08-webpack-typescript" target="_blank" rel="noopener">源码</a></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="https://ts.xcatliu.com/basics/type-assertion.html" target="_blank" rel="noopener">TypeScript 入门教程</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/06/webpack-typescript/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-webpack-dev-server-plugin" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -158,7 +345,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/04/webpack-dev-server-plugin/">Webpack入门六：服务于webpack的自动刷新的web服务器</a>
+      <a class="article-title" href="/2018/03/04/webpack-dev-server-plugin/">Webpack入门七：开发环境</a>
     </h1>
   
 
@@ -192,7 +379,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line">const ExtractTextPlugin = require(&apos;extract-text-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &apos;./main.js&apos;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: __dirname + &apos;/dist&apos;, // 将输出放到dist文件夹</span><br><span class="line">    filename: &apos;app-[hash].js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: &apos;./dist&apos;,</span><br><span class="line">    host: &apos;127.0.0.1&apos;,</span><br><span class="line">    port: 8080,</span><br><span class="line">    inline: true,</span><br><span class="line">    compress: false</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123; test: /\.css$/, </span><br><span class="line">        use: ExtractTextPlugin.extract(&#123;</span><br><span class="line">          use: [&apos;css-loader&apos;], // 转换 .css 文件需要使用的 Loader</span><br><span class="line">        &#125;),</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.BannerPlugin(&apos;版权所有，翻版必究&apos;),</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">            template: __dirname + &quot;/index.html&quot; //new 一个这个插件的实例，并传入相关的参数</span><br><span class="line">        &#125;),</span><br><span class="line">    new ExtractTextPlugin(&#123;</span><br><span class="line">      filename: `[name]_[contenthash:8].css` // 从 .js 文件中提取出来的 .css 文件的名称</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>启动 webpack-dev-server 后， 打开浏览器输入127.0.0.1:8080, 观察一下效果。</p>
 <p>最后把 ebpack-dev-server 命令加入到 package.json 的 script 脚本中， 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;config-demo&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;A simple webpack example for config&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;main.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;webpack-dev-server&quot;,</span><br><span class="line">    &quot;test&quot;: &quot;echo \\\&quot;Error: no test specified\\\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [</span><br><span class="line">    &quot;webpack&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;author&quot;: &quot;Felix&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;MIT&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;css-loader&quot;: &quot;^0.28.10&quot;,</span><br><span class="line">    &quot;extract-text-webpack-plugin&quot;: &quot;^3.0.2&quot;,</span><br><span class="line">    &quot;html-webpack-plugin&quot;: &quot;^3.0.4&quot;,</span><br><span class="line">    &quot;style-loader&quot;: &quot;^0.20.2&quot;,</span><br><span class="line">    &quot;webpack&quot;: &quot;^3.11.0&quot;,</span><br><span class="line">    &quot;webpack-dev-server&quot;: &quot;^2.11.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;config-demo&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;A simple webpack example for config&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;main.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;webpack-dev-server --open&quot;, // 自动打开浏览器</span><br><span class="line">    &quot;test&quot;: &quot;echo \\\&quot;Error: no test specified\\\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [</span><br><span class="line">    &quot;webpack&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;author&quot;: &quot;Felix&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;MIT&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;css-loader&quot;: &quot;^0.28.10&quot;,</span><br><span class="line">    &quot;extract-text-webpack-plugin&quot;: &quot;^3.0.2&quot;,</span><br><span class="line">    &quot;html-webpack-plugin&quot;: &quot;^3.0.4&quot;,</span><br><span class="line">    &quot;style-loader&quot;: &quot;^0.20.2&quot;,</span><br><span class="line">    &quot;webpack&quot;: &quot;^3.11.0&quot;,</span><br><span class="line">    &quot;webpack-dev-server&quot;: &quot;^2.11.1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>执行 npm start 命令，即可开启 webpack-dev-server 服务。</p>
 <p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/06-webpack-dev-server" target="_blank" rel="noopener">源码</a></p>
 
@@ -456,6 +643,10 @@
 <p>Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件，就需要使用 loader 进行转换。</p>
 <p>Loader 可以理解为是模块和资源的转换器，它本身是一个函数，接受源文件作为参数，返回转换的结果。这样，我们就可以通过 require 来加载任何类型的模块或文件，比如 CoffeeScript、 JSX、 LESS 或图片。</p>
 <p>接上一节的例子，我们要在页面中引入一个CSS样式文件main.css, 在入口文件main.js将main.css看成一个模块， 然后用 css-loader 来读取它， 再用 style-loader 把它插入到页面中。</p>
+<ul>
+<li>css-loader使你能够使用类似@import 和 url(…)的方法实现 require()的功能</li>
+<li>style-loader将所有的计算后的样式加入页面中；</li>
+</ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* main.css */</span><br><span class="line">body &#123; background: yellow; &#125;</span><br></pre></td></tr></table></figure>
 <p>修改 main.js：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require(&quot;!style-loader!css-loader!./main.css&quot;) // 载入 main.css</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;));</span><br></pre></td></tr></table></figure>
@@ -1063,288 +1254,6 @@
 
 
   
-    <article id="post-webpack-start" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/13/webpack-start/">Webpack入门一：模块化</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/13/webpack-start/" class="archive-article-date">
-  	<time datetime="2018-02-13T06:57:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。</p>
-<p>本质上，webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
-<p>那么什么是模块呢？</p>
-<p>在模块化编程中，开发者将程序分解成离散功能块(discrete chunks of functionality)，并称之为模块</p>
-<p>每个模块具有比完整程序更小的接触面，使得校验、调试、测试轻而易举。 精心编写的模块提供了可靠的抽象和封装界限，使得应用程序中每个模块都具有条理清楚的设计和明确的目的</p>
-<p><img src="/images/webpack-stat-01.png" width="850"></p>
-<h5 id="模块系统的演进"><a href="#模块系统的演进" class="headerlink" title="模块系统的演进"></a>模块系统的演进</h5><p>模块系统主要解决模块的定义、依赖和导出，先来看看已经存在的模块系统。</p>
-<p><strong>1）、非模块</strong><br>通过多个script标签引入多个js文件，也即通过文件的方式来管理模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;Jquery.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;d3.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;moment.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;lodash.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>这种原始的方案有很多显而易见的弊端：</p>
-<ul>
-<li>污染全局作用域，多人协作简直是灾难。</li>
-<li>手动维护script标签的顺序，多页应用更惨。</li>
-<li>大型项目资源难以管理，容易留下隐患。</li>
-</ul>
-<p><strong>2）、CommonJS模块</strong><br>CommonJS的模块方案是通过require同步加载依赖的其他模块，通过exports或module.exports来暴露出需要的接口。 （了解更多请移步 <a href="/2018/01/12/js-commonjs/">CommonJS模块规范</a>）</p>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>复用性强。</li>
-<li>有不少可以拿来即用的模块，生态不错。</li>
-<li>实现简单，使用简单。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>同步加载不适合浏览器，浏览器的请求都是异步加载。</li>
-<li>不能并行加载多个模块。</li>
-</ul>
-<p><strong>3）、AMD 模块</strong><br>AMD 模块，全称为 Asynchromous Module Defination，翻译过来就是异步模块规范，它是由 RequireJs 推动的。</p>
-<p>AMD方案只有一个主要接口define(moduleName, dependencies, factory)，他要在声明模块的时候指定所有的依赖dependencies，并传入到factory中，对于依赖的模块异步加载并执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 定义</span><br><span class="line">define(&quot;mymodule&quot;, [&quot;dep1&quot;, &quot;dep2&quot;], function(d1, d2) &#123;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 加载</span><br><span class="line">require([&quot;module&quot;, &quot;../file&quot;], function(module, file) &#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>异步加载适合浏览器。</li>
-<li>可并行加载多个模块。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>模块定义方式不优雅，不符合标准模块化</li>
-</ul>
-<p><strong>4）、ES6模块</strong><br><strong>ES6模块方案最大的特点就是静态化，静态化的优势在于可以在编译的时候确定模块的依赖关系以及输入输出的变量</strong>。上面提到的CommonJS模块和AMD模块都只能在运行时确定这些东西。</p>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>可静态分析，提前编译。</li>
-<li>面向未来的标准。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>浏览器原生兼容性差，所以一般都编译成ES5。</li>
-<li>目前可以拿来即用的模块少，生态差。</li>
-</ul>
-<p><strong>5）、webpack模块化机制</strong><br>webpack并不强制你使用某种模块化方案，而是通过兼容所有模块化方案让你无痛接入项目，当然这也是webpack牛逼的地方。<br>有了webpack，你可以随意选择你喜欢的模块化方案，至于怎么处理模块之间的依赖关系及如何按需打包，放轻松，webpack会帮你处理好的。</p>
-<h5 id="webpack的模块化有什么特点？"><a href="#webpack的模块化有什么特点？" class="headerlink" title="webpack的模块化有什么特点？"></a>webpack的模块化有什么特点？</h5><ul>
-<li>可以兼容多种模块风格，无痛迁移老项目。</li>
-<li>任何一个类型的文件都是模块，js/css/图片/字体都是模块。</li>
-<li>静态解析，按需打包，动态加载。</li>
-</ul>
-<p>本来，模块化方案仅仅是针对JS。但实际项目中，我们希望css也能被当做模块，进一步，css/less/sass是不是也可以被当做模块，再进一步，html/image/template是不是也可以被当做模块。</p>
-<p>想到这些就觉得脑洞大开，不可思议！但是webpack居然做到了！webpack提供的loaders可以对文件做预处理，从而实现了一切皆模块。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">Webpack 官方网站</a></li>
-<li><a href="https://webpack.js.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档</a></li>
-<li><a href="https://doc.webpack-china.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档中文版</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">module</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/13/webpack-start/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-event-loop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/13/js-event-loop/">JavaScript Event Loop</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/13/js-event-loop/" class="archive-article-date">
-  	<time datetime="2018-02-13T02:44:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文自阮一峰老师的： <a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">JavaScript 运行机制详解：再谈Event Loop</a></p>
-<h5 id="一、为什么JavaScript是单线程的？"><a href="#一、为什么JavaScript是单线程的？" class="headerlink" title="一、为什么JavaScript是单线程的？"></a>一、为什么JavaScript是单线程的？</h5><p>&emsp;&emsp;JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。那么，为什么JavaScript不能有多个线程呢？这样能提高效率啊。</p>
-<p>&emsp;&emsp;JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？</p>
-<p>&emsp;&emsp;所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。</p>
-<p>&emsp;&emsp;为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
-<h5 id="二、任务队列"><a href="#二、任务队列" class="headerlink" title="二、任务队列"></a>二、任务队列</h5><p>单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。</p>
-<p>如果排队是因为计算量大，CPU忙不过来，倒也算了，但是很多时候CPU是闲着的，因为IO设备（输入输出设备）很慢（比如Ajax操作从网络读取数据），不得不等着结果出来，再往下执行。</p>
-<p>JavaScript语言的设计者意识到，这时主线程完全可以不管IO设备，挂起处于等待中的任务，先运行排在后面的任务。等到IO设备返回了结果，再回过头，把挂起的任务继续执行下去。</p>
-<p>于是，所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
-<p>具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）</p>
-<blockquote>
-<p>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。</p>
-</blockquote>
-<p>下图就是主线程和任务队列的示意图。</p>
-<p><img src="/images/js-event-loop-01.jpg" width="600"></p>
-<p>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。</p>
-<h5 id="三、事件和回调函数"><a href="#三、事件和回调函数" class="headerlink" title="三、事件和回调函数"></a>三、事件和回调函数</h5><p>“任务队列”是一个事件的队列（也可以理解成消息的队列），IO设备完成一项任务，就在”任务队列”中添加一个事件，表示相关的异步任务可以进入”执行栈”了。主线程读取”任务队列”，就是读取里面有哪些事件。</p>
-<p>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
-<p>所谓”回调函数”（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。</p>
-<p>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，”任务队列”上第一位的事件就自动进入主线程。但是，由于存在后文提到的”定时器”功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。</p>
-<h5 id="四、Event-Loop"><a href="#四、Event-Loop" class="headerlink" title="四、Event Loop"></a>四、Event Loop</h5><p>主线程从”任务队列”中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。</p>
-<p>为了更好地理解Event Loop，请看下图（转引自Philip Roberts的演讲<a href="https://vimeo.com/96425312" target="_blank" rel="noopener">《Help, I’m stuck in an event-loop》</a>）。</p>
-<p><img src="/images/js-event-loop-02.png" width="600"></p>
-<p>上图中，主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在”任务队列”中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取”任务队列”，依次执行那些事件所对应的回调函数。</p>
-<p>执行栈中的代码（同步任务），总是在读取”任务队列”（异步任务）之前执行。请看下面这个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);    </span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;    </span><br><span class="line">req.send();</span><br></pre></td></tr></table></figure>
-<p>上面代码中的req.send方法是Ajax操作向服务器发送数据，它是一个异步任务，意味着只有当前脚本的所有代码执行完，系统才会去读取”任务队列”。所以，它与下面的写法等价。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);</span><br><span class="line">req.send();</span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;</span><br></pre></td></tr></table></figure>
-<p>也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取”任务队列”。</p>
-<h5 id="五、定时器"><a href="#五、定时器" class="headerlink" title="五、定时器"></a>五、定时器</h5><p>除了放置异步任务的事件，”任务队列”还可以放置定时事件，即指定某些代码在多少时间之后执行。这叫做”定时器”（timer）功能，也就是定时执行的代码。</p>
-<p>定时器功能主要由setTimeout()和setInterval()这两个函数来完成，它们的内部运行机制完全一样，区别在于前者指定的代码是一次性执行，后者则为反复执行。以下主要讨论setTimeout()。</p>
-<p>setTimeout()接受两个参数，第一个是回调函数，第二个是推迟执行的毫秒数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line">setTimeout(function()&#123;console.log(2);&#125;,1000);</span><br><span class="line">console.log(3);</span><br></pre></td></tr></table></figure>
-<p>上面代码的执行结果是1，3，2，因为setTimeout()将第二行推迟到1000毫秒之后执行。</p>
-<p>如果将setTimeout()的第二个参数设为0，就表示当前代码执行完（执行栈清空）以后，立即执行（0毫秒间隔）指定的回调函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br></pre></td></tr></table></figure>
-<p>上面代码的执行结果总是2，1，因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。</p>
-<p>总之，setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
-<p>HTML5标准规定了setTimeout()的第二个参数的最小值（最短间隔），不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout()。</p>
-<p>需要注意的是，setTimeout()只是将事件插入了”任务队列”，必须等到当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码耗时很长，有可能要等很久，所以并没有办法保证，回调函数一定会在setTimeout()指定的时间执行。</p>
-<h5 id="六、Node-js的Event-Loop"><a href="#六、Node-js的Event-Loop" class="headerlink" title="六、Node.js的Event Loop"></a>六、Node.js的Event Loop</h5><p>Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。</p>
-<p>请看下面的示意图（作者<a href="https://twitter.com/BusyRich/status/494959181871316992" target="_blank" rel="noopener">@BusyRich</a>）。</p>
-<p><img src="/images/js-event-loop-03.png"></p>
-<p>根据上图，Node.js的运行机制如下。</p>
-<blockquote>
-<p>（1）V8引擎解析JavaScript脚本。<br>（2）解析后的代码，调用Node API。<br>（3）libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。<br>（4）V8引擎再将结果返回给用户。</p>
-</blockquote>
-<p>除了setTimeout和setInterval这两个方法，Node.js还提供了另外两个与”任务队列”有关的方法：process.nextTick和setImmediate。它们可以帮助我们加深对”任务队列”的理解。</p>
-<p>process.nextTick方法可以在当前”执行栈”的尾部—-下一次Event Loop（主线程读取”任务队列”）之前—-触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。setImmediate方法则是在当前”任务队列”的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行，这与setTimeout(fn, 0)很像。请看下面的例子（<a href="https://stackoverflow.com/questions/17502948/nexttick-vs-setimmediate-visual-explanation" target="_blank" rel="noopener">via StackOverflow</a>）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  process.nextTick(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0)</span><br><span class="line">// 1</span><br><span class="line">// 2</span><br><span class="line">// TIMEOUT FIRED</span><br></pre></td></tr></table></figure>
-<p>上面代码中，由于process.nextTick方法指定的回调函数，总是在当前”执行栈”的尾部触发，所以不仅函数A比setTimeout指定的回调函数timeout先执行，而且函数B也比timeout先执行。这说明，如果有多个process.nextTick语句（不管它们是否嵌套），将全部在当前”执行栈”执行。</p>
-<p>现在，再看setImmediate。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，setImmediate与setTimeout(fn,0)各自添加了一个回调函数A和timeout，都是在下一次Event Loop触发。那么，哪个回调函数先执行呢？答案是不确定。运行结果可能是1–TIMEOUT FIRED–2，也可能是TIMEOUT FIRED–1–2。</p>
-<p>令人困惑的是，Node.js文档中称，setImmediate指定的回调函数，总是排在setTimeout前面。实际上，这种情况只发生在递归调用的时候。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function ()&#123;</span><br><span class="line">  setImmediate(function A() &#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">    setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  setTimeout(function timeout() &#123;</span><br><span class="line">    console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">  &#125;, 0);</span><br><span class="line">&#125;);</span><br><span class="line">// 1</span><br><span class="line">// TIMEOUT FIRED</span><br><span class="line">// 2</span><br></pre></td></tr></table></figure>
-<p>上面代码中，setImmediate和setTimeout被封装在一个setImmediate里面，它的运行结果总是1–TIMEOUT FIRED–2，这时函数A一定在timeout前面触发。至于2排在TIMEOUT FIRED的后面（即函数B在timeout后面触发），是因为setImmediate总是将事件注册到下一轮Event Loop，所以函数A和timeout是在同一轮Loop执行，而函数B在下一轮Loop执行。</p>
-<p>我们由此得到了process.nextTick和setImmediate的一个重要区别：多个process.nextTick语句总是在当前”执行栈”一次执行完，多个setImmediate可能则需要多次loop才能执行完。事实上，这正是Node.js 10.0版添加setImmediate方法的原因，否则像下面这样的递归调用process.nextTick，将会没完没了，主线程根本不会去读取”事件队列”！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function foo() &#123;</span><br><span class="line">  process.nextTick(foo);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>事实上，现在要是你写出递归的process.nextTick，Node.js会抛出一个警告，要求你改成setImmediate。</p>
-<p>另外，由于process.nextTick指定的回调函数是在本次”事件循环”触发，而setImmediate指定的是在下次”事件循环”触发，所以很显然，前者总是比后者发生得早，而且执行效率也高（因为不用检查”任务队列”）。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">JavaScript 运行机制详解：再谈Event Loop</a></li>
-<li><a href="https://vimeo.com/96425312" target="_blank" rel="noopener">Help, I’m stuck in an event-loop</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Event Loop</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">定时器</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/13/js-event-loop/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1475,6 +1384,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
@@ -1483,7 +1396,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
             
             <div class="clearfix"></div>
