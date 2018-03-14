@@ -151,6 +151,221 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jenkins-shell-root" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/28/jenkins-shell-root/">Jenkins运行shell脚本权限终极解决办法</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/28/jenkins-shell-root/" class="archive-article-date">
+  	<time datetime="2017-10-28T01:45:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在Jenkins中运行shell脚本经常遇到权限问题，解决起来也是比较烦神的事情，最后我生气了，索性来个终极解决办法，就是给<strong>jenkins一个root权限</strong></p>
+<p>1). vim /etc/sysconfig/jenkins</p>
+<p>2). Find this $JENKINS_USER and change to “root”:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$JENKINS_USER=&quot;root&quot;</span><br></pre></td></tr></table></figure></p>
+<p>3). Then change the ownership of Jenkins home, webroot and logs:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown -R root:root /var/lib/jenins</span><br><span class="line">chown -R root:root /var/cache/jenkins</span><br><span class="line">chown -R root:root /var/log/jenkins</span><br></pre></td></tr></table></figure></p>
+<p>4). Restart Jenkins and check the user has been changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service jenkins restart</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/28/jenkins-shell-root/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-jenkins-credentials-ssh" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/25/jenkins-credentials-ssh/">Jenkins凭证(credentials)和SSH认证(Secure Shell)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/25/jenkins-credentials-ssh/" class="archive-article-date">
+  	<time datetime="2017-10-25T07:26:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;想一想，Jenkins从git仓库(gitHub)中去pull代码，git仓库为什么允许Jenkins这么干呢？ 因此Jenkins和git仓库之间必须建立一种信任关系。本文讲的这种信任关系就是Jenkins凭证(credentials)和SSH认证(Secure Shell)。</p>
+<h5 id="SSH-认证"><a href="#SSH-认证" class="headerlink" title="SSH 认证"></a>SSH 认证</h5><p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/14/jenkins-github-push/">Jenkins自动化部署(Github之Push)</a> 这篇文章中 的 配置Github中Hooks &amp; services 部分提到这部分的内容， 登录到jenkins服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">ssh-keygen // 一路回车</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub //获取key</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后把公钥添加到gitHub <strong>某个repo的Display keys</strong>上，这时jenkins服务器就可以拿自己的私钥与github服务进行通信。</p>
+<h5 id="Jenkins凭证-Credentials-配置项"><a href="#Jenkins凭证-Credentials-配置项" class="headerlink" title="Jenkins凭证(Credentials)配置项"></a>Jenkins凭证(Credentials)配置项</h5><p>&emsp;&emsp;“凭证”是我对它的理解，Jenkins对于“Credentials”一直没有汉化，由此可见官方对此也是比较犹豫的，我想也可以理解为秘钥。</p>
+<p>在jenkins界面 Credentials -&gt; System -&gt; Add domain：<br>Domain Name: 一般我都填写你git服务器的地址，如 github.xxx.com<br>Description: 简单的描述，如 This is the Credential for github</p>
+<p><img src="./images/jenkins-credentials-ssh-1.png" alt=""></p>
+<p>点击 ok 后，再点击左侧的 “Add Credentials”</p>
+<p>进入页面后.<br>Kind: 可以选择 Username with password 或者 SSH Username with private key.(这里选择后者)<br>Scope: Global(Jenkins, nodes, items, all child items, etc)<br>Username: 随便起一个名字，以便在创建 Job 的时候使用该 Credential<br>Private Key：可以指定文件，也可以使用默认的 ~/.ssh，当然也可以直接将<strong>私钥</strong>复制粘贴到此处。<br>Passphrase: 如果你在创建 ssh key 的时候输入了 Passphrase那就填写相应的Passphrase，为空就不填写<br>ID: 空<br>Description： 空</p>
+<h5 id="github-SSH-amp-GPG-keys"><a href="#github-SSH-amp-GPG-keys" class="headerlink" title="github SSH &amp; GPG keys"></a>github SSH &amp; GPG keys</h5><p>&emsp;&emsp;我们之前把公钥配置到gitHub的<strong>某个repo的Display keys</strong>上，那么Jenkins服务器只能对该repo有相应的权限，那如果我想对gitHub账号下的所有repo都有权限呢？</p>
+<p><img src="./images/jenkins-credentials-ssh-2.png" alt=""> </p>
+<p>&emsp;&emsp;然后我同样把私钥配置到Jenkins的Credentials中。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/25/jenkins-credentials-ssh/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-docker-image-dockerfile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/24/docker-image-dockerfile/">Docker镜像创建之Dockerfile的创建</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/24/docker-image-dockerfile/" class="archive-article-date">
+  	<time datetime="2017-10-24T05:42:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;之前有几篇关于Docker入门基础的文章，本文的重点是Dockerfile。</p>
+<p><a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a><br><a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a><br><a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a></p>
+<p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a> <a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a> 这两篇文章中是利用docker pull 从<a href="https://hub.docker.com/" target="_blank" rel="noopener">官方</a>拉取一个镜像，然后基于这个镜像利用命令docker run 创建一个容器。但是面对复杂的应用，最佳的方案就是使用Dockerfile, Dockerfile是为快速构建docker image而设计的, 就像jenkins有jenkinsfile一样。</p>
+<p>&emsp;&emsp;Dockfile是一种被Docker程序解释的脚本，Dockerfile由一条一条的指令组成，每条指令对应Linux下面的一条命令。Docker程序将这些Dockerfile指令翻译真正的Linux命令。Dockerfile有自己书写格式和支持的命令，Docker程序解决这些命令间的依赖关系，类似于Makefile。Docker程序将读取Dockerfile，根据指令生成定制的image。相比image这种黑盒子，Dockerfile这种显而易见的脚本更容易被使用者接受，它明确的表明image是怎么产生的。有了Dockerfile，当我们需要定制自己额外的需求时，只需在Dockerfile上添加或者修改指令，重新生成image即可，省去了敲命令的麻烦。</p>
+<h5 id="Dockerfile文件结构（四个部分）"><a href="#Dockerfile文件结构（四个部分）" class="headerlink" title="Dockerfile文件结构（四个部分）"></a>Dockerfile文件结构（四个部分）</h5><ol>
+<li>基础镜像：以哪个镜像作为基础进行制作，用法是FROM 基础镜像名称</li>
+<li>维护者信息：需要写下该Dockerfile编写人的姓名或邮箱，用法是MANITAINER 名字/邮箱</li>
+<li>镜像操作命令：对基础镜像要进行的改造命令，比如安装新的软件，进行哪些特殊配置等，常见的是RUN 命令</li>
+<li>容器启动命令：当基于该镜像的容器启动时需要执行哪些命令，常见的是CMD 命令或ENTRYPOINT</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Version 0.1</span><br><span class="line">FROM centos:7.2.1511</span><br><span class="line"></span><br><span class="line">MAINTAINER zoncao@cisco.com</span><br><span class="line">RUN yum install git -y</span><br><span class="line">RUN yum install wget -y</span><br><span class="line">RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo</span><br><span class="line">RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -</span><br><span class="line">RUN yum install yarn -y</span><br></pre></td></tr></table></figure>
+<p>#####<br>docker build -t atlas-build .</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/24/docker-image-dockerfile/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-centos-self-reboot" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -849,231 +1064,6 @@
 
 
   
-    <article id="post-lite-server" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/14/lite-server/">lite-server</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/14/lite-server/" class="archive-article-date">
-  	<time datetime="2017-08-14T01:01:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Github: <a href="https://github.com/johnpapa/lite-server" target="_blank" rel="noopener">johnpapa/lite-server</a><br>NPM package: <a href="https://www.npmjs.com/package/lite-server" target="_blank" rel="noopener">https://www.npmjs.com/package/lite-server</a></p>
-<p>早期的前端对web服务器的依赖是比较小的，现如今移动互联网的推动，前端技术被大大拓宽了，对web服务器的依赖也大大增强了。在此状况下，lite-server是一个非常不错的选择。</p>
-<h5 id="summary-from-offical"><a href="#summary-from-offical" class="headerlink" title="summary from offical"></a>summary from offical</h5><p>Lightweight development only node server that serves a web app, opens it in the browser, refreshes when html or javascript change, injects CSS changes using sockets, and has a fallback page when a route is not found.</p>
-<ul>
-<li>轻量级仅适用开发的node服务</li>
-<li>仅支持 web app</li>
-<li>它能够为你打开浏览器，当你的html或js文件发送变化时，它能自动识别并自动帮你刷新浏览器。</li>
-<li>还能使用套接字自动注入变化的CSS，</li>
-</ul>
-<h5 id="Installation-and-Usage"><a href="#Installation-and-Usage" class="headerlink" title="Installation and Usage"></a>Installation and Usage</h5><p>Add lite-server and script entry within your project’s package.json file:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Inside package.json</span><br><span class="line"> &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;lite-server&quot;</span><br><span class="line"> &#125;,</span><br><span class="line"></span><br><span class="line"> &quot;devDependencies&quot;: &#123;</span><br><span class="line"> 	&quot;lite-server&quot;: &quot;^2.2.2&quot;,</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>Install and run script</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm i</span><br><span class="line">$ npm run dev</span><br></pre></td></tr></table></figure>
-<p>Global Installation<br>lite-server can be also installed globally, if preferred:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g lite-server</span><br></pre></td></tr></table></figure>
-<h5 id="Custom-Configuration-自定义配置"><a href="#Custom-Configuration-自定义配置" class="headerlink" title="Custom Configuration 自定义配置"></a>Custom Configuration 自定义配置</h5><p>lite-server 使用BrowserSync, 它是允许你去覆盖默认的配置，这得通过你项目里的文件 bs-config.json 或 bs-config.js 来完成</p>
-<p>You can provide custom path to your config file via -c or –config= run time options:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lite-server -c configs/bs-config.js</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># bs-config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;port&quot;: 8000,</span><br><span class="line">  &quot;files&quot;: [&quot;./src/**/*.&#123;html,htm,css,js&#125;&quot;],</span><br><span class="line">  &quot;server&quot;: &#123; &quot;baseDir&quot;: &quot;./src&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="middleware"><a href="#middleware" class="headerlink" title="middleware"></a>middleware</h5><p><a href="https://github.com/webpack/webpack-dev-middleware" target="_blank" rel="noopener">webpack-dev-middleware</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/14/lite-server/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-one-way-data-binding-and" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/11/one-way-data-binding-and/">One way data-binding in angular1.5.x --- Part 2</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/11/one-way-data-binding-and/" class="archive-article-date">
-  	<time datetime="2017-08-11T08:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本篇主要讲解单向数据绑定之And（&amp;）绑定，主要用于子与父的单向数据通信。上一篇主要讲父与子的单向数据通信（<a href="http://up8.wang/demo/one-way-data-binding-less-than">One way data-binding in angular1.5.x — Part 1</a>).</p>
-<p>先看下本篇的<a href="http://up8.wang/demo/one-way-data-binding-and">Demo</a></p>
-<p>To be continued …</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/11/one-way-data-binding-and/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-one-way-data-binding-less-than" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/11/one-way-data-binding-less-than/">One way data-binding in angular1.5.x --- Part 1</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/11/one-way-data-binding-less-than/" class="archive-article-date">
-  	<time datetime="2017-08-11T02:48:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  本篇主要讲解单向数据绑定之小于号（&lt;）绑定，主要用于父与子的单向数据通信。建议先阅读 <a href="http://up8.wang/2017/09/11/exploring-lifecycle-hooks/">探讨Angular1.5的Lifecycle Hooks</a></p>
-<p>  先看下我这里写的<a href="http://up8.wang/demo/one-way-data-binding-less-than">Demo</a>。</p>
-<p>  其实， 前面有一篇文章关于实现Timezone的Dropdown（<a href="http://up8.wang/demo/timezoneDropdownDemo">How to implement timezone dropdown with moment.js?</a>），也用到了这里的小于号绑定。</p>
-<p>  Vue, React, Angular是时下比较火的前端js Frameworks, 他们都有共同的特点：双向数据绑定，组件化开发。而在Angular1.5版本之前，是以directive作为组件化，而directive本事是一个指令，并非一个组件，所以它并不能很好的承担组件这一职责， 所以google在1.5 version中推出了component组件，是Angular应用中最重要的构建单元，用于承担应用中组件化开发的重担。Components are the most basic building block of an UI in an Angular application.</p>
-<p>  在component的重复和嵌套使用中，我们经常遇到component之间的通信问题。那么当父component中数据产生变化时，子component又如何收到数据呢？</p>
-<h5 id="创建入口模块app"><a href="#创建入口模块app" class="headerlink" title="创建入口模块app"></a>创建入口模块app</h5><p>HTML ./index.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span> <span class="attr">ng-app</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"page-header"</span>&gt;</span></span><br><span class="line">	  &lt;h1&gt;Ony way data-binding(&lt;)&lt;small&gt;parent to child&lt;/small&gt;&lt;/h1&gt;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">parent-component</span>&gt;</span><span class="tag">&lt;/<span class="name">parent-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>Javascript: 创建app模块<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">angular.module(<span class="string">'app'</span>,[]);</span><br></pre></td></tr></table></figure></p>
-<h5 id="创建父component-parentComponent"><a href="#创建父component-parentComponent" class="headerlink" title="创建父component: parentComponent"></a>创建父component: parentComponent</h5><p>HTML ./tpl/parent2child-parent.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;well&quot;&gt;</span><br><span class="line">	&lt;form class=&quot;form-horizontal&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">			&lt;label for=&quot;input&quot; class=&quot;col-sm-4 control-label&quot;&gt;parent Component&lt;/label&gt;</span><br><span class="line">			&lt;div class=&quot;col-sm-8&quot;&gt;</span><br><span class="line">			  &lt;input class=&quot;form-control&quot; id=&quot;input&quot; ng-model=&quot;inputWording&quot; placeholder=&quot;please input your wording ...&quot;&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">		&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">			&lt;label for=&quot;input&quot; class=&quot;col-sm-4 control-label&quot;&gt;child Component&lt;/label&gt;</span><br><span class="line">			&lt;div class=&quot;col-sm-8&quot;&gt;</span><br><span class="line">				&lt;child-component input=&quot;inputWording&quot;&gt;&lt;/child-component&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<p>对inputWording进行双向数据绑定，并作为child-component的属性值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">angular.module(&apos;app&apos;)</span><br><span class="line">.component(&apos;parentComponent&apos;, &#123;</span><br><span class="line">	templateUrl: &apos;./tpl/parent2child-parent.html&apos;,</span><br><span class="line">	controller: function($scope) &#123;</span><br><span class="line">		$scope.inputWording = &apos;&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<h5 id="创建子component-childComponent"><a href="#创建子component-childComponent" class="headerlink" title="创建子component: childComponent"></a>创建子component: childComponent</h5><p>HTML ./tpl/parent2child-child.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select class=&quot;form-control&quot;</span><br><span class="line">	ng-model=&quot;selected&quot;</span><br><span class="line">	ng-options=&quot;item.label for item in options&quot;</span><br><span class="line">	&gt;</span><br><span class="line">	&lt;option value=&quot;&quot;&gt; Please select your option &lt;/option&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">.component(&apos;childComponent&apos;, &#123;</span><br><span class="line">		bindings: &#123; input: &apos;&lt;&apos; &#125;,</span><br><span class="line">		templateUrl: &apos;./tpl/parent2child-child.html&apos;,</span><br><span class="line">		controller: function($scope) &#123;</span><br><span class="line">			$scope.options_=[&#123;</span><br><span class="line">				label: &apos;hello-01&apos;,</span><br><span class="line">				value: &apos;hello-01&apos;,</span><br><span class="line">			&#125;, &#123;</span><br><span class="line">				label: &apos;bello-02&apos;,</span><br><span class="line">				value: &apos;bello-02&apos;,</span><br><span class="line">			&#125;, &#123;</span><br><span class="line">				label: &apos;cello-03&apos;,</span><br><span class="line">				value: &apos;cello-03&apos;,</span><br><span class="line">			&#125;];</span><br><span class="line">			$scope.options = $scope.options_;</span><br><span class="line"></span><br><span class="line">			this.$onChanges = function(changes) &#123;</span><br><span class="line">				console.log(changes);</span><br><span class="line">				var input = changes.input;</span><br><span class="line">				if (!input.currentValue) &#123;</span><br><span class="line">					$scope.selected = undefined;</span><br><span class="line">					return;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				var inputStr = input.currentValue;</span><br><span class="line">				var selected = _.filter($scope.options_, function(item) &#123;</span><br><span class="line">					return _.includes(item.label, inputStr);</span><br><span class="line">				&#125;);</span><br><span class="line">				$scope.selected = selected[0];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
-<h5 id="Knowledge-points"><a href="#Knowledge-points" class="headerlink" title="Knowledge points"></a>Knowledge points</h5><ul>
-<li>在子component中，bindings: { input: ‘&lt;’ }, input属性将接收父component传递过来的数据, ‘&lt;’标识表示了单向数据流，单向数据流会使子component中的$onChanges钩子被调用。</li>
-<li>在父component或控制器中，加载子component: <child-option input="inputWording"></child-option>。</li>
-</ul>
-<p>To be continued …</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/11/one-way-data-binding-less-than/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1188,6 +1178,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
@@ -1217,6 +1211,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
             
             <div class="clearfix"></div>

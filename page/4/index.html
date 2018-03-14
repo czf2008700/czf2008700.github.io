@@ -151,6 +151,263 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-constructor-function" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/26/js-constructor-function/">JavaScript构造函数(constructor function)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/js-constructor-function/" class="archive-article-date">
+  	<time datetime="2017-12-26T10:15:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="构造函数-constructor-function"><a href="#构造函数-constructor-function" class="headerlink" title="构造函数(constructor function)"></a>构造函数(constructor function)</h5><p>&emsp;&emsp;在大部分的面向对象编程语言中，构造函数是类的一个成员方法，用于类的实例化时初始化对象的。不过在JavaScript里并没有“类”（class）的概念（ES5之后加入了’class’关键词），虽然没有‘类’来创建对象，但是对象仍然可以通过多种方式创建，其中就有构造函数方式，使用new操作符调用构造函数从而生成一个对象实例。</p>
+<p>&emsp;&emsp;因此我们也可以这么去理解JavaScript中的构造函数，构造函数只是一些使用new操作符调用的函数。他们并不属于某一个类，也不会实例化一个类！</p>
+<h5 id="JavaScript构造函数的书写规则和调用方式"><a href="#JavaScript构造函数的书写规则和调用方式" class="headerlink" title="JavaScript构造函数的书写规则和调用方式"></a>JavaScript构造函数的书写规则和调用方式</h5><ul>
+<li>书写规则： 构造函数都应该以 一个大写字母开头， 而非构造函数则应该以一个小写字母开头</li>
+<li>调用方式： 任何函数，只要通过new操作符来调用，那它就可以作为构造函数， 如果不通过new操作符来调用，那它跟普通函数没有什么区别。</li>
+</ul>
+<p>我们来看个Case</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// use stric</span><br><span class="line"></span><br><span class="line">function Person(name, age) &#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    console.log(this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
+<p>上面的代码，当构造函数作为普通函数使用时，我们可以发现一些坑， 构造函数与一个普通函数并无不同，如果你故意不使用new，或忘记用new，都会得到怪异的错误：</p>
+<ul>
+<li>person2并不是Person的实例, 其值为undefined</li>
+<li>this指向window, this下的变量和属性变为全局变量和属性。</li>
+<li>在严格模式下，当你不通过new 调用Person构造函数会出现错误。</li>
+</ul>
+<h5 id="构造函数的返回值"><a href="#构造函数的返回值" class="headerlink" title="构造函数的返回值"></a>构造函数的返回值</h5><p><strong>JavaScript中构造函数可以有返回值也可以没有</strong>。</p>
+<p>1.没有返回值的情况像其他传统语言一样，返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //undefined</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100&#125;</span><br></pre></td></tr></table></figure>
+<p>2.如果存在返回值则检查其返回值是否为引用类型，如果为非引用类型，如（string,number,boolean,null,undefined），上述几种类型的情况与没有返回值的情况相同，实际返回实例化的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &quot;Felix Cao&quot;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  //Felix Cao</span><br><span class="line">console.log(new Person());//Person &#123;name: &quot;Felix Cao&quot;, age: 100 &#125;</span><br></pre></td></tr></table></figure>
+<p>3.如果存在返回值是引用类型，则实际返回该引用类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line"></span><br><span class="line">  this.name = &quot;Felix Cao&quot;;</span><br><span class="line">  this.age = 100;</span><br><span class="line"></span><br><span class="line">  return &#123;</span><br><span class="line">    name: &apos;up8Wang&apos;,</span><br><span class="line">    age: 10</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">console.log(Person());  // &#123;name: &quot;up8Wang&quot;, age: 10&#125;</span><br><span class="line">console.log(new Person());// &#123;name: &quot;up8Wang&quot;, age: 10 &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="new操作符到底都干了啥？"><a href="#new操作符到底都干了啥？" class="headerlink" title="new操作符到底都干了啥？"></a>new操作符到底都干了啥？</h5><p>&emsp;&emsp;对于上面的Person构造函数，当我们执行var person1 = new Person()是，到底发生了什么？MDN上是这么说的 对于var o = new Foo();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//JavaScript 实际上执行的是：</span><br><span class="line">var o = new Object();</span><br><span class="line">o.[[Prototype]] = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;我们按照MDN上面的过程来理解下var person1 = new Person()的执行过程</p>
+<ul>
+<li>var obj = new Objec();                // 创建一个空对象obj</li>
+<li>obj.__proto__ = Person.prototype; // obj空对象的原型指向原型对象</li>
+<li>Person.call(obj);                     // Person构造函数中的this指向对象obj</li>
+<li>var person1 = obj;                    // 把这个obj赋给person1, 完成var person1 = new Person()的过程.</li>
+</ul>
+<h5 id="内置构造函数"><a href="#内置构造函数" class="headerlink" title="内置构造函数"></a>内置构造函数</h5><p>&emsp;&emsp;JavaScript有九种内置的构造函数：Object(), Function(), Array(), Number(), String(), Boolean(), RegExp(), Date(), Error().当我们需要创建这些值的时候，我们可以自由选择使用字面量或者构造函数。但是相同情况下，字面量对象不仅易读，而且运行速度更快，因为他们可以在解析的时候被优化。所以当你需要使用简单对象的时候就使用字面量吧。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<li><a href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html" target="_blank" rel="noopener">Javascript继承机制的设计思想</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">Inheritance and the prototype chain</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/26/js-constructor-function/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js-global-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/20/js-global-object/">JavaScript全局对象(Global Object)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/20/js-global-object/" class="archive-article-date">
+  	<time datetime="2017-12-20T12:55:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;我们先看看在<a href="http://www.w3school.com.cn/jsref/jsref_obj_global.asp" target="_blank" rel="noopener">W3school</a>中,关于全局对象的描述：</p>
+<blockquote>
+<p>&emsp;&emsp;全局对象是预定义的对象，作为 JavaScript 的全局函数和全局属性的占位符。通过使用全局对象，可以访问所有其他所有预定义的对象、函数和属性。全局对象不是任何对象的属性，所以它没有名称。<br>&emsp;&emsp;在顶层 JavaScript 代码中，可以用关键字 this 引用全局对象。但通常不必用这种方式引用全局对象，因为全局对象是作用域链的头，这意味着所有非限定性的变量和函数名都会作为该对象的属性来查询。例如，当JavaScript 代码引用 parseInt() 函数时，它引用的是全局对象的 parseInt 属性。全局对象是作用域链的头，还意味着在顶层 JavaScript 代码中声明的所有变量都将成为全局对象的属性。<br>&emsp;&emsp;全局对象只是一个对象，而不是类。既没有构造函数，也无法实例化一个新的全局对象。</p>
+</blockquote>
+<h5 id="全局对象的主要功能"><a href="#全局对象的主要功能" class="headerlink" title="全局对象的主要功能"></a>全局对象的主要功能</h5><p>&emsp;&emsp;javascript中的内置全局对象（独立于宿主环境，ECMAScript中的API中声明的对象）例如Math对象，JSON对象，这个JavaScript自身提供的全局对象的功能包括：</p>
+<ul>
+<li>全局对象拥有一些常用的属性值。比如undefined、Infinity以及NaN。</li>
+<li>全局对象拥有一些常用的属性对象。比如Math、JSON和Number对象均为该全局对象的属性。</li>
+<li>全局对象提供一些全局函数供调用。比如isNaN()、isFinite()、parseInt()和eval()等。</li>
+<li>全局对象提供一些全局构造器(constructor)，也即全局类。比如Date()、RegExp()、String()、Object()和Array()等。</li>
+</ul>
+<h5 id="浏览器上的全局对象"><a href="#浏览器上的全局对象" class="headerlink" title="浏览器上的全局对象"></a>浏览器上的全局对象</h5><p>&emsp;&emsp;除了JS全局对象，对于运行在浏览器端的JavaScript程序，还有另一个全局对象：window。window全局对象提供了与当前窗口、页面有关的诸多属性与方法。除了这些与浏览器有关的全局属性和方法，window对象还封装了JS全局对象，并向外暴露JS全局对象的属性与接口；因此，当进行浏览器端JavaScript编程时，只需关心window全局对象即可。</p>
+<p>&emsp;&emsp;对于JavaScript程序中的this，如果this不属于任何function，那么这个this就指代JS全局对象；如果是浏览器端运行的JS程序，那么这个this就指代window全局对象。</p>
+<p>&emsp;&emsp;如果这个this属于某个function，那么this指代的就是调用该function的对象。若这种情况下function只是一个普通的函数，而不是某个类的方法，那么this的指代存在两种可能：</p>
+<ul>
+<li>在ECMAScript 3标准，以及ECMAScript 5标准的非严格模式下，this指代全局对象。</li>
+<li>在ECMAScript 5标准的严格模式下，this指代undefined。</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/20/js-global-object/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js-variable-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/19/js-variable-object/">JavaScript变量对象(Variable Object简称VO)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/19/js-variable-object/" class="archive-article-date">
+  	<time datetime="2017-12-19T11:02:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在上篇 <a href="">JavaScript执行上下文栈(Execution Context Stack简称ECS)</a> 中，浏览器引擎执行一段JavaScript可执行代码(Executable code)时，会创建对应的执行上下文，执行上下文在创建阶段会创建变量对象，建立作用域，以及确定this的指向。 也就是说对于每一个执行上下文，都有三个重要属性：</p>
+<ul>
+<li>变量对象（Variable Object）</li>
+<li>作用域链（Scope chain）</li>
+<li>this指向</li>
+</ul>
+<p>本篇主要聊一聊变量对象。</p>
+<p>&emsp;&emsp;变量对象是与执行上下文相关的<strong>数据作用域</strong>，存储了在上下文中定义的<strong>变量和函数声明</strong>。不同的执行上下文下的变量对象稍有不同，所以我们来聊聊全局上下文下的变量对象和函数上下文下的变量对象。</p>
+<h5 id="全局对象"><a href="#全局对象" class="headerlink" title="全局对象"></a>全局对象</h5><p>&emsp;&emsp;在<a href="http://www.w3school.com.cn/jsref/jsref_obj_global.asp" target="_blank" rel="noopener">W3school</a>中,关于全局对象的描述是这样的：</p>
+<blockquote>
+<p>  全局对象是预定义的对象，作为 JavaScript 的全局函数和全局属性的占位符。通过使用全局对象，可以访问所有其他所有预定义的对象、函数和属性。全局对象不是任何对象的属性，所以它没有名称。<br>  在顶层 JavaScript 代码中，可以用关键字 this 引用全局对象。但通常不必用这种方式引用全局对象，因为全局对象是作用域链的头，这意味着所有非限定性的变量和函数名都会作为该对象的属性来查询。例如，当JavaScript 代码引用 parseInt() 函数时，它引用的是全局对象的 parseInt 属性。全局对象是作用域链的头，还意味着在顶层 JavaScript 代码中声明的所有变量都将成为全局对象的属性。<br>  全局对象只是一个对象，而不是类。既没有构造函数，也无法实例化一个新的全局对象。</p>
+</blockquote>
+<p>  对于任何JavaScript程序，当程序开始运行时，JavaScript解释器都会初始化一个全局对象以供程序使用。这个JavaScript自身提供的全局对象的功能包括：</p>
+<p>1.全局对象拥有一些常用的属性值。比如undefined、Infinity以及NaN。<br>2.全局对象拥有一些常用的属性对象。比如Math、JSON和Number对象均为该全局对象的属性。<br>3.全局对象提供一些全局函数供调用。比如isNaN()、isFinite()、parseInt()和eval()等。<br>4.全局对象提供一些全局构造器(constructor)，也即全局类。比如Date()、RegExp()、String()、Object()和Array()等。</p>
+<p>除了JS全局对象，对于运行在浏览器端的JavaScript程序，还有另一个全局对象：window。window全局对象提供了与当前窗口、页面有关的诸多属性与方法。除了这些与浏览器有关的全局属性和方法，window对象还封装了JS全局对象，并向外暴露JS全局对象的属性与接口；因此，当进行浏览器端JavaScript编程时，只需关心window全局对象即可。</p>
+<p>对于JavaScript程序中的this，如果this不属于任何function，那么这个this就指代JS全局对象；如果是浏览器端运行的JS程序，那么这个this就指代window全局对象。</p>
+<p>如果这个this属于某个function，那么this指代的就是调用该function的对象。若这种情况下function只是一个普通的函数，而不是某个类的方法，那么this的指代存在两种可能：</p>
+<p>1.在ECMAScript 3标准，以及ECMAScript 5标准的非严格模式下，this指代全局对象。<br>2.在ECMAScript 5标准的严格模式下，this指代undefined。</p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/" target="_blank" rel="noopener">ECMA-262-3 in detail. Chapter 2. Variable object.</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/19/js-variable-object/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js-execution-context-stack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -715,221 +972,6 @@
 
 
   
-    <article id="post-jenkins-shell-root" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/28/jenkins-shell-root/">Jenkins运行shell脚本权限终极解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/28/jenkins-shell-root/" class="archive-article-date">
-  	<time datetime="2017-10-28T01:45:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在Jenkins中运行shell脚本经常遇到权限问题，解决起来也是比较烦神的事情，最后我生气了，索性来个终极解决办法，就是给<strong>jenkins一个root权限</strong></p>
-<p>1). vim /etc/sysconfig/jenkins</p>
-<p>2). Find this $JENKINS_USER and change to “root”:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$JENKINS_USER=&quot;root&quot;</span><br></pre></td></tr></table></figure></p>
-<p>3). Then change the ownership of Jenkins home, webroot and logs:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chown -R root:root /var/lib/jenins</span><br><span class="line">chown -R root:root /var/cache/jenkins</span><br><span class="line">chown -R root:root /var/log/jenkins</span><br></pre></td></tr></table></figure></p>
-<p>4). Restart Jenkins and check the user has been changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service jenkins restart</span><br></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/28/jenkins-shell-root/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jenkins-credentials-ssh" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/jenkins-credentials-ssh/">Jenkins凭证(credentials)和SSH认证(Secure Shell)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/25/jenkins-credentials-ssh/" class="archive-article-date">
-  	<time datetime="2017-10-25T07:26:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;想一想，Jenkins从git仓库(gitHub)中去pull代码，git仓库为什么允许Jenkins这么干呢？ 因此Jenkins和git仓库之间必须建立一种信任关系。本文讲的这种信任关系就是Jenkins凭证(credentials)和SSH认证(Secure Shell)。</p>
-<h5 id="SSH-认证"><a href="#SSH-认证" class="headerlink" title="SSH 认证"></a>SSH 认证</h5><p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/14/jenkins-github-push/">Jenkins自动化部署(Github之Push)</a> 这篇文章中 的 配置Github中Hooks &amp; services 部分提到这部分的内容， 登录到jenkins服务器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">ssh-keygen // 一路回车</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub //获取key</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;然后把公钥添加到gitHub <strong>某个repo的Display keys</strong>上，这时jenkins服务器就可以拿自己的私钥与github服务进行通信。</p>
-<h5 id="Jenkins凭证-Credentials-配置项"><a href="#Jenkins凭证-Credentials-配置项" class="headerlink" title="Jenkins凭证(Credentials)配置项"></a>Jenkins凭证(Credentials)配置项</h5><p>&emsp;&emsp;“凭证”是我对它的理解，Jenkins对于“Credentials”一直没有汉化，由此可见官方对此也是比较犹豫的，我想也可以理解为秘钥。</p>
-<p>在jenkins界面 Credentials -&gt; System -&gt; Add domain：<br>Domain Name: 一般我都填写你git服务器的地址，如 github.xxx.com<br>Description: 简单的描述，如 This is the Credential for github</p>
-<p><img src="./images/jenkins-credentials-ssh-1.png" alt=""></p>
-<p>点击 ok 后，再点击左侧的 “Add Credentials”</p>
-<p>进入页面后.<br>Kind: 可以选择 Username with password 或者 SSH Username with private key.(这里选择后者)<br>Scope: Global(Jenkins, nodes, items, all child items, etc)<br>Username: 随便起一个名字，以便在创建 Job 的时候使用该 Credential<br>Private Key：可以指定文件，也可以使用默认的 ~/.ssh，当然也可以直接将<strong>私钥</strong>复制粘贴到此处。<br>Passphrase: 如果你在创建 ssh key 的时候输入了 Passphrase那就填写相应的Passphrase，为空就不填写<br>ID: 空<br>Description： 空</p>
-<h5 id="github-SSH-amp-GPG-keys"><a href="#github-SSH-amp-GPG-keys" class="headerlink" title="github SSH &amp; GPG keys"></a>github SSH &amp; GPG keys</h5><p>&emsp;&emsp;我们之前把公钥配置到gitHub的<strong>某个repo的Display keys</strong>上，那么Jenkins服务器只能对该repo有相应的权限，那如果我想对gitHub账号下的所有repo都有权限呢？</p>
-<p><img src="./images/jenkins-credentials-ssh-2.png" alt=""> </p>
-<p>&emsp;&emsp;然后我同样把私钥配置到Jenkins的Credentials中。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/25/jenkins-credentials-ssh/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-docker-image-dockerfile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/24/docker-image-dockerfile/">Docker镜像创建之Dockerfile的创建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/24/docker-image-dockerfile/" class="archive-article-date">
-  	<time datetime="2017-10-24T05:42:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;之前有几篇关于Docker入门基础的文章，本文的重点是Dockerfile。</p>
-<p><a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a><br><a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a><br><a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a></p>
-<p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a> <a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a> 这两篇文章中是利用docker pull 从<a href="https://hub.docker.com/" target="_blank" rel="noopener">官方</a>拉取一个镜像，然后基于这个镜像利用命令docker run 创建一个容器。但是面对复杂的应用，最佳的方案就是使用Dockerfile, Dockerfile是为快速构建docker image而设计的, 就像jenkins有jenkinsfile一样。</p>
-<p>&emsp;&emsp;Dockfile是一种被Docker程序解释的脚本，Dockerfile由一条一条的指令组成，每条指令对应Linux下面的一条命令。Docker程序将这些Dockerfile指令翻译真正的Linux命令。Dockerfile有自己书写格式和支持的命令，Docker程序解决这些命令间的依赖关系，类似于Makefile。Docker程序将读取Dockerfile，根据指令生成定制的image。相比image这种黑盒子，Dockerfile这种显而易见的脚本更容易被使用者接受，它明确的表明image是怎么产生的。有了Dockerfile，当我们需要定制自己额外的需求时，只需在Dockerfile上添加或者修改指令，重新生成image即可，省去了敲命令的麻烦。</p>
-<h5 id="Dockerfile文件结构（四个部分）"><a href="#Dockerfile文件结构（四个部分）" class="headerlink" title="Dockerfile文件结构（四个部分）"></a>Dockerfile文件结构（四个部分）</h5><ol>
-<li>基础镜像：以哪个镜像作为基础进行制作，用法是FROM 基础镜像名称</li>
-<li>维护者信息：需要写下该Dockerfile编写人的姓名或邮箱，用法是MANITAINER 名字/邮箱</li>
-<li>镜像操作命令：对基础镜像要进行的改造命令，比如安装新的软件，进行哪些特殊配置等，常见的是RUN 命令</li>
-<li>容器启动命令：当基于该镜像的容器启动时需要执行哪些命令，常见的是CMD 命令或ENTRYPOINT</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Version 0.1</span><br><span class="line">FROM centos:7.2.1511</span><br><span class="line"></span><br><span class="line">MAINTAINER zoncao@cisco.com</span><br><span class="line">RUN yum install git -y</span><br><span class="line">RUN yum install wget -y</span><br><span class="line">RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo</span><br><span class="line">RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -</span><br><span class="line">RUN yum install yarn -y</span><br></pre></td></tr></table></figure>
-<p>#####<br>docker build -t atlas-build .</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/24/docker-image-dockerfile/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1044,6 +1086,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
@@ -1073,6 +1119,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
             
             <div class="clearfix"></div>

@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://up8.wang/2018/03/06/webpack-typescript/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 GitHub 上托管。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。 TypeScript 是为大型应用程序开发而设计">
-<meta property="og:updated_time" content="2018-03-06T14:14:03.000Z">
+<meta property="og:updated_time" content="2018-03-09T12:47:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack入门八：使用TypeScript">
 <meta name="twitter:description" content="TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 GitHub 上托管。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。 TypeScript 是为大型应用程序开发而设计">
@@ -200,7 +200,7 @@
 <li>main.js 并将文件名改为main.ts</li>
 <li>module.js 并将文件名改为module.ts</li>
 </ul>
-<p>module.ts (原来的module.js使用的是CommonJS的模块化规范，这里我们改为ES6自己的模块规范语法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function setName(name) &#123;</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;add, setName&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>module.ts (原来的module.js使用的是CommonJS的模块化规范，这里我们改为ES6自己的模块规范语法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function add(x: number, y: number) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function setName(name: string) &#123;</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export &#123;add, setName&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>main.ts (同module.ts一样， 原来的main.js使用的是CommonJS的模块化规范，这里我们改为ES6自己的模块规范语法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import &apos;./main.css&apos; // 载入 main.css</span><br><span class="line">import * as mdl from &apos;./module&apos;</span><br><span class="line"></span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line"></span><br><span class="line">var person = &#123;</span><br><span class="line">	age: mdl.add(10, 20),</span><br><span class="line">	getName: mdl.setName(&apos;Felix Cao&apos;)</span><br><span class="line">&#125;;</span><br><span class="line">document.write(`姓名： $&#123;person.getName&#125;&lt;br&gt;`);</span><br><span class="line">document.write(`年龄： $&#123;person.age&#125;`);</span><br></pre></td></tr></table></figure></p>
 <p>需要额外提一下的是，如果继续想使用CommonJS的require模块加载方法的话，需要额外安装第三方库node去识别require.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i @types/node</span><br></pre></td></tr></table></figure></p>
 <p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/08-webpack-typescript" target="_blank" rel="noopener">源码</a></p>
@@ -465,6 +465,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
@@ -494,6 +498,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
             
             <div class="clearfix"></div>

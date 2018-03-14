@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>JavaScript的Object对象 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;对象这个概念在所有编程语言中都十分重要，对于事物我们可以把他们看作是一个对象，而每一个事物都有自己的表示的属性和对于某一信息作出对应的操作，这些东西就构成了事物的属性和方法。&amp;emsp;&amp;emsp;在JavaScript里，同样认为“万物皆对象”，JavaScri">
+  <meta name="description" content="一、面向对象&amp;emsp;&amp;emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。 &amp;emsp;&amp;emsp;我们说，对象具有属性(property)和方法(function)，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript的Object对象">
 <meta property="og:url" content="http://up8.wang/2018/02/08/js-object/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;对象这个概念在所有编程语言中都十分重要，对于事物我们可以把他们看作是一个对象，而每一个事物都有自己的表示的属性和对于某一信息作出对应的操作，这些东西就构成了事物的属性和方法。&amp;emsp;&amp;emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换">
-<meta property="og:updated_time" content="2018-02-09T01:43:32.000Z">
+<meta property="og:description" content="一、面向对象&amp;emsp;&amp;emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。 &amp;emsp;&amp;emsp;我们说，对象具有属性(property)和方法(function)，（其实本质上方法也是一种属性）在面向对象的设计模式中，属性是一种描述，描述对象的状态，比如一个人一天 24 小时">
+<meta property="og:updated_time" content="2018-03-14T01:25:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript的Object对象">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;对象这个概念在所有编程语言中都十分重要，对于事物我们可以把他们看作是一个对象，而每一个事物都有自己的表示的属性和对于某一信息作出对应的操作，这些东西就构成了事物的属性和方法。&amp;emsp;&amp;emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换">
+<meta name="twitter:description" content="一、面向对象&amp;emsp;&amp;emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。 &amp;emsp;&amp;emsp;我们说，对象具有属性(property)和方法(function)，（其实本质上方法也是一种属性）在面向对象的设计模式中，属性是一种描述，描述对象的状态，比如一个人一天 24 小时">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -173,8 +173,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>&emsp;&emsp;对象这个概念在所有编程语言中都十分重要，对于事物我们可以把他们看作是一个对象，而每一个事物都有自己的表示的属性和对于某一信息作出对应的操作，这些东西就构成了事物的属性和方法。<br>&emsp;&emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换句话说JavaScript中的所有对象都是由Object对象衍生的，本篇来聊一聊这个Object对象。</p>
-<h5 id="Object函数"><a href="#Object函数" class="headerlink" title="Object函数"></a>Object函数</h5><p>&emsp;&emsp;<strong>Object本身是一个函数</strong>(理解这一点，请移步 <a href="/2018/01/26/js-function-role/">JavaScript中函数的三种角色</a>)，可以当作工具方法使用，将任意值转为对象。这个方法常用于保证某个值一定是对象。如果参数为空（或者为undefined和null），Object()返回一个空对象。</p>
+        <h5 id="一、面向对象"><a href="#一、面向对象" class="headerlink" title="一、面向对象"></a>一、面向对象</h5><p>&emsp;&emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。</p>
+<p>&emsp;&emsp;我们说，对象具有属性(property)和方法(function)，（其实本质上方法也是一种属性）在面向对象的设计模式中，属性是一种描述，描述对象的状态，比如一个人一天 24 小时的情绪，每个时刻他的情绪都具有不同的状态，喜怒哀乐，抑郁癫狂，贪嗔痴念，当然情绪只是生而为人的众多状态中的一种而已。而对象中的方法是一种功能，它的功能就是操作对象的属性。比如，吃饭可以改变一个人的状态，对吃货而已，吃饱以后会觉得特别幸福，吃饭是一种功能，它改变了一个人的情绪，让人觉得幸福。</p>
+<p>&emsp;&emsp;那么，反过来细想，人是一个对象，它具有情绪，他还要吃饭。所以可以说，对象是对属性和方法的一种封装。</p>
+<p>&emsp;&emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换句话说JavaScript中的所有对象都是由Object对象衍生的，本篇来聊一聊这个Object对象。</p>
+<h5 id="二、Object函数"><a href="#二、Object函数" class="headerlink" title="二、Object函数"></a>二、Object函数</h5><p>&emsp;&emsp;<strong>Object本身是一个函数</strong>(理解这一点，请移步 <a href="/2018/01/26/js-function-role/">JavaScript中函数的三种角色</a>)，可以当作工具方法使用，将任意值转为对象。这个方法常用于保证某个值一定是对象。如果参数为空（或者为undefined和null），Object()返回一个空对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object();</span><br><span class="line">// 等同于</span><br><span class="line">var obj = Object(undefined);</span><br><span class="line">var obj = Object(null);</span><br><span class="line"></span><br><span class="line">obj instanceof Object // true</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;上面代码的含义，是将undefined和null转为对象，结果得到了一个空对象obj。<br>&emsp;&emsp;instanceof运算符用来验证，一个对象是否为指定的构造函数的实例。obj instanceof Object返回true，就表示obj对象是Object的实例。<br>&emsp;&emsp;如果参数是原始类型的值，Object方法将其转为对应的包装对象的实例。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object(1);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Number // true</span><br><span class="line"></span><br><span class="line">var obj = Object(&apos;foo&apos;);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof String // true</span><br><span class="line"></span><br><span class="line">var obj = Object(true);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Boolean // true</span><br></pre></td></tr></table></figure>
@@ -182,7 +185,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">var obj = Object(arr); // 返回原数组</span><br><span class="line">obj === arr // true</span><br><span class="line"></span><br><span class="line">var value = &#123;&#125;;</span><br><span class="line">var obj = Object(value) // 返回原对象</span><br><span class="line">obj === value // true</span><br><span class="line"></span><br><span class="line">var fn = function () &#123;&#125;;</span><br><span class="line">var obj = Object(fn); // 返回原函数</span><br><span class="line">obj === fn // true</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;利用这一点，可以写一个判断变量是否为对象的函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function isObject(value) &#123;</span><br><span class="line">  return value === Object(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isObject([]) // true</span><br><span class="line">isObject(true) // false</span><br></pre></td></tr></table></figure>
-<h5 id="Object构造函数"><a href="#Object构造函数" class="headerlink" title="Object构造函数"></a>Object构造函数</h5><p>&emsp;&emsp;Object不仅可以当作工具函数使用，还可以当作构造函数使用，即前面可以使用new操作符。Object构造函数的首要用途，是直接通过它来生成新对象。</p>
+<h5 id="三、Object构造函数"><a href="#三、Object构造函数" class="headerlink" title="三、Object构造函数"></a>三、Object构造函数</h5><p>&emsp;&emsp;Object不仅可以当作工具函数使用，还可以当作构造函数使用，即前面可以使用new操作符。Object构造函数的首要用途，是直接通过它来生成新对象。</p>
 <p>&emsp;&emsp;Object构造函数的用法与工具方法很相似，几乎一模一样。使用时，可以接受一个参数，如果该参数是一个对象，则直接返回这个对象；如果是一个原始类型的值，则返回该值对应的包装对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var o1 = &#123;a: 1&#125;;</span><br><span class="line">var o2 = new Object(o1);</span><br><span class="line">o1 === o2 // true</span><br><span class="line"></span><br><span class="line">var obj = new Object(123);</span><br><span class="line">obj instanceof Number // true</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;虽然用法相似，但是Object(value)与new Object(value)两者的语义是不同的，Object(value)表示将value转成一个对象，new Object(value)则表示新生成一个对象，它的值是value。</p>
 <h5 id="Object-keys-与Object-getOwnPropertyNames"><a href="#Object-keys-与Object-getOwnPropertyNames" class="headerlink" title="Object.keys()与Object.getOwnPropertyNames()"></a>Object.keys()与Object.getOwnPropertyNames()</h5><p>&emsp;&emsp;这两个方法都是用来遍历对象的属性的<br>&emsp;&emsp;Object.keys方法的参数是一个对象，返回一个数组。该数组的成员都是该对象自身的（而不是继承的）所有属性名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  p1: 123,</span><br><span class="line">  p2: 456</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Object.keys(obj) // [&quot;p1&quot;, &quot;p2&quot;]</span><br></pre></td></tr></table></figure></p>
@@ -438,6 +441,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
@@ -467,6 +474,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
             
             <div class="clearfix"></div>
