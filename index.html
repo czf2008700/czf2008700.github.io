@@ -151,6 +151,153 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-object-create" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/14/js-object-create/">JavaScript的对象创建</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/14/js-object-create/" class="archive-article-date">
+  	<time datetime="2018-03-14T06:29:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转自 <a href="http://www.cnblogs.com/gaojun/archive/2013/10/24/3386552.html" target="_blank" rel="noopener">JS面向对象的程序设计</a></p>
+<p>面向对象的语言有一个标志，即拥有类的概念，抽象实例对象的公共属性与方法，基于类可以创建任意多个实例对象，一般具有封装、继承、多态的特性！但JS中对象与纯面向对象语言中的对象是不同的，ECMA标准定义JS中对象：无序属性的集合，其属性可以包含基本值、对象或者函数。可以简单理解为JS的对象是一组无序的值，其中的属性或方法都有一个名字，根据这个名字可以访问相映射的值（值可以是基本值/对象/方法）。</p>
+<h5 id="一、理解对象"><a href="#一、理解对象" class="headerlink" title="一、理解对象"></a>一、理解对象</h5><p>第一种：基于Object对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = new Object();</span><br><span class="line">person.name = &apos;My Name&apos;;</span><br><span class="line">person.age = 18;</span><br><span class="line">person.getName = function()&#123;</span><br><span class="line">  return this.name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第二种：对象字面量方式（比较清楚的查找对象包含的属性及方法）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name : &apos;My name&apos;,</span><br><span class="line">  age : 18,</span><br><span class="line">  getName : function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>JS的对象可以使用‘.’操作符动态的扩展其属性，可以使用’delete’操作符或将属性值设置为’undefined’来删除属性。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">person.newAtt=’new Attr’;//添加属性</span><br><span class="line">alert(person.newAtt);//new Attr</span><br><span class="line">delete person.age;</span><br><span class="line">alert(person.age);//undefined(删除属性后值为undefined);</span><br></pre></td></tr></table></figure></p>
+<h5 id="二、对象属性类型"><a href="#二、对象属性类型" class="headerlink" title="二、对象属性类型"></a>二、对象属性类型</h5><p>ECMA-262第5版定义了JS对象属性中特征（用于JS引擎，外部无法直接访问）。ECMAScript中有两种属性：数据属性和访问器属性</p>
+<p>1、数据属性：<br>数据属性指包含一个数据值的位置，可在该位置读取或写入值，该属性有4个供述其行为的特性：</p>
+<ul>
+<li>[[configurable]]:表示能否使用delete操作符删除从而重新定义，或能否修改为访问器属性。默认为true;</li>
+<li>[[Enumberable]]:表示是否可通过for-in循环返回属性。默认true;</li>
+<li>[[Writable]]:表示是否可修改属性的值。默认true;</li>
+<li>[[Value]]:包含该属性的数据值。读取/写入都是该值。默认为undefined;如上面实例对象person中定义了name属性，其值为’My name’,对该值的修改都反正在这个位置</li>
+</ul>
+<p>要修改对象属性的默认特征（默认都为true)，可调用Object.defineProperty()方法，它接收三个参数：属性所在对象，属性名和一个描述符对象（必须是：configurable、enumberable、writable和value，可设置一个或多个值）。</p>
+<p>如下：（浏览器支持：IE9+、Firefox 4+、Chrome、Safari5+）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">Object.defineProperty(person, &apos;name&apos;, &#123;</span><br><span class="line">  configurable: false,</span><br><span class="line">  writable: false,</span><br><span class="line">  value: &apos;Jack&apos;</span><br><span class="line">&#125;);</span><br><span class="line">alert(person.name);//Jack</span><br><span class="line">delete person.name;</span><br><span class="line">person.name = &apos;lily&apos;;</span><br><span class="line">alert(person.name);//Jack</span><br></pre></td></tr></table></figure></p>
+<p>可以看出，delete及重置person.name的值都没有生效，这就是因为调用defineProperty函数修改了对象属性的特征；值得注意的是一旦将configurable设置为false，则无法再使用defineProperty将其修改为true（执行会报错：can’t redefine non-configurable property）;</p>
+<p>2、访问器属性：<br>它主要包括一对getter和setter函数，在读取访问器属性时，会调用getter返回有效值；写入访问器属性时，调用setter，写入新值；该属性有以下4个特征：</p>
+<ul>
+<li>[[Configurable]]:是否可通过delete操作符删除重新定义属性；</li>
+<li>[[Numberable]]:是否可通过for-in循环查找该属性；</li>
+<li>[[Get]]:读取属性时调用，默认：undefined;</li>
+<li>[[Set]]:写入属性时调用，默认：undefined;<br>访问器属性不能直接定义，必须使用defineProperty()来定义，如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  _age: 18</span><br><span class="line">&#125;;</span><br><span class="line">Object.defineProperty(person, &apos;isAdult&apos;, &#123;</span><br><span class="line">  get: function () &#123;</span><br><span class="line">    if (this._age &gt;= 18) &#123;</span><br><span class="line">      return true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return false;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">alert(person.isAdult?&apos;成年&apos;:&apos;未成年&apos;);//成年</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>从上面可知，定义访问器属性时getter与setter函数不是必须的,并且，在定义getter与setter时不能指定属性的configurable及writable特性；</p>
+<p>此外，ECMA-262（5）还提供了一个Object.defineProperties()方法，可以用来一次性定义多个属性的特性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">Object.defineProperties(person,&#123;</span><br><span class="line">  _age:&#123;</span><br><span class="line">    value:19</span><br><span class="line">  &#125;,</span><br><span class="line">  isAdult:&#123;</span><br><span class="line">    get: function () &#123;</span><br><span class="line">      if (this._age &gt;= 18) &#123;</span><br><span class="line">        return true;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return false;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">alert(person.isAdult?&apos;成年&apos;:&apos;未成年&apos;);//成年</span><br></pre></td></tr></table></figure>
+<p>上述代码使用Object.defineProperties()方法同时定义了_age及isAudlt两个属性的特性</p>
+<p>此外，使用Object.getOwnPropertyDescriptor()方法可以取得给定属性的特性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var descriptor = Object.getOwnPropertyDescriptor(person,&apos;_age&apos;);</span><br><span class="line">alert(descriptor.value);//19</span><br></pre></td></tr></table></figure>
+<p>对于数据属性，可以取得：configurable,enumberable,writable和value；<br>对于访问器属性，可以取得：configurable,enumberable,get和set</p>
+<h5 id="三、创建对象"><a href="#三、创建对象" class="headerlink" title="三、创建对象"></a>三、创建对象</h5><p>使用Object构造函数或对象字面量都可以创建对象，但缺点是创建多个对象时，会产生大量的重复代码，因此下面介绍可解决这个问题的创建对象的方法</p>
+<p>1、 工厂模式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function createPerson(name, age, job) &#123;</span><br><span class="line">  var o = new Object();</span><br><span class="line">  o.name = name;</span><br><span class="line">  o.age = age;</span><br><span class="line">  o.job = job;</span><br><span class="line">  o.getName = function () &#123;</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">  return o;//使用return返回生成的对象实例</span><br><span class="line">&#125;</span><br><span class="line">var person = createPerson(&apos;Jack&apos;, 19, &apos;SoftWare Engineer&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>创建对象交给一个工厂方法来实现，可以传递参数，但主要缺点是无法识别对象类型，因为创建对象都是使用Object的原生构造函数来完成的。</p>
+<p>2、 构造函数模式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function Person(name,age,job)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.job = job;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person(&apos;Jack&apos;, 19, &apos;SoftWare Engineer&apos;);</span><br><span class="line">var person2 = new Person(&apos;Liye&apos;, 23, &apos;Mechanical Engineer&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>使用自定义的构造函数（与普通函数一样，只是用它来创建对象），定义对象类型（如：Person）的属性和方法。它与工厂方法区别在于：</p>
+<ul>
+<li>没有显式地创建对象</li>
+<li>直接将属性和方法赋值给this对象；</li>
+<li>没有return语句；</li>
+</ul>
+<p>此外，要创建Person的实例，必须使用new关键字，以Person函数为构造函数，传递参数完成对象创建；实际创建经过以下4个过程：</p>
+<ul>
+<li>创建一个对象</li>
+<li>将函数的作用域赋给新对象（因此this指向这个新对象，如：person1）</li>
+<li>执行构造函数的代码</li>
+<li>返回该对象</li>
+</ul>
+<p>上述由Person构造函数生成的两个对象person1与person2都是Person的实例，因此可以使用instanceof判断，并且因为所有对象都继承Object，因此person1 instanceof Object也返回真：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert(person1 instanceof Person);//true;</span><br><span class="line">alert(person2 instanceof Person);//true;</span><br><span class="line">alert(person1 instanceof Object);//true;</span><br><span class="line">alert(person1.constructor === person2.constructor);//ture;</span><br></pre></td></tr></table></figure>
+<p>虽然构造函数方式比较不错，但也存在缺点，那就是在创建对象时，特别针对对象的属性指向函数时，会重复的创建函数实例，以上述代码为基础，可以改写为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Person(name,age,job)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.job = job;</span><br><span class="line">  this.getName = new Function () &#123;//改写后效果与原代码相同，不过是为了方便理解</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码，创建多个实例时，会重复调用new Function();创建多个函数实例，这些函数实例还不是一个作用域中，当然这一般不会有错，但这会造成内存浪费。当然，可以在函数中定义一个getName = getName的引用，而getName函数在Person外定义，这样可以解决重复创建函数实例问题，但在效果上并没有起到封装的效果，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person(name,age,job)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.job = job;</span><br><span class="line">  this.getName = getName;</span><br><span class="line">&#125;</span><br><span class="line">function getName() &#123;//到处是代码，看着乱！！</span><br><span class="line">  return this.name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、原型模式<br>JS每个函数都有一个prototype(原型)属性，这个属性是一个指针，指向一个对象，它是所有通过new操作符使用函数创建的实例的原型对象。原型对象最大特点是，所有对象实例共享它所包含的属性和方法，也就是说，所有在原型对象中创建的属性或方法都直接被所有对象实例共享。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person()&#123;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Jack&apos;;//使用原型来添加属性</span><br><span class="line">Person.prototype.age = 29;</span><br><span class="line">Person.prototype.getName = function()&#123;</span><br><span class="line">  return this.name;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person();</span><br><span class="line">alert(person1.getName());//Jack</span><br><span class="line">var person2 = new Person();</span><br><span class="line">alert(person1.getName === person2.getName);//true;共享一个原型对象的方法</span><br></pre></td></tr></table></figure>
+<p>原型是指向原型对象的，这个原型对象与构造函数没有太大关系，唯一的关系是函数的prototype是指向这个原型对象！而基于构造函数创建的对象实例也包含一个内部指针为：[[prototype]]指向原型对象。</p>
+<p>实例属性或方法的访问过程是一次搜索过程：</p>
+<ul>
+<li>首先从对象实例本身开始，如果找到属性就直接返回该属性值；</li>
+<li>如果实例本身不存在要查找属性，就继续搜索指针指向的原型对象，在其中查找给定名字的属性，如果有就返回；</li>
+</ul>
+<p>基于以上分析，原型模式创建的对象实例，其属性是共享原型对象的；但也可以自己实例中再进行定义，在查找时，就不从原型对象获取，而是根据搜索原则，得到本实例的返回；<strong>简单来说，就是实例中属性会屏蔽原型对象中的属性</strong>；</p>
+<p>原型与in操作符<br>一句话：无论原型中属性，还是对象实例的属性，都可以使用in操作符访问到；要想判断是否是实例本身的属性可以使用object.hasOwnProperty(‘attr’)来判断；</p>
+<p>原生对象中原型<br>原生对象中原型与普通对象的原型一样，可以添加/修改属性或方法，如以下代码为所有字符串对象添加去左右空白原型方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.trim = function()&#123;</span><br><span class="line">  return this.replace(/^\s+/,&apos;&apos;).replace(/\s+$/,&apos;&apos;);</span><br><span class="line">&#125;</span><br><span class="line">var str = &apos;   word space   &apos;;</span><br><span class="line">alert(&apos;!&apos;+str.trim()+&apos;!&apos;);//!word space!</span><br></pre></td></tr></table></figure>
+<p>原型模式的缺点，它省略了为构造函数传递初始化参数，这在一定程序带来不便；另外，最主要是当对象的属性是引用类型时，它的值是不变的，总是引用同一个外部对象，所有实例对该对象的操作都会其它实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Jack&apos;;</span><br><span class="line">Person.prototype.lessons = [&apos;Math&apos;,&apos;Physics&apos;];</span><br><span class="line">var person1 = new Person();</span><br><span class="line">person1.lessons.push(&apos;Biology&apos;);</span><br><span class="line">var person2 = new Person();</span><br><span class="line">alert(person2.lessons);//Math,Physics,Biology，person1修改影响了person2</span><br></pre></td></tr></table></figure>
+<p>4、组合构造函数及原型模式</p>
+<p>目前最为常用的定义类型方式，是组合构造函数模式与原型模式。构造函数模式用于定义实例的属性，而原型模式用于定义方法和共享的属性。结果，每个实例都会有自己的一份实例属性的副本，但同时又共享着对方方法的引用，最大限度的节约内存。此外，组合模式还支持向构造函数传递参数，可谓是集两家之所长。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age, job) &#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.job = job;</span><br><span class="line">  this.lessons = [&apos;Math&apos;, &apos;Physics&apos;];</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  constructor: Person,//原型字面量方式会将对象的constructor变为Object，此外强制指回Person</span><br><span class="line">  getName: function () &#123;</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person(&apos;Jack&apos;, 19, &apos;SoftWare Engneer&apos;);</span><br><span class="line">person1.lessons.push(&apos;Biology&apos;);</span><br><span class="line">var person2 = new Person(&apos;Lily&apos;, 39, &apos;Mechanical Engneer&apos;);</span><br><span class="line">alert(person1.lessons);//Math,Physics,Biology</span><br><span class="line">alert(person2.lessons);//Math,Physics</span><br><span class="line">alert(person1.getName === person2.getName);//true,//共享原型中定义方法</span><br></pre></td></tr></table></figure>
+<p>在所接触的JS库中，jQuery类型的封装就是使用组合模式来实例的！！！</p>
+<p>5、动态原型模式</p>
+<p>组合模式中实例属性与共享方法（由原型定义）是分离的，这与纯面向对象语言不太一致；动态原型模式将所有构造信息都封装在构造函数中，又保持了组合的优点。其原理就是通过判断构造函数的原型中是否已经定义了共享的方法或属性，如果没有则定义，否则不再执行定义过程。该方式只原型上方法或属性只定义一次，且将所有构造过程都封装在构造函数中，对原型所做的修改能立即体现所有实例中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age, job) &#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.job = job;</span><br><span class="line">  this.lessons = [&apos;Math&apos;, &apos;Physics&apos;];</span><br><span class="line">&#125;</span><br><span class="line">if (typeof this.getName != &apos;function&apos;) &#123;//通过判断实例封装</span><br><span class="line">  Person.prototype = &#123;</span><br><span class="line">    constructor: Person,//原型字面量方式会将对象的constructor变为Object，此外强制指回Person</span><br><span class="line">    getName: function () &#123;</span><br><span class="line">      return this.name;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var person1 = new Person(&apos;Jack&apos;, 19, &apos;SoftWare Engneer&apos;);</span><br><span class="line">person1.lessons.push(&apos;Biology&apos;);</span><br><span class="line">var person2 = new Person(&apos;Lily&apos;, 39, &apos;Mechanical Engneer&apos;);</span><br><span class="line">alert(person1.lessons);//Math,Physics,Biology</span><br><span class="line">alert(person2.lessons);//Math,Physics</span><br><span class="line">alert(person1.getName === person2.getName);//true,//共享原型中定义方法</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/14/js-object-create/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-microservice-architecture" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1123,99 +1270,6 @@
 
 
   
-    <article id="post-webpack-entry-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/01/webpack-entry-module/">Webpack入门三：入口与模块</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/01/webpack-entry-module/" class="archive-article-date">
-  	<time datetime="2018-03-01T06:49:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="安装-http-server"><a href="#安装-http-server" class="headerlink" title="安装 http-server"></a>安装 http-server</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i http-server</span><br></pre></td></tr></table></figure>
-<h5 id="一、-入口"><a href="#一、-入口" class="headerlink" title="一、 入口"></a>一、 入口</h5><p>首先创建一个静态页面index.html和一个JavaScript入口文件main.js</p>
-<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>main.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br></pre></td></tr></table></figure>
-<p>然后编译main.js.js并打包到app.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br></pre></td></tr></table></figure>
-<p>打包过程会显示日志：</p>
-<p><img src="/images/webpack-entry-module-01.png" width="400"></p>
-<p>让我们在浏览器show一把</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
-<p>用浏览器打开 index.html 将会看到 ‘这里是入口’</p>
-<h5 id="二、-加载模块"><a href="#二、-加载模块" class="headerlink" title="二、 加载模块"></a>二、 加载模块</h5><p>接下来，我们添加一个模块 module.js 并修改入口 main.js：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// module.js</span><br><span class="line">module.exports = &apos;这里是模块&apos;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;)) // 添加模块</span><br></pre></td></tr></table></figure>
-<p>重新打包 webpack main.js app.js 清除缓存后刷新页面.</p>
-<p>打包过程显示的日志：</p>
-<p><img src="/images/webpack-entry-module-02.png" width="400"></p>
-<p>Webpack 会分析入口文件，解析包含依赖关系的各个文件。这些文件（模块）都打包到 app.js 。Webpack 会给每个模块分配一个唯一的 id 并通过这个 id 索引和访问模块。在页面启动时，会先执行 main.js 中的代码，其它模块会在运行 require 的时候再执行。</p>
-<p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/03-entry-module" target="_blank" rel="noopener">源码</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/01/webpack-entry-module/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1330,10 +1384,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
@@ -1342,11 +1392,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">process</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">thread</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1363,10 +1421,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
             
             <div class="clearfix"></div>
