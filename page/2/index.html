@@ -84,6 +84,8 @@
 		        
 					<a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491766244&site=qq&menu=yes" title="qq"><i class="icon-qq"></i></a>
 		        
+					<a class="facebook" target="_blank" href="https://www.facebook.com/felix.cao.35" title="facebook"><i class="icon-facebook"></i></a>
+		        
 			</div>
 		</nav>
 	</header>		
@@ -125,6 +127,8 @@
 			        
 						<a class="qq" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=491766244&site=qq&menu=yes" title="qq"><i class="icon-qq"></i></a>
 			        
+						<a class="facebook" target="_blank" href="https://www.facebook.com/felix.cao.35" title="facebook"><i class="icon-facebook"></i></a>
+			        
 				</div>
 			</nav>
 
@@ -150,6 +154,100 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-webpack-loader" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/02/webpack-loader/">Webpack入门四：loader使用</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/02/webpack-loader/" class="archive-article-date">
+  	<time datetime="2018-03-02T02:02:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>上一篇<a href="/2018/03/01/webpack-entry-module/">Webpack入门之入口与模块</a>, 我们聊了 Webpack 入口并构建了一个采用 CommonJS 规范的模块，本篇来聊一聊利用 loader 加载 css 模块。</p>
+<p>Webpack 把一切文件都看作模块，CSS 文件也不例外。但是 Webpack 本身只能处理 JavaScript 模块，如果要处理其他类型的文件，就需要使用 loader 进行转换。</p>
+<p>Loader 可以理解为是模块和资源的转换器，它本身是一个函数，接受源文件作为参数，返回转换的结果。这样，我们就可以通过 require 来加载任何类型的模块或文件，比如 CoffeeScript、 JSX、 LESS 或图片。</p>
+<p>接上一节的例子，我们要在页面中引入一个CSS样式文件main.css, 在入口文件main.js将main.css看成一个模块， 然后用 css-loader 来读取它， 再用 style-loader 把它插入到页面中。</p>
+<ul>
+<li>css-loader使你能够使用类似@import 和 url(…)的方法实现 require()的功能</li>
+<li>style-loader将所有的计算后的样式加入页面中；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* main.css */</span><br><span class="line">body &#123; background: yellow; &#125;</span><br></pre></td></tr></table></figure>
+<p>修改 main.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require(&quot;!style-loader!css-loader!./main.css&quot;) // 载入 main.css</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;));</span><br></pre></td></tr></table></figure>
+<p>安装 loader：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i css-loader style-loader</span><br></pre></td></tr></table></figure>
+<p>重新编译打包，清除缓存刷新页面，就可以看到黄色的页面背景了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
+<p><img src="/images/webpack-loader-01.png" width="800"></p>
+<p>可是，如果每次 require CSS 文件的时候都要写 loader 前缀，是一件很繁琐的事情。我们可以根据模块类型（文件扩展名）来自动绑定需要的 loader。</p>
+<p>将 main.js 中的 require(“!style-loader!css-loader!./main.css”) 修改为 require(“./main.css”) ，然后执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js --module-bind &apos;css=style-loader!css-loader&apos;</span><br></pre></td></tr></table></figure>
+<p>显然，这两种使用 loader 的方式，效果是一样的。</p>
+<p>附<a href="https://github.com/felix-cao/webpack-demo" target="_blank" rel="noopener">源码</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/02/webpack-loader/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-webpack-entry-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -1277,92 +1375,9 @@
 
 
   
-    <article id="post-js-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/08/js-object/">JavaScript的Object对象</a>
-    </h1>
-  
-
-        
-        <a href="/2018/02/08/js-object/" class="archive-article-date">
-  	<time datetime="2018-02-08T08:14:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="一、面向对象"><a href="#一、面向对象" class="headerlink" title="一、面向对象"></a>一、面向对象</h5><p>&emsp;&emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。</p>
-<p>&emsp;&emsp;我们说，对象具有属性(property)和方法(function)，（其实本质上方法也是一种属性）在面向对象的设计模式中，属性是一种描述，描述对象的状态，比如一个人一天 24 小时的情绪，每个时刻他的情绪都具有不同的状态，喜怒哀乐，抑郁癫狂，贪嗔痴念，当然情绪只是生而为人的众多状态中的一种而已。而对象中的方法是一种功能，它的功能就是操作对象的属性。比如，吃饭可以改变一个人的状态，对吃货而已，吃饱以后会觉得特别幸福，吃饭是一种功能，它改变了一个人的情绪，让人觉得幸福。</p>
-<p>&emsp;&emsp;那么，反过来细想，人是一个对象，它具有情绪，他还要吃饭。所以可以说，对象是对属性和方法的一种封装。</p>
-<p>&emsp;&emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换句话说JavaScript中的所有对象都是由Object对象衍生的，本篇来聊一聊这个Object对象。</p>
-<h5 id="二、Object函数"><a href="#二、Object函数" class="headerlink" title="二、Object函数"></a>二、Object函数</h5><p>&emsp;&emsp;<strong>Object本身是一个函数</strong>(理解这一点，请移步 <a href="/2018/01/26/js-function-role/">JavaScript中函数的三种角色</a>)，可以当作工具方法使用，将任意值转为对象。这个方法常用于保证某个值一定是对象。如果参数为空（或者为undefined和null），Object()返回一个空对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object();</span><br><span class="line">// 等同于</span><br><span class="line">var obj = Object(undefined);</span><br><span class="line">var obj = Object(null);</span><br><span class="line"></span><br><span class="line">obj instanceof Object // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面代码的含义，是将undefined和null转为对象，结果得到了一个空对象obj。<br>&emsp;&emsp;instanceof运算符用来验证，一个对象是否为指定的构造函数的实例。obj instanceof Object返回true，就表示obj对象是Object的实例。<br>&emsp;&emsp;如果参数是原始类型的值，Object方法将其转为对应的包装对象的实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object(1);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Number // true</span><br><span class="line"></span><br><span class="line">var obj = Object(&apos;foo&apos;);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof String // true</span><br><span class="line"></span><br><span class="line">var obj = Object(true);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Boolean // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面代码中，Object函数的参数是各种原始类型的值，转换成对象就是原始类型值对应的包装对象。<br>&emsp;&emsp;如果Object方法的参数是一个对象，它总是返回该对象，即不用转换。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">var obj = Object(arr); // 返回原数组</span><br><span class="line">obj === arr // true</span><br><span class="line"></span><br><span class="line">var value = &#123;&#125;;</span><br><span class="line">var obj = Object(value) // 返回原对象</span><br><span class="line">obj === value // true</span><br><span class="line"></span><br><span class="line">var fn = function () &#123;&#125;;</span><br><span class="line">var obj = Object(fn); // 返回原函数</span><br><span class="line">obj === fn // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;利用这一点，可以写一个判断变量是否为对象的函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function isObject(value) &#123;</span><br><span class="line">  return value === Object(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isObject([]) // true</span><br><span class="line">isObject(true) // false</span><br></pre></td></tr></table></figure>
-<h5 id="三、Object构造函数"><a href="#三、Object构造函数" class="headerlink" title="三、Object构造函数"></a>三、Object构造函数</h5><p>&emsp;&emsp;Object不仅可以当作工具函数使用，还可以当作构造函数使用，即前面可以使用new操作符。Object构造函数的首要用途，是直接通过它来生成新对象。</p>
-<p>&emsp;&emsp;Object构造函数的用法与工具方法很相似，几乎一模一样。使用时，可以接受一个参数，如果该参数是一个对象，则直接返回这个对象；如果是一个原始类型的值，则返回该值对应的包装对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var o1 = &#123;a: 1&#125;;</span><br><span class="line">var o2 = new Object(o1);</span><br><span class="line">o1 === o2 // true</span><br><span class="line"></span><br><span class="line">var obj = new Object(123);</span><br><span class="line">obj instanceof Number // true</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;虽然用法相似，但是Object(value)与new Object(value)两者的语义是不同的，Object(value)表示将value转成一个对象，new Object(value)则表示新生成一个对象，它的值是value。</p>
-<h5 id="Object-keys-与Object-getOwnPropertyNames"><a href="#Object-keys-与Object-getOwnPropertyNames" class="headerlink" title="Object.keys()与Object.getOwnPropertyNames()"></a>Object.keys()与Object.getOwnPropertyNames()</h5><p>&emsp;&emsp;这两个方法都是用来遍历对象的属性的<br>&emsp;&emsp;Object.keys方法的参数是一个对象，返回一个数组。该数组的成员都是该对象自身的（而不是继承的）所有属性名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  p1: 123,</span><br><span class="line">  p2: 456</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Object.keys(obj) // [&quot;p1&quot;, &quot;p2&quot;]</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;Object.getOwnPropertyNames方法与Object.keys类似，也是接受一个对象作为参数，返回一个数组，包含了该对象自身的所有属性名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  p1: 123,</span><br><span class="line">  p2: 456</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Object.getOwnPropertyNames(obj) // [&quot;p1&quot;, &quot;p2&quot;]</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/stdlib/object.html" target="_blank" rel="noopener">Object对象 – 阮一峰</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof" target="_blank" rel="noopener">instanceof – MDN web docs</a></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/02/08/js-object/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1463,6 +1478,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
