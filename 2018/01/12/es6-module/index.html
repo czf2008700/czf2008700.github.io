@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>ES6模块(Module) | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。  expo">
+  <meta name="description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6模块(Module)">
 <meta property="og:url" content="http://up8.wang/2018/01/12/es6-module/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。  export 命名输出(Named exports)1). 写法1， 在每个变量、函数或类前面加上关键字">
-<meta property="og:updated_time" content="2018-02-09T06:47:11.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。">
+<meta property="og:updated_time" content="2018-03-15T08:38:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6模块(Module)">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。  export 命名输出(Named exports)1). 写法1， 在每个变量、函数或类前面加上关键字">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇介绍了CommonJS的模块规范, 这一篇主要谈一下ES6的模块  模块需要严格模式 一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。 导出：使用export声明需要导出的变量、函数或类 导入：使用import声明从其他模块导入变量、函数或类。">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -182,9 +182,10 @@
 <li>模块需要严格模式</li>
 <li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
 <li>导出：使用export声明需要导出的变量、函数或类</li>
-<li>导入：使用import声明从其他模块导入变量、函数或类。</li>
+<li>导入：使用import声明从其他模块导入变量、函数或类。<a id="more"></a>
+<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5></li>
 </ul>
-<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
+<p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
 <p>2). 写法2,  <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br>&emsp;&emsp;<strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>&emsp;&emsp;如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
 <h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>&emsp;&emsp;上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
@@ -473,15 +474,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,15 +498,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

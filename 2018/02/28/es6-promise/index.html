@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
 <meta property="og:image" content="http://up8.wang/images/es6-promise-01.png">
-<meta property="og:updated_time" content="2018-03-01T01:14:57.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:25:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise基础知识">
 <meta name="twitter:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
@@ -185,9 +185,10 @@
 <p>Promise字面上理解即承诺的意思，new一个Promise就是新建一个承诺。在新建一个承诺的时候你需要做两件事情：</p>
 <ul>
 <li>指定承诺所需完成的事</li>
-<li>设置承诺是否实现的标准</li>
+<li>设置承诺是否实现的标准<a id="more"></a>
+<h5 id="常见使用方法"><a href="#常见使用方法" class="headerlink" title="常见使用方法"></a>常见使用方法</h5>ES6规定， Promise对象是一个构造函数，用来生成Promise实例。下面代码创造了一个Promise实例。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */) &#123;</span><br><span class="line">  	resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">  	reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(</span><br><span class="line">  function(success) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  function(error) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h5 id="常见使用方法"><a href="#常见使用方法" class="headerlink" title="常见使用方法"></a>常见使用方法</h5><p>ES6规定， Promise对象是一个构造函数，用来生成Promise实例。下面代码创造了一个Promise实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */) &#123;</span><br><span class="line">  	resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">  	reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(</span><br><span class="line">  function(success) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  function(error) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
 <p>我们来看下步骤：</p>
 <ol>
 <li>new操作符调用Promise构造函数，并接受一个函数作为Promise构造函数的参数，该函数有两个参数，resolve和reject, 而resolve和reject是两个函数，由JavaScript引擎提供，不用自己部署。</li>
@@ -492,15 +493,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -516,15 +517,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

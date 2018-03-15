@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。&amp;emsp;&amp;emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是">
 <meta property="og:image" content="http://up8.wang/images/js-thread-and-browser-process-01.png">
-<meta property="og:updated_time" content="2018-02-13T01:58:39.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:33:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浏览器进程、JavaScript单线程">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。&amp;emsp;&amp;emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是">
@@ -182,7 +182,7 @@
       
         <p>&emsp;&emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。<br>&emsp;&emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是否分得清楚呢？</p>
 <p>&emsp;&emsp;进程（process）和线程（thread）是操作系统的基本概念，许多人会有所了解，但不能较为清晰的分辨。 这里我们需要了解下面几个点。</p>
-<p><img src="/images/js-thread-and-browser-process-01.png" width="600"></p>
+<p><img src="/images/js-thread-and-browser-process-01.png" width="600"><br><a id="more"></a></p>
 <h5 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h5><p>&emsp;&emsp;CPU是计算机的核心，其负责承担计算机的计算任务。这里我们比喻为一个工厂</p>
 <h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>&emsp;&emsp;学术上说，进程是一个具有一定独立功能的程序在一个数据集上的一次动态执行的过程，是操作系统进行资源分配和调度的一个独立单位，是应用程序运行的载体。我们这里将进程比喻为工厂的车间，它代表CPU所能处理的单个任务。任一时刻，CPU总是运行一个进程，其他进程处于非运行状态。</p>
 <h5 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h5><p>&emsp;&emsp;在早期的操作系统中并没有线程的概念，进程是能拥有资源和独立运行的最小单位，也是程序执行的最小单位。任务调度采用的是时间片轮转的抢占式调度方式，而进程是任务调度的最小单位，每个进程有各自独立的一块内存，使得各个进程之间内存地址相互隔离。后来，随着计算机的发展，对CPU的要求越来越高，进程之间的切换开销较大，已经无法满足越来越复杂的程序的要求了。于是就发明了线程，线程是程序执行中一个单一的顺序控制流程，是程序执行流的最小单元。这里把线程比喻一个车间的工人，即一个车间可以允许由多个工人协同完成一个任务。</p>
@@ -504,15 +504,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -528,15 +528,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="constructor 属性始终指向创建当前对象的构造函数。123456789101112131415var str = &amp;apos;&amp;apos;;console.log(&amp;apos;str:&amp;apos;, str.constructor);var num = 12;console.log(&amp;apos;num:&amp;apos;, num.constructor);var bool = false;co">
 <meta property="og:image" content="http://up8.wang/images/js-constructor-property-01.png">
-<meta property="og:updated_time" content="2018-02-02T01:50:13.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:45:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript的constructor属性">
 <meta name="twitter:description" content="constructor 属性始终指向创建当前对象的构造函数。123456789101112131415var str = &amp;apos;&amp;apos;;console.log(&amp;apos;str:&amp;apos;, str.constructor);var num = 12;console.log(&amp;apos;num:&amp;apos;, num.constructor);var bool = false;co">
@@ -180,6 +180,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h5 id="constructor-属性始终指向创建当前对象的构造函数。"><a href="#constructor-属性始终指向创建当前对象的构造函数。" class="headerlink" title="constructor 属性始终指向创建当前对象的构造函数。"></a>constructor 属性始终指向创建当前对象的构造函数。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var str = &apos;&apos;;</span><br><span class="line">console.log(&apos;str:&apos;, str.constructor);</span><br><span class="line">var num = 12;</span><br><span class="line">console.log(&apos;num:&apos;, num.constructor);</span><br><span class="line">var bool = false;</span><br><span class="line">console.log(&apos;bool:&apos;, bool.constructor);</span><br><span class="line">var obj = &#123;&#125;;</span><br><span class="line">console.log(&apos;obj:&apos;, obj.constructor);</span><br><span class="line">var arr = [];</span><br><span class="line">console.log(&apos;arr:&apos;, arr.constructor);</span><br><span class="line"></span><br><span class="line">function Person() &#123;&#125;;</span><br><span class="line">var objNew = new Person()</span><br><span class="line">console.log(&apos;objNew&apos;, objNew.constructor);</span><br><span class="line">console.log(&apos;constructor&apos;, Person.constructor);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p><img src="/images/js-constructor-property-01.png" width="350"></p>
 <h5 id="constructor属性和prototype属性"><a href="#constructor属性和prototype属性" class="headerlink" title="constructor属性和prototype属性"></a>constructor属性和prototype属性</h5><p>在 <a href="http://127.0.0.1:4000/2017/12/29/js-prototype-proto/" target="_blank" rel="noopener">JavaScript原型、原型对象、隐式原型</a> 中，我们知道每个函数都有prototype属性，prototype属性的constructor属性会指向这个函数本身。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;&#125;</span><br><span class="line">Person.prototype.sayName=function() &#123;&#125;</span><br><span class="line">var person = new Person();</span><br><span class="line"></span><br><span class="line">console.log(person.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.prototype.constructor); // ƒ Person() &#123;&#125;</span><br><span class="line">console.log(Person.constructor); // ƒ Function() &#123; [native code] &#125;</span><br></pre></td></tr></table></figure>
@@ -451,15 +452,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -475,15 +476,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

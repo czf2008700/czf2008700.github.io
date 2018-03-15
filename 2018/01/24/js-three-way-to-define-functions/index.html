@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://up8.wang/2018/01/24/js-three-way-to-define-functions/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍 函数声明(Function declaration)12345function person(name) &amp;#123;  console.log(name);  return name;&amp;#125;person(&amp;apos;up8&amp;apos;);">
-<meta property="og:updated_time" content="2018-02-07T01:43:42.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:33:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript的三种函数定义方式">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍 函数声明(Function declaration)12345function person(name) &amp;#123;  console.log(name);  return name;&amp;#125;person(&amp;apos;up8&amp;apos;);">
@@ -179,7 +179,7 @@
       
         <p>&emsp;&emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍</p>
 <h5 id="函数声明-Function-declaration"><a href="#函数声明-Function-declaration" class="headerlink" title="函数声明(Function declaration)"></a>函数声明(Function declaration)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person(name) &#123;</span><br><span class="line">  console.log(name);</span><br><span class="line">  return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;函数声明这是JavaScript最常见的函数定义法， function是函数声明关键词，<strong>person是函数名称标识符</strong>， 函数名之后的圆括号中是参数列表，参数之间使用逗号分隔，花括号是函数体<br>&emsp;&emsp;<strong>函数声明提升(hoisting)</strong>, 函数声明的一个重要特性就是提升, 指的是整个函数体的提升， 也就是说<strong>可以在函数声明前调用函数</strong>。</p>
+<p>&emsp;&emsp;函数声明这是JavaScript最常见的函数定义法， function是函数声明关键词，<strong>person是函数名称标识符</strong>， 函数名之后的圆括号中是参数列表，参数之间使用逗号分隔，花括号是函数体<br>&emsp;&emsp;<strong>函数声明提升(hoisting)</strong>, 函数声明的一个重要特性就是提升, 指的是整个函数体的提升， 也就是说<strong>可以在函数声明前调用函数</strong>。<br><a id="more"></a></p>
 <h5 id="函数声明重复"><a href="#函数声明重复" class="headerlink" title="函数声明重复"></a>函数声明重复</h5><p>&emsp;&emsp;如果同一个函数被多次声明，后面的声明就会覆盖前面的声明。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function add(x,y) &#123;</span><br><span class="line">  return x+y;</span><br><span class="line">&#125;</span><br><span class="line">function add(x,y,z) &#123;</span><br><span class="line">  return n=x+y+z;</span><br><span class="line">&#125;</span><br><span class="line">add(2, 3); // 结果是啥？</span><br></pre></td></tr></table></figure></p>
 <p>上面代码中，后一次的函数声明覆盖了前面一次。而且，由于函数名的提升，前一次声明在任何时候都是无效的，这一点要特别注意。</p>
 <h5 id="函数表达式-function-expression"><a href="#函数表达式-function-expression" class="headerlink" title="函数表达式(function expression)"></a>函数表达式(function expression)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = function(name) &#123;</span><br><span class="line">  console.log(name);</span><br><span class="line">  return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
@@ -461,15 +461,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -485,15 +485,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

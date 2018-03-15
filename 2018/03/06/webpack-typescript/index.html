@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://up8.wang/2018/03/06/webpack-typescript/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 GitHub 上托管。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。 TypeScript 是为大型应用程序开发而设计">
-<meta property="og:updated_time" content="2018-03-09T12:47:16.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:03:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack入门八：使用TypeScript">
 <meta name="twitter:description" content="TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 GitHub 上托管。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。 TypeScript 是为大型应用程序开发而设计">
@@ -179,7 +179,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>TypeScript 是一种由微软开发的自由和开源的编程语言， 代码在 <a href="https://github.com/Microsoft/TypeScript" target="_blank" rel="noopener">GitHub 上托管</a>。TypeScript 是 JavaScript 的一个超集，扩展了 JavaScript 的语法，所以任何现有的 JavaScript 程序可以不加改变的在 TypeScript 下工作。TypeScript 为我们提供了可选的静态类型检查和ES6新特性。</p>
-<p>TypeScript 是为大型应用程序开发而设计的， 它的第一个版本发布于 2012 年 10 月，经历了多次更新后，现在已成为前端社区中不可忽视的力量，不仅在 Microsoft 内部得到广泛运用，Angular, React, Vue这些开源框架都在广泛的使用。本篇主要聊一聊利用 Webpack 去处理 TypeScript 程序。</p>
+<p>TypeScript 是为大型应用程序开发而设计的， 它的第一个版本发布于 2012 年 10 月，经历了多次更新后，现在已成为前端社区中不可忽视的力量，不仅在 Microsoft 内部得到广泛运用，Angular, React, Vue这些开源框架都在广泛的使用。本篇主要聊一聊利用 Webpack 去处理 TypeScript 程序。<br><a id="more"></a></p>
 <h5 id="一、TypeScript-Loader"><a href="#一、TypeScript-Loader" class="headerlink" title="一、TypeScript Loader"></a>一、TypeScript Loader</h5><p>在 <a href="http://127.0.0.1:4000/2018/02/13/webpack-start/" target="_blank" rel="noopener">Webpack入门一：模块化</a>中我们知道 Webpack 是一个 module bundler, 在 <a href="http://127.0.0.1:4000/2018/03/02/webpack-loader/" target="_blank" rel="noopener">Webpack入门四：loader使用</a>中我们知道 Webpack 本身只能处理 JavaScript 模块，对于css格式的文件我们使用css-loader去读取它，那么对于 TypeScript 规范的语言标准是不是有 ts-loader 去处理呢？没错, TypeScript 的 loader有两种：</p>
 <ul>
 <li>ts-loader</li>
@@ -489,15 +489,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,15 +513,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

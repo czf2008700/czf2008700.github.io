@@ -181,22 +181,10 @@
 <p>接上一节的例子，我们要在页面中引入一个CSS样式文件main.css, 在入口文件main.js将main.css看成一个模块， 然后用 css-loader 来读取它， 再用 style-loader 把它插入到页面中。</p>
 <ul>
 <li>css-loader使你能够使用类似@import 和 url(…)的方法实现 require()的功能</li>
-<li>style-loader将所有的计算后的样式加入页面中；</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/* main.css */</span><br><span class="line">body &#123; background: yellow; &#125;</span><br></pre></td></tr></table></figure>
-<p>修改 main.js：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">require(&quot;!style-loader!css-loader!./main.css&quot;) // 载入 main.css</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;));</span><br></pre></td></tr></table></figure>
-<p>安装 loader：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i css-loader style-loader</span><br></pre></td></tr></table></figure>
-<p>重新编译打包，清除缓存刷新页面，就可以看到黄色的页面背景了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
-<p><img src="/images/webpack-loader-01.png" width="800"></p>
-<p>可是，如果每次 require CSS 文件的时候都要写 loader 前缀，是一件很繁琐的事情。我们可以根据模块类型（文件扩展名）来自动绑定需要的 loader。</p>
-<p>将 main.js 中的 require(“!style-loader!css-loader!./main.css”) 修改为 require(“./main.css”) ，然后执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js --module-bind &apos;css=style-loader!css-loader&apos;</span><br></pre></td></tr></table></figure>
-<p>显然，这两种使用 loader 的方式，效果是一样的。</p>
-<p>附<a href="https://github.com/felix-cao/webpack-demo" target="_blank" rel="noopener">源码</a></p>
-
+<li>style-loader将所有的计算后的样式加入页面中；
+        
+          <a class="article-more-a" href="/2018/03/02/webpack-loader/#more">more >></a>
+        
       
 
       
@@ -272,24 +260,9 @@
         <h5 id="安装-http-server"><a href="#安装-http-server" class="headerlink" title="安装 http-server"></a>安装 http-server</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i http-server</span><br></pre></td></tr></table></figure>
 <h5 id="一、-入口"><a href="#一、-入口" class="headerlink" title="一、 入口"></a>一、 入口</h5><p>首先创建一个静态页面index.html和一个JavaScript入口文件main.js</p>
 <p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>main.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br></pre></td></tr></table></figure>
-<p>然后编译main.js.js并打包到app.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack main.js app.js</span><br></pre></td></tr></table></figure>
-<p>打包过程会显示日志：</p>
-<p><img src="/images/webpack-entry-module-01.png" width="400"></p>
-<p>让我们在浏览器show一把</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ http-server</span><br></pre></td></tr></table></figure>
-<p>用浏览器打开 index.html 将会看到 ‘这里是入口’</p>
-<h5 id="二、-加载模块"><a href="#二、-加载模块" class="headerlink" title="二、 加载模块"></a>二、 加载模块</h5><p>接下来，我们添加一个模块 module.js 并修改入口 main.js：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// module.js</span><br><span class="line">module.exports = &apos;这里是模块&apos;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">document.write(&apos;这里是入口&lt;br/&gt;&lt;br/&gt;&apos;);</span><br><span class="line">document.write(require(&apos;./module.js&apos;)) // 添加模块</span><br></pre></td></tr></table></figure>
-<p>重新打包 webpack main.js app.js 清除缓存后刷新页面.</p>
-<p>打包过程显示的日志：</p>
-<p><img src="/images/webpack-entry-module-02.png" width="400"></p>
-<p>Webpack 会分析入口文件，解析包含依赖关系的各个文件。这些文件（模块）都打包到 app.js 。Webpack 会给每个模块分配一个唯一的 id 并通过这个 id 索引和访问模块。在页面启动时，会先执行 main.js 中的代码，其它模块会在运行 require 的时候再执行。</p>
-<p>本实例<a href="https://github.com/felix-cao/webpack-demo/tree/master/03-entry-module" target="_blank" rel="noopener">源码</a></p>
-
+        
+          <a class="article-more-a" href="/2018/03/01/webpack-entry-module/#more">more >></a>
+        
       
 
       
@@ -367,36 +340,10 @@
 <p>Promise字面上理解即承诺的意思，new一个Promise就是新建一个承诺。在新建一个承诺的时候你需要做两件事情：</p>
 <ul>
 <li>指定承诺所需完成的事</li>
-<li>设置承诺是否实现的标准</li>
-</ul>
-<h5 id="常见使用方法"><a href="#常见使用方法" class="headerlink" title="常见使用方法"></a>常见使用方法</h5><p>ES6规定， Promise对象是一个构造函数，用来生成Promise实例。下面代码创造了一个Promise实例。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  if (/* 异步操作成功 */) &#123;</span><br><span class="line">  	resolve(value);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">  	reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(</span><br><span class="line">  function(success) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  function(error) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>我们来看下步骤：</p>
-<ol>
-<li>new操作符调用Promise构造函数，并接受一个函数作为Promise构造函数的参数，该函数有两个参数，resolve和reject, 而resolve和reject是两个函数，由JavaScript引擎提供，不用自己部署。</li>
-<li>resolve用来将Promise对象的状态置为成功，并将异步操作结果value作为参数传递给成功回调函数</li>
-<li>reject用来将Promise对象的状态置为失败，并将异步操作结果error作为参数传递给失败回调函数</li>
-<li>then方法绑定两个回调函数，第一个用来处理Promise成功状态，第二个用来处理Promise失败状态。</li>
-</ol>
-<h5 id="Promise-状态"><a href="#Promise-状态" class="headerlink" title="Promise 状态"></a>Promise 状态</h5><p>Promise对象有三种状态：</p>
-<ul>
-<li>Pending(进行中)</li>
-<li>Fulfilled(已完成，又称为Resolved)</li>
-<li>Rejected(已失败)<br><img src="/images/es6-promise-01.png"></li>
-</ul>
-<p>如上图所示，Promise对象有两个特点：<br>1、对象状态只由异步操作结果决定。resolve方法会使Promise对象由pendding状态变为fulfilled状态；reject方法或者异常会使得Promise对象由pendding状态变为rejected状态。Promise状态变化只有上图这两条路径。<br>2、对象状态一旦改变，任何时候都能得到这个结果。即状态一旦进入fulfilled或者rejected，promise便不再出现状态变化，同时我们再添加回调会立即得到结果。这点跟事件不一样，事件是发生后再绑定监听，就监听不到了。</p>
-<h5 id="Promise-的缺点"><a href="#Promise-的缺点" class="headerlink" title="Promise 的缺点"></a>Promise 的缺点</h5><p>有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。</p>
-<p>但是 Promise也有一些缺点：</p>
-<ul>
-<li>无法取消Promise，一旦新建它就会立即执行，无法中途取消。</li>
-<li>如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。</li>
-<li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://www.zhangxinxu.com/wordpress/2014/02/es6-javascript-promise-%E6%84%9F%E6%80%A7%E8%AE%A4%E7%9F%A5/" target="_blank" rel="noopener">ES6 JavaScript Promise的感性认知</a> —– 时间是单线程的</li>
-<li><a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">Promise 对象</a> —– 阮一峰</li>
-<li><a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000" target="_blank" rel="noopener">Promise 廖雪峰blog</a></li>
-</ul>
-
+<li>设置承诺是否实现的标准
+        
+          <a class="article-more-a" href="/2018/02/28/es6-promise/#more">more >></a>
+        
       
 
       
@@ -472,179 +419,10 @@
         <p>文章来源阮一峰的<a href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html" target="_blank" rel="noopener">《理解OAuth2.0》</a>, 收录至此，以便翻阅。</p>
 <p><strong><a href="https://en.wikipedia.org/wiki/OAuth" target="_blank" rel="noopener">OAuth</a>是一个关于授权（authorization）的开放网络标准</strong>，在全世界得到广泛应用，目前的版本是2.0版。</p>
 <p>本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为<a href="http://www.rfcreader.com/#rfc6749" target="_blank" rel="noopener">RFC 6749</a>。</p>
-<p><img src="/images/understand-oauth-01.png"></p>
-<h5 id="一、应用场景"><a href="#一、应用场景" class="headerlink" title="一、应用场景"></a>一、应用场景</h5><p>为了理解OAuth的适用场合，让我举一个假设的例子。</p>
-<p>有一个”云冲印”的网站，可以将用户储存在Google的照片，冲印出来。用户为了使用该服务，必须让”云冲印”读取自己储存在Google上的照片</p>
-<p><img src="/images/understand-oauth-02.png"></p>
-<p>问题是只有得到用户的授权，Google才会同意”云冲印”读取这些照片。那么，”云冲印”怎样获得用户的授权呢？</p>
-<p>传统方法是，用户将自己的Google用户名和密码，告诉”云冲印”，后者就可以读取用户的照片了。这样的做法有以下几个严重的缺点。</p>
-<blockquote>
-<p>（1）”云冲印”为了后续的服务，会保存用户的密码，这样很不安全。<br>（2）Google不得不部署密码登录，而我们知道，单纯的密码登录并不安全。<br>（3）”云冲印”拥有了获取用户储存在Google所有资料的权力，用户没法限制”云冲印”获得授权的范围和有效期。<br>（4）用户只有修改密码，才能收回赋予”云冲印”的权力。但是这样做，会使得其他所有获得用户授权的第三方应用程序全部失效。<br>（5）只要有一个第三方应用程序被破解，就会导致用户密码泄漏，以及所有被密码保护的数据泄漏。</p>
-</blockquote>
-<p>OAuth就是为了解决上面这些问题而诞生的。</p>
-<h5 id="二、名词定义"><a href="#二、名词定义" class="headerlink" title="二、名词定义"></a>二、名词定义</h5><p>在详细讲解OAuth 2.0之前，需要了解几个专用名词。它们对读懂后面的讲解，尤其是几张图，至关重要。</p>
-<blockquote>
-<p>（1） Third-party application：第三方应用程序，本文中又称”客户端”（client），即上一节例子中的”云冲印”。<br>（2）HTTP service：HTTP服务提供商，本文中简称”服务提供商”，即上一节例子中的Google。<br>（3）Resource Owner：资源所有者，本文中又称”用户”（user）。<br>（4）User Agent：用户代理，本文中就是指浏览器。<br>（5）Authorization server：认证服务器，即服务提供商专门用来处理认证的服务器。<br>（6）Resource server：资源服务器，即服务提供商存放用户生成的资源的服务器。它与认证服务器，可以是同一台服务器，也可以是不同的服务器。</p>
-</blockquote>
-<p>知道了上面这些名词，就不难理解，<strong>OAuth的作用就是让”客户端”安全可控地获取”用户”的授权，与”服务提供商”进行互动</strong>。</p>
-<h5 id="三、OAuth的思路"><a href="#三、OAuth的思路" class="headerlink" title="三、OAuth的思路"></a>三、OAuth的思路</h5><p>OAuth在”客户端”与”服务提供商”之间，设置了一个授权层（authorization layer）。”客户端”不能直接登录”服务提供商”，只能登录授权层，以此将用户与客户端区分开来。”客户端”登录授权层所用的令牌（token），与用户的密码不同。用户可以在登录的时候，指定授权层令牌的权限范围和有效期。</p>
-<p>“客户端”登录授权层以后，”服务提供商”根据令牌的权限范围和有效期，向”客户端”开放用户储存的资料。</p>
-<h5 id="四、运行流程"><a href="#四、运行流程" class="headerlink" title="四、运行流程"></a>四、运行流程</h5><p>OAuth 2.0的运行流程如下图，摘自RFC 6749。</p>
-<p><img src="/images/understand-oauth-03.png"></p>
-<blockquote>
-<p>（A）用户打开客户端以后，客户端要求用户给予授权。<br>（B）用户同意给予客户端授权。<br>（C）客户端使用上一步获得的授权，向认证服务器申请令牌。<br>（D）认证服务器对客户端进行认证以后，确认无误，同意发放令牌。<br>（E）客户端使用令牌，向资源服务器申请获取资源。<br>（F）资源服务器确认令牌无误，同意向客户端开放资源。</p>
-</blockquote>
-<p>不难看出来，上面六个步骤之中，B是关键，即用户怎样才能给于客户端授权。有了这个授权以后，客户端就可以获取令牌，进而凭令牌获取资源。</p>
-<p>下面一一讲解客户端获取授权的四种模式。</p>
-<h5 id="五、客户端的授权模式"><a href="#五、客户端的授权模式" class="headerlink" title="五、客户端的授权模式"></a>五、客户端的授权模式</h5><p>客户端必须得到用户的授权（authorization grant），才能获得令牌（access token）。OAuth 2.0定义了四种授权方式。</p>
-<ul>
-<li>授权码模式（authorization code）</li>
-<li>简化模式（implicit）</li>
-<li>密码模式（resource owner password credentials）</li>
-<li>客户端模式（client credentials）</li>
-</ul>
-<h5 id="六、授权码模式"><a href="#六、授权码模式" class="headerlink" title="六、授权码模式"></a>六、授权码模式</h5><p>授权码模式（authorization code）是功能最完整、流程最严密的授权模式。它的特点就是通过客户端的后台服务器，与”服务提供商”的认证服务器进行互动。</p>
-<p><img src="/images/understand-oauth-04.png"></p>
-<p>它的步骤如下：</p>
-<blockquote>
-<p>（A）用户访问客户端，后者将前者导向认证服务器。<br>（B）用户选择是否给予客户端授权。<br>（C）假设用户给予授权，认证服务器将用户导向客户端事先指定的”重定向URI”（redirection URI），同时附上一个授权码。<br>（D）客户端收到授权码，附上早先的”重定向URI”，向认证服务器申请令牌。这一步是在客户端的后台的服务器上完成的，对用户不可见。<br>（E）认证服务器核对了授权码和重定向URI，确认无误后，向客户端发送访问令牌（access token）和更新令牌（refresh token）。</p>
-</blockquote>
-<p>下面是上面这些步骤所需要的参数。</p>
-<p>A步骤中，客户端申请认证的URI，包含以下参数：</p>
-<ul>
-<li>response_type：表示授权类型，必选项，此处的值固定为”code”</li>
-<li>client_id：表示客户端的ID，必选项</li>
-<li>redirect_uri：表示重定向URI，可选项</li>
-<li>scope：表示申请的权限范围，可选项</li>
-<li>state：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</li>
-</ul>
-<p>下面是一个例子。</p>
-<blockquote>
-<p>GET /authorize?response_type=code&amp;client_id=s6BhdRkqt3&amp;state=xyz&amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1<br>Host: server.example.com</p>
-</blockquote>
-<p>C步骤中，服务器回应客户端的URI，包含以下参数：</p>
-<ul>
-<li>code：表示授权码，必选项。该码的有效期应该很短，通常设为10分钟，客户端只能使用该码一次，否则会被授权服务器拒绝。该码与客户端ID和重定向URI，是一一对应关系。</li>
-<li>state：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。<br>下面是一个例子。</li>
-</ul>
-<blockquote>
-<p>HTTP/1.1 302 Found<br>Location: <a href="https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&amp;state=xyz" target="_blank" rel="noopener">https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&amp;state=xyz</a></p>
-</blockquote>
-<p>D步骤中，客户端向认证服务器申请令牌的HTTP请求，包含以下参数：</p>
-<ul>
-<li>grant_type：表示使用的授权模式，必选项，此处的值固定为”authorization_code”。</li>
-<li>code：表示上一步获得的授权码，必选项。</li>
-<li>redirect_uri：表示重定向URI，必选项，且必须与A步骤中的该参数值保持一致。</li>
-<li>client_id：表示客户端ID，必选项。<br>下面是一个例子。<blockquote>
-<p>POST /token HTTP/1.1<br>Host: server.example.com<br>Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br>Content-Type: application/x-www-form-urlencoded<br>grant_type=authorization_code&amp;code=SplxlOBeZQQYbYS6WxSbIA<br>&amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb</p>
-</blockquote>
-</li>
-</ul>
-<p>E步骤中，认证服务器发送的HTTP回复，包含以下参数：</p>
-<ul>
-<li>access_token：表示访问令牌，必选项。</li>
-<li>token_type：表示令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。</li>
-<li>expires_in：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。</li>
-<li>refresh_token：表示更新令牌，用来获取下一次的访问令牌，可选项。</li>
-<li>scope：表示权限范围，如果与客户端申请的范围一致，此项可省略。<br>下面是一个例子。</li>
-</ul>
-<blockquote>
-<p>HTTP/1.1 200 OK<br>     Content-Type: application/json;charset=UTF-8<br>     Cache-Control: no-store<br>     Pragma: no-cache<br>     {<br>       “access_token”:”2YotnFZFEjr1zCsicMWpAA”,<br>       “token_type”:”example”,<br>       “expires_in”:3600,<br>       “refresh_token”:”tGzv3JOkF0XG5Qx2TlKWIA”,<br>       “example_parameter”:”example_value”<br>     }</p>
-</blockquote>
-<p>从上面代码可以看到，相关参数使用JSON格式发送（Content-Type: application/json）。此外，HTTP头信息中明确指定不得缓存。</p>
-<h5 id="七、简化模式"><a href="#七、简化模式" class="headerlink" title="七、简化模式"></a>七、简化模式</h5><p>简化模式（implicit grant type）不通过第三方应用程序的服务器，直接在浏览器中向认证服务器申请令牌，跳过了”授权码”这个步骤，因此得名。所有步骤在浏览器中完成，令牌对访问者是可见的，且客户端不需要认证。</p>
-<p><img src="/images/understand-oauth-05.png"></p>
-<p>它的步骤如下：</p>
-<blockquote>
-<p>（A）客户端将用户导向认证服务器。<br>（B）用户决定是否给于客户端授权。<br>（C）假设用户给予授权，认证服务器将用户导向客户端指定的”重定向URI”，并在URI的Hash部分包含了访问令牌。<br>（D）浏览器向资源服务器发出请求，其中不包括上一步收到的Hash值。<br>（E）资源服务器返回一个网页，其中包含的代码可以获取Hash值中的令牌。<br>（F）浏览器执行上一步获得的脚本，提取出令牌。<br>（G）浏览器将令牌发给客户端。</p>
-</blockquote>
-<p>下面是上面这些步骤所需要的参数。</p>
-<p>A步骤中，客户端发出的HTTP请求，包含以下参数：</p>
-<ul>
-<li>response_type：表示授权类型，此处的值固定为”token”，必选项。</li>
-<li>client_id：表示客户端的ID，必选项。</li>
-<li>redirect_uri：表示重定向的URI，可选项。</li>
-<li>scope：表示权限范围，可选项。</li>
-<li>state：表示客户端的当前状态，可以指定任意值，认证服务器会原封不动地返回这个值。</li>
-</ul>
-<p>下面是一个例子。</p>
-<blockquote>
-<p>GET /authorize?response_type=token&amp;client_id=s6BhdRkqt3&amp;state=xyz&amp;redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1<br>Host: server.example.com</p>
-</blockquote>
-<p>C步骤中，认证服务器回应客户端的URI，包含以下参数：</p>
-<ul>
-<li>access_token：表示访问令牌，必选项。</li>
-<li>token_type：表示令牌类型，该值大小写不敏感，必选项。</li>
-<li>expires_in：表示过期时间，单位为秒。如果省略该参数，必须其他方式设置过期时间。</li>
-<li>scope：表示权限范围，如果与客户端申请的范围一致，此项可省略。</li>
-<li>state：如果客户端的请求中包含这个参数，认证服务器的回应也必须一模一样包含这个参数。</li>
-</ul>
-<p>下面是一个例子。</p>
-<blockquote>
-<p>HTTP/1.1 302 Found<br>Location: <a href="http://example.com/cb#access_token=2YotnFZFEjr1zCsicMWpAA&amp;state=xyz&amp;token_type=example&amp;expires_in=3600" target="_blank" rel="noopener">http://example.com/cb#access_token=2YotnFZFEjr1zCsicMWpAA&amp;state=xyz&amp;token_type=example&amp;expires_in=3600</a></p>
-</blockquote>
-<p>在上面的例子中，认证服务器用HTTP头信息的Location栏，指定浏览器重定向的网址。注意，在这个网址的Hash部分包含了令牌。</p>
-<p>根据上面的D步骤，下一步浏览器会访问Location指定的网址，但是Hash部分不会发送。接下来的E步骤，服务提供商的资源服务器发送过来的代码，会提取出Hash中的令牌。</p>
-<h5 id="八、密码模式"><a href="#八、密码模式" class="headerlink" title="八、密码模式"></a>八、密码模式</h5><p>密码模式（Resource Owner Password Credentials Grant）中，用户向客户端提供自己的用户名和密码。客户端使用这些信息，向”服务商提供商”索要授权。</p>
-<p>在这种模式中，用户必须把自己的密码给客户端，但是客户端不得储存密码。这通常用在用户对客户端高度信任的情况下，比如客户端是操作系统的一部分，或者由一个著名公司出品。而认证服务器只有在其他授权模式无法执行的情况下，才能考虑使用这种模式。</p>
-<p><img src="/images/understand-oauth-06.png"></p>
-<p>它的步骤如下：</p>
-<blockquote>
-<p>（A）用户向客户端提供用户名和密码。<br>（B）客户端将用户名和密码发给认证服务器，向后者请求令牌。<br>（C）认证服务器确认无误后，向客户端提供访问令牌。</p>
-</blockquote>
-<p>B步骤中，客户端发出的HTTP请求，包含以下参数：</p>
-<ul>
-<li>grant_type：表示授权类型，此处的值固定为”password”，必选项。</li>
-<li>username：表示用户名，必选项。</li>
-<li>password：表示用户的密码，必选项。</li>
-<li>scope：表示权限范围，可选项。</li>
-</ul>
-<p>下面是一个例子。</p>
-<blockquote>
-<p>POST /token HTTP/1.1<br>Host: server.example.com<br>Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br>Content-Type: application/x-www-form-urlencodedgrant_type=password&amp;username=johndoe&amp;password=A3ddj3w</p>
-</blockquote>
-<p>C步骤中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
-<blockquote>
-<p>HTTP/1.1 200 OK<br>     Content-Type: application/json;charset=UTF-8<br>     Cache-Control: no-store<br>     Pragma: no-cache<br>     {<br>       “access_token”:”2YotnFZFEjr1zCsicMWpAA”,<br>       “token_type”:”example”,<br>       “expires_in”:3600,<br>       “refresh_token”:”tGzv3JOkF0XG5Qx2TlKWIA”,<br>       “example_parameter”:”example_value”<br>     }</p>
-</blockquote>
-<p>上面代码中，各个参数的含义参见《授权码模式》一节。</p>
-<p>整个过程中，客户端不得保存用户的密码。</p>
-<h5 id="九、客户端模式"><a href="#九、客户端模式" class="headerlink" title="九、客户端模式"></a>九、客户端模式</h5><p>客户端模式（Client Credentials Grant）指客户端以自己的名义，而不是以用户的名义，向”服务提供商”进行认证。严格地说，客户端模式并不属于OAuth框架所要解决的问题。在这种模式中，用户直接向客户端注册，客户端以自己的名义要求”服务提供商”提供服务，其实不存在授权问题。</p>
-<p><img src="/images/understand-oauth-07.png"></p>
-<p>它的步骤如下：</p>
-<blockquote>
-<p>（A）客户端向认证服务器进行身份认证，并要求一个访问令牌。<br>（B）认证服务器确认无误后，向客户端提供访问令牌。</p>
-</blockquote>
-<p>A步骤中，客户端发出的HTTP请求，包含以下参数：</p>
-<ul>
-<li>granttype：表示授权类型，此处的值固定为”clientcredentials”，必选项。</li>
-<li>scope：表示权限范围，可选项。</li>
-</ul>
-<blockquote>
-<p>POST /token HTTP/1.1<br>     Host: server.example.com<br>     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br>     Content-Type: application/x-www-form-urlencoded<br>     grant_type=client_credentials</p>
-</blockquote>
-<p>认证服务器必须以某种方式，验证客户端身份。</p>
-<p>B步骤中，认证服务器向客户端发送访问令牌，下面是一个例子。</p>
-<blockquote>
-<p>HTTP/1.1 200 OK<br>     Content-Type: application/json;charset=UTF-8<br>     Cache-Control: no-store<br>     Pragma: no-cache<br>     {<br>       “access_token”:”2YotnFZFEjr1zCsicMWpAA”,<br>       “token_type”:”example”,<br>       “expires_in”:3600,<br>       “example_parameter”:”example_value”<br>     }</p>
-</blockquote>
-<p>上面代码中，各个参数的含义参见《授权码模式》一节。</p>
-<h5 id="十、更新令牌"><a href="#十、更新令牌" class="headerlink" title="十、更新令牌"></a>十、更新令牌</h5><p>如果用户访问的时候，客户端的”访问令牌”已经过期，则需要使用”更新令牌”申请一个新的访问令牌。</p>
-<p>客户端发出更新令牌的HTTP请求，包含以下参数：</p>
-<ul>
-<li>granttype：表示使用的授权模式，此处的值固定为”refreshtoken”，必选项。</li>
-<li>refresh_token：表示早前收到的更新令牌，必选项。</li>
-<li>scope：表示申请的授权范围，不可以超出上一次申请的范围，如果省略该参数，则表示与上一次一致。<br>下面是一个例子。</li>
-</ul>
-<blockquote>
-<p>POST /token HTTP/1.1<br>     Host: server.example.com<br>     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW<br>     Content-Type: application/x-www-form-urlencoded<br>     grant_type=refresh_token&amp;refresh_token=tGzv3JOkF0XG5Qx2TlKWIA</p>
-</blockquote>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://en.wikipedia.org/wiki/OAuth" target="_blank" rel="noopener">OAuth</a></li>
-<li><a href="http://www.rfcreader.com/#rfc6749" target="_blank" rel="noopener">RFC 6749</a></li>
-<li><a href="http://www.cnblogs.com/sheng-jie/p/6564520.html" target="_blank" rel="noopener">OAuth2.0知多少</a></li>
-</ul>
-
+<p><img src="/images/understand-oauth-01.png"><br>
+        
+          <a class="article-more-a" href="/2018/02/26/understand-oauth/#more">more >></a>
+        
       
 
       
@@ -727,17 +505,9 @@
 <p>此时 Webpack 已经安装到了全局环境下，可以通过命令行 webpack -h 试试。</p>
 <p>通常我们会将 Webpack 安装到项目的依赖中，这样就可以使用项目本地版本的 Webpack。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 进入项目目录</span><br><span class="line"># 确定已经有 package.json，没有就通过 npm init 创建</span><br><span class="line"># 安装 webpack 依赖</span><br><span class="line">$ npm install webpack --save-dev</span><br></pre></td></tr></table></figure>
-<p>Webpack 目前有两个主版本，一个是在 master 主干的稳定版，一个是在 webpack-2 分支的测试版，测试版拥有一些实验性功能并且和稳定版不兼容，在正式项目中应该使用稳定版。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 查看 webpack 版本信息</span><br><span class="line">$ npm info webpack</span><br><span class="line"></span><br><span class="line"># 安装指定版本的 webpack</span><br><span class="line">$ npm install webpack@1.12.x --save-dev</span><br></pre></td></tr></table></figure>
-<p>如果需要使用 Webpack 开发工具，要单独安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install webpack-dev-server --save-dev</span><br></pre></td></tr></table></figure>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">Webpack 官方网站</a></li>
-<li><a href="https://webpack.js.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档</a></li>
-<li><a href="https://webpack.js.org/guides/getting-started/" target="_blank" rel="noopener">Webpack 官方安装文档</a></li>
-<li><a href="https://doc.webpack-china.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档中文版</a></li>
-</ul>
-
+        
+          <a class="article-more-a" href="/2018/02/13/webpack-install/#more">more >></a>
+        
       
 
       
@@ -810,70 +580,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。</p>
-<p>本质上，webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。</p>
-<p>那么什么是模块呢？</p>
-<p>在模块化编程中，开发者将程序分解成离散功能块(discrete chunks of functionality)，并称之为模块</p>
-<p>每个模块具有比完整程序更小的接触面，使得校验、调试、测试轻而易举。 精心编写的模块提供了可靠的抽象和封装界限，使得应用程序中每个模块都具有条理清楚的设计和明确的目的</p>
-<p><img src="/images/webpack-stat-01.png" width="850"></p>
-<h5 id="模块系统的演进"><a href="#模块系统的演进" class="headerlink" title="模块系统的演进"></a>模块系统的演进</h5><p>模块系统主要解决模块的定义、依赖和导出，先来看看已经存在的模块系统。</p>
-<p><strong>1）、非模块</strong><br>通过多个script标签引入多个js文件，也即通过文件的方式来管理模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;Jquery.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;d3.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;moment.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;lodash.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>这种原始的方案有很多显而易见的弊端：</p>
-<ul>
-<li>污染全局作用域，多人协作简直是灾难。</li>
-<li>手动维护script标签的顺序，多页应用更惨。</li>
-<li>大型项目资源难以管理，容易留下隐患。</li>
-</ul>
-<p><strong>2）、CommonJS模块</strong><br>CommonJS的模块方案是通过require同步加载依赖的其他模块，通过exports或module.exports来暴露出需要的接口。 （了解更多请移步 <a href="/2018/01/12/js-commonjs/">CommonJS模块规范</a>）</p>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>复用性强。</li>
-<li>有不少可以拿来即用的模块，生态不错。</li>
-<li>实现简单，使用简单。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>同步加载不适合浏览器，浏览器的请求都是异步加载。</li>
-<li>不能并行加载多个模块。</li>
-</ul>
-<p><strong>3）、AMD 模块</strong><br>AMD 模块，全称为 Asynchromous Module Defination，翻译过来就是异步模块规范，它是由 RequireJs 推动的。</p>
-<p>AMD方案只有一个主要接口define(moduleName, dependencies, factory)，他要在声明模块的时候指定所有的依赖dependencies，并传入到factory中，对于依赖的模块异步加载并执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 定义</span><br><span class="line">define(&quot;mymodule&quot;, [&quot;dep1&quot;, &quot;dep2&quot;], function(d1, d2) &#123;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 加载</span><br><span class="line">require([&quot;module&quot;, &quot;../file&quot;], function(module, file) &#123;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>异步加载适合浏览器。</li>
-<li>可并行加载多个模块。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>模块定义方式不优雅，不符合标准模块化</li>
-</ul>
-<p><strong>4）、ES6模块</strong><br><strong>ES6模块方案最大的特点就是静态化，静态化的优势在于可以在编译的时候确定模块的依赖关系以及输入输出的变量</strong>。上面提到的CommonJS模块和AMD模块都只能在运行时确定这些东西。</p>
-<p>这种原始的方案的优点：</p>
-<ul>
-<li>可静态分析，提前编译。</li>
-<li>面向未来的标准。</li>
-</ul>
-<p>这种原始的方案的弊端：</p>
-<ul>
-<li>浏览器原生兼容性差，所以一般都编译成ES5。</li>
-<li>目前可以拿来即用的模块少，生态差。</li>
-</ul>
-<p><strong>5）、webpack模块化机制</strong><br>webpack并不强制你使用某种模块化方案，而是通过兼容所有模块化方案让你无痛接入项目，当然这也是webpack牛逼的地方。<br>有了webpack，你可以随意选择你喜欢的模块化方案，至于怎么处理模块之间的依赖关系及如何按需打包，放轻松，webpack会帮你处理好的。</p>
-<h5 id="webpack的模块化有什么特点？"><a href="#webpack的模块化有什么特点？" class="headerlink" title="webpack的模块化有什么特点？"></a>webpack的模块化有什么特点？</h5><ul>
-<li>可以兼容多种模块风格，无痛迁移老项目。</li>
-<li>任何一个类型的文件都是模块，js/css/图片/字体都是模块。</li>
-<li>静态解析，按需打包，动态加载。</li>
-</ul>
-<p>本来，模块化方案仅仅是针对JS。但实际项目中，我们希望css也能被当做模块，进一步，css/less/sass是不是也可以被当做模块，再进一步，html/image/template是不是也可以被当做模块。</p>
-<p>想到这些就觉得脑洞大开，不可思议！但是webpack居然做到了！webpack提供的loaders可以对文件做预处理，从而实现了一切皆模块。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://webpack.js.org/" target="_blank" rel="noopener">Webpack 官方网站</a></li>
-<li><a href="https://webpack.js.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档</a></li>
-<li><a href="https://doc.webpack-china.org/concepts/" target="_blank" rel="noopener">Webpack 官方文档中文版</a></li>
-</ul>
-
+        <p><img src="/images/webpack-stat-01.png" width="650"></p>
+<p>前端开发和其他开发工作的主要区别，首先是前端是基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器，这些资源是通过增量加载的方式运行到浏览器端，如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一直探索的难题。<br>
+        
+          <a class="article-more-a" href="/2018/02/13/webpack-start/#more">more >></a>
+        
       
 
       
@@ -954,68 +665,10 @@
 <h5 id="一、为什么JavaScript是单线程的？"><a href="#一、为什么JavaScript是单线程的？" class="headerlink" title="一、为什么JavaScript是单线程的？"></a>一、为什么JavaScript是单线程的？</h5><p>&emsp;&emsp;JavaScript语言的一大特点就是单线程，也就是说，同一个时间只能做一件事。那么，为什么JavaScript不能有多个线程呢？这样能提高效率啊。</p>
 <p>&emsp;&emsp;JavaScript的单线程，与它的用途有关。作为浏览器脚本语言，JavaScript的主要用途是与用户互动，以及操作DOM。这决定了它只能是单线程，否则会带来很复杂的同步问题。比如，假定JavaScript同时有两个线程，一个线程在某个DOM节点上添加内容，另一个线程删除了这个节点，这时浏览器应该以哪个线程为准？</p>
 <p>&emsp;&emsp;所以，为了避免复杂性，从一诞生，JavaScript就是单线程，这已经成了这门语言的核心特征，将来也不会改变。</p>
-<p>&emsp;&emsp;为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
-<h5 id="二、任务队列"><a href="#二、任务队列" class="headerlink" title="二、任务队列"></a>二、任务队列</h5><p>单线程就意味着，所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时很长，后一个任务就不得不一直等着。</p>
-<p>如果排队是因为计算量大，CPU忙不过来，倒也算了，但是很多时候CPU是闲着的，因为IO设备（输入输出设备）很慢（比如Ajax操作从网络读取数据），不得不等着结果出来，再往下执行。</p>
-<p>JavaScript语言的设计者意识到，这时主线程完全可以不管IO设备，挂起处于等待中的任务，先运行排在后面的任务。等到IO设备返回了结果，再回过头，把挂起的任务继续执行下去。</p>
-<p>于是，所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。</p>
-<p>具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）</p>
-<blockquote>
-<p>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。</p>
-</blockquote>
-<p>下图就是主线程和任务队列的示意图。</p>
-<p><img src="/images/js-event-loop-01.jpg" width="600"></p>
-<p>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。</p>
-<h5 id="三、事件和回调函数"><a href="#三、事件和回调函数" class="headerlink" title="三、事件和回调函数"></a>三、事件和回调函数</h5><p>“任务队列”是一个事件的队列（也可以理解成消息的队列），IO设备完成一项任务，就在”任务队列”中添加一个事件，表示相关的异步任务可以进入”执行栈”了。主线程读取”任务队列”，就是读取里面有哪些事件。</p>
-<p>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入”任务队列”，等待主线程读取。</p>
-<p>所谓”回调函数”（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。</p>
-<p>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，”任务队列”上第一位的事件就自动进入主线程。但是，由于存在后文提到的”定时器”功能，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。</p>
-<h5 id="四、Event-Loop"><a href="#四、Event-Loop" class="headerlink" title="四、Event Loop"></a>四、Event Loop</h5><p>主线程从”任务队列”中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。</p>
-<p>为了更好地理解Event Loop，请看下图（转引自Philip Roberts的演讲<a href="https://vimeo.com/96425312" target="_blank" rel="noopener">《Help, I’m stuck in an event-loop》</a>）。</p>
-<p><img src="/images/js-event-loop-02.png" width="600"></p>
-<p>上图中，主线程运行的时候，产生堆（heap）和栈（stack），栈中的代码调用各种外部API，它们在”任务队列”中加入各种事件（click，load，done）。只要栈中的代码执行完毕，主线程就会去读取”任务队列”，依次执行那些事件所对应的回调函数。</p>
-<p>执行栈中的代码（同步任务），总是在读取”任务队列”（异步任务）之前执行。请看下面这个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);    </span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;    </span><br><span class="line">req.send();</span><br></pre></td></tr></table></figure>
-<p>上面代码中的req.send方法是Ajax操作向服务器发送数据，它是一个异步任务，意味着只有当前脚本的所有代码执行完，系统才会去读取”任务队列”。所以，它与下面的写法等价。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var req = new XMLHttpRequest();</span><br><span class="line">req.open(&apos;GET&apos;, url);</span><br><span class="line">req.send();</span><br><span class="line">req.onload = function ()&#123;&#125;;    </span><br><span class="line">req.onerror = function ()&#123;&#125;;</span><br></pre></td></tr></table></figure>
-<p>也就是说，指定回调函数的部分（onload和onerror），在send()方法的前面或后面无关紧要，因为它们属于执行栈的一部分，系统总是执行完它们，才会去读取”任务队列”。</p>
-<h5 id="五、定时器"><a href="#五、定时器" class="headerlink" title="五、定时器"></a>五、定时器</h5><p>除了放置异步任务的事件，”任务队列”还可以放置定时事件，即指定某些代码在多少时间之后执行。这叫做”定时器”（timer）功能，也就是定时执行的代码。</p>
-<p>定时器功能主要由setTimeout()和setInterval()这两个函数来完成，它们的内部运行机制完全一样，区别在于前者指定的代码是一次性执行，后者则为反复执行。以下主要讨论setTimeout()。</p>
-<p>setTimeout()接受两个参数，第一个是回调函数，第二个是推迟执行的毫秒数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(1);</span><br><span class="line">setTimeout(function()&#123;console.log(2);&#125;,1000);</span><br><span class="line">console.log(3);</span><br></pre></td></tr></table></figure>
-<p>上面代码的执行结果是1，3，2，因为setTimeout()将第二行推迟到1000毫秒之后执行。</p>
-<p>如果将setTimeout()的第二个参数设为0，就表示当前代码执行完（执行栈清空）以后，立即执行（0毫秒间隔）指定的回调函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(function()&#123;console.log(1);&#125;, 0);</span><br><span class="line">console.log(2);</span><br></pre></td></tr></table></figure>
-<p>上面代码的执行结果总是2，1，因为只有在执行完第二行以后，系统才会去执行”任务队列”中的回调函数。</p>
-<p>总之，setTimeout(fn,0)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是说，尽可能早得执行。它在”任务队列”的尾部添加一个事件，因此要等到同步任务和”任务队列”现有的事件都处理完，才会得到执行。</p>
-<p>HTML5标准规定了setTimeout()的第二个参数的最小值（最短间隔），不得低于4毫秒，如果低于这个值，就会自动增加。在此之前，老版本的浏览器都将最短间隔设为10毫秒。另外，对于那些DOM的变动（尤其是涉及页面重新渲染的部分），通常不会立即执行，而是每16毫秒执行一次。这时使用requestAnimationFrame()的效果要好于setTimeout()。</p>
-<p>需要注意的是，setTimeout()只是将事件插入了”任务队列”，必须等到当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码耗时很长，有可能要等很久，所以并没有办法保证，回调函数一定会在setTimeout()指定的时间执行。</p>
-<h5 id="六、Node-js的Event-Loop"><a href="#六、Node-js的Event-Loop" class="headerlink" title="六、Node.js的Event Loop"></a>六、Node.js的Event Loop</h5><p>Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。</p>
-<p>请看下面的示意图（作者<a href="https://twitter.com/BusyRich/status/494959181871316992" target="_blank" rel="noopener">@BusyRich</a>）。</p>
-<p><img src="/images/js-event-loop-03.png"></p>
-<p>根据上图，Node.js的运行机制如下。</p>
-<blockquote>
-<p>（1）V8引擎解析JavaScript脚本。<br>（2）解析后的代码，调用Node API。<br>（3）libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。<br>（4）V8引擎再将结果返回给用户。</p>
-</blockquote>
-<p>除了setTimeout和setInterval这两个方法，Node.js还提供了另外两个与”任务队列”有关的方法：process.nextTick和setImmediate。它们可以帮助我们加深对”任务队列”的理解。</p>
-<p>process.nextTick方法可以在当前”执行栈”的尾部—-下一次Event Loop（主线程读取”任务队列”）之前—-触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。setImmediate方法则是在当前”任务队列”的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行，这与setTimeout(fn, 0)很像。请看下面的例子（<a href="https://stackoverflow.com/questions/17502948/nexttick-vs-setimmediate-visual-explanation" target="_blank" rel="noopener">via StackOverflow</a>）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  process.nextTick(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0)</span><br><span class="line">// 1</span><br><span class="line">// 2</span><br><span class="line">// TIMEOUT FIRED</span><br></pre></td></tr></table></figure>
-<p>上面代码中，由于process.nextTick方法指定的回调函数，总是在当前”执行栈”的尾部触发，所以不仅函数A比setTimeout指定的回调函数timeout先执行，而且函数B也比timeout先执行。这说明，如果有多个process.nextTick语句（不管它们是否嵌套），将全部在当前”执行栈”执行。</p>
-<p>现在，再看setImmediate。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function A() &#123;</span><br><span class="line">  console.log(1);</span><br><span class="line">  setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">setTimeout(function timeout() &#123;</span><br><span class="line">  console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">&#125;, 0);</span><br></pre></td></tr></table></figure>
-<p>上面代码中，setImmediate与setTimeout(fn,0)各自添加了一个回调函数A和timeout，都是在下一次Event Loop触发。那么，哪个回调函数先执行呢？答案是不确定。运行结果可能是1–TIMEOUT FIRED–2，也可能是TIMEOUT FIRED–1–2。</p>
-<p>令人困惑的是，Node.js文档中称，setImmediate指定的回调函数，总是排在setTimeout前面。实际上，这种情况只发生在递归调用的时候。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">setImmediate(function ()&#123;</span><br><span class="line">  setImmediate(function A() &#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">    setImmediate(function B()&#123;console.log(2);&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  setTimeout(function timeout() &#123;</span><br><span class="line">    console.log(&apos;TIMEOUT FIRED&apos;);</span><br><span class="line">  &#125;, 0);</span><br><span class="line">&#125;);</span><br><span class="line">// 1</span><br><span class="line">// TIMEOUT FIRED</span><br><span class="line">// 2</span><br></pre></td></tr></table></figure>
-<p>上面代码中，setImmediate和setTimeout被封装在一个setImmediate里面，它的运行结果总是1–TIMEOUT FIRED–2，这时函数A一定在timeout前面触发。至于2排在TIMEOUT FIRED的后面（即函数B在timeout后面触发），是因为setImmediate总是将事件注册到下一轮Event Loop，所以函数A和timeout是在同一轮Loop执行，而函数B在下一轮Loop执行。</p>
-<p>我们由此得到了process.nextTick和setImmediate的一个重要区别：多个process.nextTick语句总是在当前”执行栈”一次执行完，多个setImmediate可能则需要多次loop才能执行完。事实上，这正是Node.js 10.0版添加setImmediate方法的原因，否则像下面这样的递归调用process.nextTick，将会没完没了，主线程根本不会去读取”事件队列”！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick(function foo() &#123;</span><br><span class="line">  process.nextTick(foo);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>事实上，现在要是你写出递归的process.nextTick，Node.js会抛出一个警告，要求你改成setImmediate。</p>
-<p>另外，由于process.nextTick指定的回调函数是在本次”事件循环”触发，而setImmediate指定的是在下次”事件循环”触发，所以很显然，前者总是比后者发生得早，而且执行效率也高（因为不用检查”任务队列”）。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank" rel="noopener">JavaScript 运行机制详解：再谈Event Loop</a></li>
-<li><a href="https://vimeo.com/96425312" target="_blank" rel="noopener">Help, I’m stuck in an event-loop</a></li>
-</ul>
-
+<p>&emsp;&emsp;为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。<br>
+        
+          <a class="article-more-a" href="/2018/02/13/js-event-loop/#more">more >></a>
+        
       
 
       
@@ -1096,27 +749,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">    get name() &#123;</span><br><span class="line">        return &apos;Felix Cao&apos;;</span><br><span class="line">    &#125;,</span><br><span class="line">    set name(value) &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">console.log(&apos;Default: &apos;, person.name);</span><br><span class="line">person.name = &apos;up8.wang&apos;;</span><br><span class="line">console.log(&apos;After set: &apos;, person.name);</span><br></pre></td></tr></table></figure>
 <p>&emsp;&emsp;在控制台console(F12)试一下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; person.name;</span><br><span class="line">&apos;Felix Cao&apos;</span><br><span class="line">&gt; person.name = &apos;up8.wang&apos;;</span><br><span class="line">&apos;up8.wang&apos;</span><br></pre></td></tr></table></figure>
-<h5 id="二-以逗号结尾是合法的"><a href="#二-以逗号结尾是合法的" class="headerlink" title="二. 以逗号结尾是合法的"></a>二. 以逗号结尾是合法的</h5><p>&emsp;&emsp;从ES5开始，它就是合法的了，你可以在最后一个属性之后加一个逗号。这将有助于你添加一个新的属性（一些人将逗号前置来避免书写错误）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  sex: &apos;male&apos;,</span><br><span class="line">  age: 30, // 合法的逗号</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h5 id="三-对象的属性通常不需要使用引号"><a href="#三-对象的属性通常不需要使用引号" class="headerlink" title="三. 对象的属性通常不需要使用引号"></a>三. 对象的属性通常不需要使用引号</h5><p>&emsp;&emsp;在ES5属性名的语法规范中规定，对象的属性可以是：</p>
-<ul>
-<li>唯一标识符</li>
-<li>字符串</li>
-<li>数字</li>
-</ul>
-<p>1). 字符串作为key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  &apos;#§$%&apos;: true,</span><br><span class="line">  &quot; \t\n&quot;: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2). 唯一标识符作为key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  π: true,</span><br><span class="line">  привет: true,</span><br><span class="line">  café: true,</span><br><span class="line">  $$$: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3). 数字作为key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">    1e2: true,</span><br><span class="line">    1e-2: true,</span><br><span class="line">    .234: true,</span><br><span class="line">    0xFF: true,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;这些数字key会自动转换为字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; Object.keys(person)</span><br><span class="line">&lt; (4) [&quot;100&quot;, &quot;255&quot;, &quot;0.01&quot;, &quot;0.234&quot;]</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;与标识符不同。数字不能被点号引用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; person.0xFF</span><br><span class="line">&lt; SyntaxError: Unexpected token</span><br><span class="line">&gt; person[0xFF]</span><br><span class="line">&lt; ture</span><br></pre></td></tr></table></figure>
-<p>4). 可以使用保留字作为key</p>
-<p>&emsp;&emsp;在 ECMAScript 3中你需要将保留字用引号休修饰这些属性。在 ECMAScript 5没有必要了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; var person = &#123; class: &apos;.active&apos;&#125;;</span><br><span class="line">&gt; person.class;</span><br><span class="line">&apos;.active&apos;</span><br></pre></td></tr></table></figure>
-
+        
+          <a class="article-more-a" href="/2018/02/12/es5-object-new-feature/#more">more >></a>
+        
       
 
       
@@ -1195,47 +830,10 @@
       
         <p>&emsp;&emsp;在CSDN上读到一篇关于浏览器进程、JavaScript单线程的好文，故收藏至此。<br>&emsp;&emsp;在生活中，浏览器和我们的工作和生活息息相关。做为前端开发，我们代码的应用场景往往是在浏览器上。浏览器对前端的重要性不可一日而语。那么我们对浏览器是否有比较清晰的了解呢？什么是多进程架构浏览器？为什么浏览器内核是多线程？Javascript是单线程又是什么鬼？进程和线程是否分得清楚呢？</p>
 <p>&emsp;&emsp;进程（process）和线程（thread）是操作系统的基本概念，许多人会有所了解，但不能较为清晰的分辨。 这里我们需要了解下面几个点。</p>
-<p><img src="/images/js-thread-and-browser-process-01.png" width="600"></p>
-<h5 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h5><p>&emsp;&emsp;CPU是计算机的核心，其负责承担计算机的计算任务。这里我们比喻为一个工厂</p>
-<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>&emsp;&emsp;学术上说，进程是一个具有一定独立功能的程序在一个数据集上的一次动态执行的过程，是操作系统进行资源分配和调度的一个独立单位，是应用程序运行的载体。我们这里将进程比喻为工厂的车间，它代表CPU所能处理的单个任务。任一时刻，CPU总是运行一个进程，其他进程处于非运行状态。</p>
-<h5 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h5><p>&emsp;&emsp;在早期的操作系统中并没有线程的概念，进程是能拥有资源和独立运行的最小单位，也是程序执行的最小单位。任务调度采用的是时间片轮转的抢占式调度方式，而进程是任务调度的最小单位，每个进程有各自独立的一块内存，使得各个进程之间内存地址相互隔离。后来，随着计算机的发展，对CPU的要求越来越高，进程之间的切换开销较大，已经无法满足越来越复杂的程序的要求了。于是就发明了线程，线程是程序执行中一个单一的顺序控制流程，是程序执行流的最小单元。这里把线程比喻一个车间的工人，即一个车间可以允许由多个工人协同完成一个任务。</p>
-<h5 id="进程和线程的区别和关系"><a href="#进程和线程的区别和关系" class="headerlink" title="进程和线程的区别和关系"></a>进程和线程的区别和关系</h5><ul>
-<li>进程是操作系统分配资源的最小单位，线程是程序执行的最小单位。</li>
-<li>一个进程由一个或多个线程组成，线程是一个进程中代码的不同执行路线；</li>
-<li>进程之间相互独立，但同一进程下的各个线程之间共享程序的内存空间(包括代码段、数据集、堆等)及一些进程级的资源(如打开文件和信号)。</li>
-<li>调度和切换：线程上下文切换比进程上下文切换要快得多。</li>
-</ul>
-<h5 id="多进程和多线程"><a href="#多进程和多线程" class="headerlink" title="多进程和多线程"></a>多进程和多线程</h5><ul>
-<li>多进程：多进程指的是在同一个时间里，同一个计算机系统中如果允许两个或两个以上的进程处于运行状态。多进程带来的好处是明显的，比如你可以听歌的同时，打开编辑器敲代码，编辑器和听歌软件的进程之间丝毫不会相互干扰。</li>
-<li>多线程是指程序中包含多个执行流，即在一个程序中可以同时运行多个不同的线程来执行不同的任务，也就是说允许单个程序创建多个并行执行的线程来完成各自的任务。</li>
-</ul>
-<h5 id="浏览器多进程架构"><a href="#浏览器多进程架构" class="headerlink" title="浏览器多进程架构"></a>浏览器多进程架构</h5><p>&emsp;&emsp;跟现在的很多多线程浏览器不一样，Chrome浏览器使用多个进程来隔离不同的网页。因此在Chrome中打开一个网页相当于起了一个进程</p>
-<p><strong>那么Chrome为什么要使用多进程架构?</strong></p>
-<p>&emsp;&emsp;在浏览器刚被设计出来的时候，那时的网页非常的简单，每个网页的资源占有率是非常低的，因此一个进程处理多个网页时可行的。然后在今天，大量网页变得日益复杂。把所有网页都放进一个进程的浏览器面临在健壮性，响应速度，安全性方面的挑战。因为如果浏览器中的一个tab网页崩溃的话，将会导致其他被打开的网页应用。另外相对于线程，进程之间是不共享资源和地址空间的,所以不会存在太多的安全问题，而由于多个线程共享着相同的地址空间和资源,所以会存在线程之间有可能会恶意修改或者获取非授权数据等复杂的安全问题。</p>
-<p>&emsp;&emsp;在了解这个知识点线，我们需要先说明下什么是浏览器内核。</p>
-<h5 id="浏览器内核"><a href="#浏览器内核" class="headerlink" title="浏览器内核"></a>浏览器内核</h5><p>&emsp;&emsp;简单来说浏览器内核是通过取得页面内容、整理信息（应用CSS）、计算和组合最终输出可视化的图像结果，通常也被称为渲染引擎。从上面我们可以知道，Chrome浏览器为每个tab页面单独启用进程，因此每个tab网页都有由其独立的渲染引擎实例。</p>
-<h5 id="浏览器内核是多线程"><a href="#浏览器内核是多线程" class="headerlink" title="浏览器内核是多线程"></a>浏览器内核是多线程</h5><p>&emsp;&emsp;浏览器内核是多线程，在内核控制下各线程相互配合以保持同步，一个浏览器通常由以下常驻线程组成：</p>
-<ul>
-<li>GUI 渲染线程</li>
-<li>JavaScript引擎线程</li>
-<li>定时触发器线程</li>
-<li>事件触发线程</li>
-<li>异步http请求线程</li>
-</ul>
-<h5 id="GUI渲染线程"><a href="#GUI渲染线程" class="headerlink" title="GUI渲染线程"></a>GUI渲染线程</h5><p>&emsp;&emsp;GUI渲染线程负责渲染浏览器界面HTML元素,当界面需要重绘(Repaint)或由于某种操作引发回流(reflow)时,该线程就会执行。在Javascript引擎运行脚本期间,GUI渲染线程都是处于挂起状态的,也就是说被”冻结”了.</p>
-<h5 id="Javascript引擎线程"><a href="#Javascript引擎线程" class="headerlink" title="Javascript引擎线程"></a>Javascript引擎线程</h5><p>&emsp;&emsp;Javascript引擎，也可以称为JS内核，主要负责处理Javascript脚本程序，例如V8引擎。Javascript引擎线程理所当然是负责解析Javascript脚本，运行代码。</p>
-<h5 id="Javascript是单线程的"><a href="#Javascript是单线程的" class="headerlink" title="Javascript是单线程的"></a>Javascript是单线程的</h5><p>&emsp;&emsp;Javascript是单线程的, 那么为什么Javascript要是单线程的？</p>
-<p>&emsp;&emsp;这是因为Javascript这门脚本语言诞生的使命所致：JavaScript为处理页面中用户的交互，以及操作DOM树、CSS样式树来给用户呈现一份动态而丰富的交互体验和服务器逻辑的交互处理。如果JavaScript是多线程的方式来操作这些UI DOM，则可能出现UI操作的冲突； 如果Javascript是多线程的话，在多线程的交互下，处于UI中的DOM节点就可能成为一个临界资源，假设存在两个线程同时操作一个DOM，一个负责修改一个负责删除，那么这个时候就需要浏览器来裁决如何生效哪个线程的执行结果。当然我们可以通过锁来解决上面的问题。但为了避免因为引入了锁而带来更大的复杂性，Javascript在最初就选择了单线程执行。</p>
-<h5 id="GUI-渲染线程-与-JavaScript引擎线程互斥！"><a href="#GUI-渲染线程-与-JavaScript引擎线程互斥！" class="headerlink" title="GUI 渲染线程 与 JavaScript引擎线程互斥！"></a>GUI 渲染线程 与 JavaScript引擎线程互斥！</h5><p>&emsp;&emsp;由于JavaScript是可操纵DOM的，如果在修改这些元素属性同时渲染界面（即JavaScript线程和UI线程同时运行），那么渲染线程前后获得的元素数据就可能不一致了。因此为了防止渲染出现不可预期的结果，浏览器设置GUI渲染线程与JavaScript引擎为互斥的关系，当JavaScript引擎执行时GUI线程会被挂起，GUI更新会被保存在一个队列中等到引擎线程空闲时立即被执行。</p>
-<h5 id="JS阻塞页面加载"><a href="#JS阻塞页面加载" class="headerlink" title="JS阻塞页面加载"></a>JS阻塞页面加载</h5><p>&emsp;&emsp;从上面我们可以推理出，由于GUI渲染线程与JavaScript执行线程是互斥的关系，当浏览器在执行JavaScript程序的时候，GUI渲染线程会被保存在一个队列中，直到JS程序执行完成，才会接着执行。因此如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。</p>
-<h5 id="定时触发器线程"><a href="#定时触发器线程" class="headerlink" title="定时触发器线程"></a>定时触发器线程</h5><p>&emsp;&emsp;浏览器定时计数器并不是由JavaScript引擎计数的, 因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确, 因此通过单独线程来计时并触发定时是更为合理的方案。</p>
-<h5 id="事件触发线程"><a href="#事件触发线程" class="headerlink" title="事件触发线程"></a>事件触发线程</h5><p>&emsp;&emsp;当一个事件被触发时该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理。这些事件可以是当前执行的代码块如定时任务、也可来自浏览器内核的其他线程如鼠标点击、AJAX异步请求等，但由于JS的单线程关系所有这些事件都得排队等待JS引擎处理。</p>
-<h5 id="异步http请求线程"><a href="#异步http请求线程" class="headerlink" title="异步http请求线程"></a>异步http请求线程</h5><p>&emsp;&emsp;在XMLHttpRequest在连接后是通过浏览器新开一个线程请求， 将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件放到 JavaScript引擎的处理队列中等待处理。</p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html" target="_blank" rel="noopener">进程与线程的一个简单解释</a></li>
-<li><a href="http://blog.jobbole.com/12749/" target="_blank" rel="noopener">现代浏览器的工作原理</a></li>
-</ul>
-
+<p><img src="/images/js-thread-and-browser-process-01.png" width="600"><br>
+        
+          <a class="article-more-a" href="/2018/02/11/js-thread-and-browser-process/#more">more >></a>
+        
       
 
       
@@ -1313,27 +911,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&emsp;&emsp;上一篇我们聊了 <a href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>, 本篇来聊一聊引用类型(Reference Values)</p>
-<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。</p>
-<h5 id="引用类型的值是可以改变的"><a href="#引用类型的值是可以改变的" class="headerlink" title="引用类型的值是可以改变的"></a>引用类型的值是可以改变的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123; age: 32 &#125;;</span><br><span class="line">person.age = 30; // 通过修改对象属性值更改对象</span><br><span class="line">person.name = &apos;Felix&apos;; // 再次更改对象，给它增加一个属性</span><br><span class="line"></span><br><span class="line">var arr = [1, 2, 3];</span><br><span class="line">a[0] = 0; // 更改数组的一个元素</span><br><span class="line">a[3] = 4; // 给数组增加一个元素</span><br></pre></td></tr></table></figure>
-<h5 id="引用类型可以添加属性和方法"><a href="#引用类型可以添加属性和方法" class="headerlink" title="引用类型可以添加属性和方法"></a>引用类型可以添加属性和方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">person.name = &apos;Felix Cao&apos;;</span><br><span class="line">person.getName = function() &#123;</span><br><span class="line">  console.log(&apos;Felix Cao&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="引用类型的值是对象引用"><a href="#引用类型的值是对象引用" class="headerlink" title="引用类型的值是对象引用"></a>引用类型的值是对象引用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">a.name = &apos;Felix Cao&apos;;</span><br><span class="line">console.log(a.name); // Felix Cao</span><br><span class="line">console.log(b.name); // Felix Cao</span><br><span class="line"></span><br><span class="line">b.age = 30;</span><br><span class="line">console.log(a.age); // 30</span><br><span class="line">console.log(b.age); // 30</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;当从一个变量向另一个变量赋值引用类型的值时，同样也会将储存在变量中的对象的值复制一份放到为新变量分配的空间中.<strong>引用类型保存在变量中的是堆区内存地址</strong>，该地址存放的是个对象，所以，与基本数据类型的简单赋值不同，这个值的副本实际上是一个指针，而这个指针指向存储在堆内存的一个对象.那么赋值操作后，两个变量都保存了同一个对象地址，而这两个地址指向了同一个对象.因此，改变其中任何一个变量，都会互相影响, 它们的关系如下图：</p>
-<p><img src="/images/js-variable-reference-values-01.png" width="600"></p>
-<p>&emsp;&emsp;因此，引用类型的赋值其实是对象保存在栈区地址指针的赋值，所以两个变量指向同一个对象，任何的操作都会互相影响。</p>
-<h5 id="引用类型的比较是引用的比较"><a href="#引用类型的比较是引用的比较" class="headerlink" title="引用类型的比较是引用的比较"></a>引用类型的比较是引用的比较</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">var person1 = &#123;&#125;;</span><br><span class="line">var person2 = &#123;&#125;;</span><br><span class="line">console.log(&apos;a == b: &apos;, a == b); // true</span><br><span class="line">console.log(&apos;person1 == person2: &apos;, person1 == person2); // false</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;为什么person1和person2两个对象看起来一摸一样，但是却不相等呢？</p>
-<p>&emsp;&emsp;因为引用类型的比较是引用的比较，换句话说，就是<strong>比较两个对象保存在栈区的指向堆内存的地址是否相同</strong>，此时，虽然person1和person2看起来都是一个”{}”，但是他们保存在栈区中的指向堆内存的地址却是不同的，所以两个对象不相等</p>
-<p><img src="/images/js-variable-reference-values-02.png" width="600"></p>
-<h5 id="引用类型是同时保存在栈区和堆区中的"><a href="#引用类型是同时保存在栈区和堆区中的" class="headerlink" title="引用类型是同时保存在栈区和堆区中的"></a>引用类型是同时保存在栈区和堆区中的</h5><p>&emsp;&emsp;引用类型的存储需要在内存的栈区(Stack)和堆区(Heap)共同完成，栈区保存变量标识符和指向堆内存的地址。 假如有以下几个对象：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;name:&quot;change1&quot;&#125;;</span><br><span class="line">var person2 = &#123;name:&quot;change2&quot;&#125;;</span><br><span class="line">var person3 = &#123;name:&quot;change3&quot;&#125;;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;则这三个对象在内存中保存的情况如下图：</p>
-<p><img src="/images/js-variable-reference-values-03.png" width="600"></p>
-<h5 id="instanceOf"><a href="#instanceOf" class="headerlink" title="instanceOf"></a>instanceOf</h5><p>&emsp;&emsp;判断是否是某个对象的类型, 回头单独拿一篇来聊聊indtanceOf.</p>
-<h5 id="基本类型和引用类型的区别"><a href="#基本类型和引用类型的区别" class="headerlink" title="基本类型和引用类型的区别"></a>基本类型和引用类型的区别</h5><ul>
-<li>基本类型变量存的是值，复杂类型的变量存的是内存地址。</li>
-<li>基本类型在赋值的时候拷贝值，复杂类型在赋值的时候只拷贝地址，不拷贝值。</li>
-</ul>
-
+<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。<br>
+        
+          <a class="article-more-a" href="/2018/02/09/js-variable-reference-values/#more">more >></a>
+        
       
 
       
@@ -1493,15 +1074,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1517,15 +1098,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

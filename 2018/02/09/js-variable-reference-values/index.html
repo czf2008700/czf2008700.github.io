@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-01.png">
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-02.png">
 <meta property="og:image" content="http://up8.wang/images/js-variable-reference-values-03.png">
-<meta property="og:updated_time" content="2018-02-11T09:08:14.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:34:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript中的数据类型之引用类型(Reference Values)">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;上一篇我们聊了 JavaScript中的数据类型之基本数据类型(Primitive Values), 本篇来聊一聊引用类型(Reference Values) &amp;emsp;&amp;emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的">
@@ -182,7 +182,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&emsp;&emsp;上一篇我们聊了 <a href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>, 本篇来聊一聊引用类型(Reference Values)</p>
-<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。</p>
+<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。<br><a id="more"></a></p>
 <h5 id="引用类型的值是可以改变的"><a href="#引用类型的值是可以改变的" class="headerlink" title="引用类型的值是可以改变的"></a>引用类型的值是可以改变的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123; age: 32 &#125;;</span><br><span class="line">person.age = 30; // 通过修改对象属性值更改对象</span><br><span class="line">person.name = &apos;Felix&apos;; // 再次更改对象，给它增加一个属性</span><br><span class="line"></span><br><span class="line">var arr = [1, 2, 3];</span><br><span class="line">a[0] = 0; // 更改数组的一个元素</span><br><span class="line">a[3] = 4; // 给数组增加一个元素</span><br></pre></td></tr></table></figure>
 <h5 id="引用类型可以添加属性和方法"><a href="#引用类型可以添加属性和方法" class="headerlink" title="引用类型可以添加属性和方法"></a>引用类型可以添加属性和方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;&#125;;</span><br><span class="line">person.name = &apos;Felix Cao&apos;;</span><br><span class="line">person.getName = function() &#123;</span><br><span class="line">  console.log(&apos;Felix Cao&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="引用类型的值是对象引用"><a href="#引用类型的值是对象引用" class="headerlink" title="引用类型的值是对象引用"></a>引用类型的值是对象引用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123;&#125;;</span><br><span class="line">var b = a;</span><br><span class="line">a.name = &apos;Felix Cao&apos;;</span><br><span class="line">console.log(a.name); // Felix Cao</span><br><span class="line">console.log(b.name); // Felix Cao</span><br><span class="line"></span><br><span class="line">b.age = 30;</span><br><span class="line">console.log(a.age); // 30</span><br><span class="line">console.log(b.age); // 30</span><br></pre></td></tr></table></figure>
@@ -469,15 +469,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,15 +493,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -178,25 +178,10 @@
         <h5 id="一、面向对象"><a href="#一、面向对象" class="headerlink" title="一、面向对象"></a>一、面向对象</h5><p>&emsp;&emsp;从设计模式上看，对象是计算机抽象现实世界的一种方式。面向对象编程(object-oriented programming)的最主要目的是提高程序的重复使用性。</p>
 <p>&emsp;&emsp;我们说，对象具有属性(property)和方法(function)，（其实本质上方法也是一种属性）在面向对象的设计模式中，属性是一种描述，描述对象的状态，比如一个人一天 24 小时的情绪，每个时刻他的情绪都具有不同的状态，喜怒哀乐，抑郁癫狂，贪嗔痴念，当然情绪只是生而为人的众多状态中的一种而已。而对象中的方法是一种功能，它的功能就是操作对象的属性。比如，吃饭可以改变一个人的状态，对吃货而已，吃饱以后会觉得特别幸福，吃饭是一种功能，它改变了一个人的情绪，让人觉得幸福。</p>
 <p>&emsp;&emsp;那么，反过来细想，人是一个对象，它具有情绪，他还要吃饭。所以可以说，对象是对属性和方法的一种封装。</p>
-<p>&emsp;&emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换句话说JavaScript中的所有对象都是由Object对象衍生的，本篇来聊一聊这个Object对象。</p>
-<h5 id="二、Object函数"><a href="#二、Object函数" class="headerlink" title="二、Object函数"></a>二、Object函数</h5><p>&emsp;&emsp;<strong>Object本身是一个函数</strong>(理解这一点，请移步 <a href="/2018/01/26/js-function-role/">JavaScript中函数的三种角色</a>)，可以当作工具方法使用，将任意值转为对象。这个方法常用于保证某个值一定是对象。如果参数为空（或者为undefined和null），Object()返回一个空对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object();</span><br><span class="line">// 等同于</span><br><span class="line">var obj = Object(undefined);</span><br><span class="line">var obj = Object(null);</span><br><span class="line"></span><br><span class="line">obj instanceof Object // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面代码的含义，是将undefined和null转为对象，结果得到了一个空对象obj。<br>&emsp;&emsp;instanceof运算符用来验证，一个对象是否为指定的构造函数的实例。obj instanceof Object返回true，就表示obj对象是Object的实例。<br>&emsp;&emsp;如果参数是原始类型的值，Object方法将其转为对应的包装对象的实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj = Object(1);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Number // true</span><br><span class="line"></span><br><span class="line">var obj = Object(&apos;foo&apos;);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof String // true</span><br><span class="line"></span><br><span class="line">var obj = Object(true);</span><br><span class="line">obj instanceof Object // true</span><br><span class="line">obj instanceof Boolean // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面代码中，Object函数的参数是各种原始类型的值，转换成对象就是原始类型值对应的包装对象。<br>&emsp;&emsp;如果Object方法的参数是一个对象，它总是返回该对象，即不用转换。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">var obj = Object(arr); // 返回原数组</span><br><span class="line">obj === arr // true</span><br><span class="line"></span><br><span class="line">var value = &#123;&#125;;</span><br><span class="line">var obj = Object(value) // 返回原对象</span><br><span class="line">obj === value // true</span><br><span class="line"></span><br><span class="line">var fn = function () &#123;&#125;;</span><br><span class="line">var obj = Object(fn); // 返回原函数</span><br><span class="line">obj === fn // true</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;利用这一点，可以写一个判断变量是否为对象的函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function isObject(value) &#123;</span><br><span class="line">  return value === Object(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isObject([]) // true</span><br><span class="line">isObject(true) // false</span><br></pre></td></tr></table></figure>
-<h5 id="三、Object构造函数"><a href="#三、Object构造函数" class="headerlink" title="三、Object构造函数"></a>三、Object构造函数</h5><p>&emsp;&emsp;Object不仅可以当作工具函数使用，还可以当作构造函数使用，即前面可以使用new操作符。Object构造函数的首要用途，是直接通过它来生成新对象。</p>
-<p>&emsp;&emsp;Object构造函数的用法与工具方法很相似，几乎一模一样。使用时，可以接受一个参数，如果该参数是一个对象，则直接返回这个对象；如果是一个原始类型的值，则返回该值对应的包装对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var o1 = &#123;a: 1&#125;;</span><br><span class="line">var o2 = new Object(o1);</span><br><span class="line">o1 === o2 // true</span><br><span class="line"></span><br><span class="line">var obj = new Object(123);</span><br><span class="line">obj instanceof Number // true</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;虽然用法相似，但是Object(value)与new Object(value)两者的语义是不同的，Object(value)表示将value转成一个对象，new Object(value)则表示新生成一个对象，它的值是value。</p>
-<h5 id="Object-keys-与Object-getOwnPropertyNames"><a href="#Object-keys-与Object-getOwnPropertyNames" class="headerlink" title="Object.keys()与Object.getOwnPropertyNames()"></a>Object.keys()与Object.getOwnPropertyNames()</h5><p>&emsp;&emsp;这两个方法都是用来遍历对象的属性的<br>&emsp;&emsp;Object.keys方法的参数是一个对象，返回一个数组。该数组的成员都是该对象自身的（而不是继承的）所有属性名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  p1: 123,</span><br><span class="line">  p2: 456</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Object.keys(obj) // [&quot;p1&quot;, &quot;p2&quot;]</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;Object.getOwnPropertyNames方法与Object.keys类似，也是接受一个对象作为参数，返回一个数组，包含了该对象自身的所有属性名。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  p1: 123,</span><br><span class="line">  p2: 456</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Object.getOwnPropertyNames(obj) // [&quot;p1&quot;, &quot;p2&quot;]</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/stdlib/object.html" target="_blank" rel="noopener">Object对象 – 阮一峰</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof" target="_blank" rel="noopener">instanceof – MDN web docs</a></li>
-</ul>
-
+<p>&emsp;&emsp;在JavaScript里，同样认为“万物皆对象”，JavaScript提供了一个Object对象，是JavaScript所有对象的基类， 即那些对象都是Object的实例对象，换句话说JavaScript中的所有对象都是由Object对象衍生的，本篇来聊一聊这个Object对象。<br>
+        
+          <a class="article-more-a" href="/2018/02/08/js-object/#more">more >></a>
+        
       
 
       
@@ -332,32 +317,10 @@
       
         <p>&emsp;&emsp;在上一篇 <a href="/2018/01/24/js-method-and-property-for-function/">JavaScript函数的属性和方法</a> 中提到了函数的三个方法call() apply() bind() 三个方法.</p>
 <h5 id="索源"><a href="#索源" class="headerlink" title="索源"></a>索源</h5><p>&emsp;&emsp;call，apply，bind这三个方法其实都是继承自Function.prototype中的，属于实例方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;call&apos;)) // true</span><br><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;apply&apos;)) // true</span><br><span class="line">console.log(Function.prototype.hasOwnProperty(&apos;bind&apos;)) // true</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;上面代码中，都返回了true，表明三种方法都是继承自Function.prototype的。当然，普通的对象，函数，数组都继承了Function.prototype对象中的三个方法，所以这三个方法都可以在对象，数组，函数中使用。</p>
-<h5 id="call方法"><a href="#call方法" class="headerlink" title="call方法"></a>call方法</h5><p>&emsp;&emsp;函数实例的call方法，可以指定该函数内部this的指向（即函数执行时所在的作用域），然后在所指定的作用域中，调用该函数。并且会立即执行该函数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var teacher = &#123;</span><br><span class="line">	name: &apos;up8&apos;</span><br><span class="line">&#125;</span><br><span class="line">var name = &apos;Felix&apos;;</span><br><span class="line">person(); // Felix</span><br><span class="line">person.call(); // Felix</span><br><span class="line">person.call(null); // Felix</span><br><span class="line">person.call(undefined); // Felix</span><br><span class="line">person.call(this); // Felix</span><br><span class="line">person.call(teacher);  // up8</span><br><span class="line"></span><br><span class="line">function person() &#123;</span><br><span class="line">  console.log(&apos;my name is&apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面代码中，person函数中的this关键字，如果指向全局对象，返回结果为Felix。可以看到，如果call方法没有参数，或者参数为null或undefined或者this，则等同于指向全局对象。如果使用call方法将this关键字指向teacher对象，也就是将该函数执行时所在的作用域为teacher对象，返回结果为up8。</p>
-<p>&emsp;&emsp;call()方法可以传递两个参数。第一个参数是指定函数内部中this的指向（也就是函数执行时所在的作用域），第二个参数是函数调用时需要传递的参数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">  console.log(x+y);</span><br><span class="line">&#125;</span><br><span class="line">add.call(null, 1, 2) // 3</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;第一个参数是必须的，可以是null，undefined，this，但是不能为空。设置为<strong>null，undefined，this表明函数add此时处于全局作用域</strong>。第二个参数中必须一个个添加。而在apply中必须以数组的形式添加。</p>
-<h5 id="apply方法"><a href="#apply方法" class="headerlink" title="apply方法"></a>apply方法</h5><p>&emsp;&emsp;apply方法的作用与call方法类似，也是改变this指向（函数执行时所在的作用域），然后在指定的作用域中，调用该函数。同时也会立即执行该函数。唯一的区别就是，它接收一个数组作为函数执行时的参数。<br>&emsp;&emsp;apply方法的第一个参数与call的第一个参数一样，也是this所要指向的那个对象，如果设为null或undefined或者this，则等同于指定全局对象。第二个参数则是一个数组，该数组的所有成员依次作为参数，在调用时传入原函数。原函数的参数，在call方法中必须一个个添加，但是在apply方法中，必须以数组形式添加。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x, y) &#123;</span><br><span class="line">  console.log(x+y);</span><br><span class="line">&#125;</span><br><span class="line">add.apply(null, [1, 2]) // 3</span><br></pre></td></tr></table></figure>
-<h5 id="bind方法"><a href="#bind方法" class="headerlink" title="bind方法"></a>bind方法</h5><p>&emsp;&emsp;bind方法用于指定函数内部的this指向（执行时所在的作用域），<strong>然后返回一个新函数。bind方法并非立即执行一个函数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: function() &#123;</span><br><span class="line">    console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">person.getName();</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;上面代码中，this.name指向person对象的内部属性name,如果把person对象的getName方法赋值给另外一个变量，调用执行后就不是期望的结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: function() &#123;</span><br><span class="line">    console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var personName = person.getName;</span><br><span class="line">personName()</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;为什么呢？在<a href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a>这篇文章中 提到 <strong>隐式绑定中的上下文丢失</strong>， 为了解决这个问题，可以使用bind方法，将person对象里的this绑定到person对象上，或者是直接调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var personName = person.getName.bind(person);</span><br><span class="line">personName()</span><br></pre></td></tr></table></figure>
-<p>上面的代码中，可以看出call, apply, bind三者的区别： call和apply方法都是在调用之后立即执行的。而bind调用之后是返回原函数, 需要再调用一次才行，有点像是闭包的玩法。</p>
-<h5 id="有必要总结一下"><a href="#有必要总结一下" class="headerlink" title="有必要总结一下"></a>有必要总结一下</h5><ul>
-<li>第一个参数都是指定函数内部中this的指向（函数执行时所在的作用域），然后根据指定的作用域，调用该函数。</li>
-<li>都可以在函数调用时传递参数。call，bind方法需要直接传入，而apply方法需要以数组的形式传入。</li>
-<li>call，apply方法是在调用之后立即执行函数，而bind方法没有立即执行，需要将函数再执行一遍。有点闭包的味道。</li>
-<li>改变this对象的指向问题不仅有call，apply，bind方法，也可以使用that变量来固定this的指向。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://www.codementor.io/niladrisekhardutta/how-to-call-apply-and-bind-in-javascript-8i1jca6jp" target="_blank" rel="noopener">How-to: call() , apply() and bind() in JavaScript</a></li>
-<li><a href="https://medium.com/@omergoldberg/javascript-call-apply-and-bind-e5c27301f7bb" target="_blank" rel="noopener">Javascript: call(), apply() and bind()</a></li>
-</ul>
-
+<p>&emsp;&emsp;上面代码中，都返回了true，表明三种方法都是继承自Function.prototype的。当然，普通的对象，函数，数组都继承了Function.prototype对象中的三个方法，所以这三个方法都可以在对象，数组，函数中使用。<br>
+        
+          <a class="article-more-a" href="/2018/01/25/js-call-apply-bind/#more">more >></a>
+        
       
 
       
@@ -420,26 +383,10 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>&emsp;&emsp;在上一篇 <a href="/2018/01/24/js-three-way-to-define-functions/">JavaScript的三种函数定义方式</a>, 我们提到在 JavaScript 语言里, <strong>函数也是对象</strong>， 函数既然是对象就一定有对应的属性和方法， 本篇来讲讲函数的属性和方法。</p>
-<h5 id="函数的内部属性"><a href="#函数的内部属性" class="headerlink" title="函数的内部属性"></a>函数的内部属性</h5><p>&emsp;&emsp;在函数内部有两个特殊的属性： arguments 和 this</p>
-<p>1）<strong>arguments对象</strong><br>&emsp;&emsp;Javascript并没有重载函数的功能, 但是Arguments对象能够模拟重载。arguments对象是所有（非箭头）函数中都可用的局部变量。你可以使用arguments对象在函数中引用函数的参数。arguments对象不是一个 Array。它类似于Array，但除了长度之外没有任何Array属性。<br>&emsp;&emsp;它引用着函数的实参，可以用数组下标的方式”[]”引用arguments的元素。arguments.length为函数实参个数，arguments.callee引用函数自身。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">person(&apos;heeloo&apos;, &apos;word&apos;, &apos;up8&apos;, &apos;Felix Cao&apos;);</span><br><span class="line">function person() &#123;</span><br><span class="line">  for(var i=0; i&lt;arguments.length; i++) &#123;</span><br><span class="line">    console.log(&apos;parameter &apos; + i +&apos;: &apos;, arguments[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>阶乘函数(Factorial)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function factorial (num)&#123;</span><br><span class="line">  if(num &lt;= 1)&#123;</span><br><span class="line">    return 1;</span><br><span class="line">  &#125; else&#123;</span><br><span class="line">    return num * factorial(num-1); </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;定义阶乘函数一般都会用到递归算法，如上面代码所示，在有函数名字，并且函数名字以后也不会改变的情况下，这种定义是没有问题的，但是这个函数的执行与函数名factorial紧紧的耦合在一起，为了消除这种紧密耦合现象，可以使用arguments.callee<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function factorial (num)&#123;</span><br><span class="line">  if(num &lt;= 1)&#123;</span><br><span class="line">    return 1;</span><br><span class="line">  &#125; else&#123;</span><br><span class="line">    return num * arguments.callee(num-1);; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>重写后的factorial()函数的函数体内，没有再引用函数名factorial。这样即使改变函数名字，都可以保证正常完成递归调用.</p>
-<p>2) <strong>this</strong>, 请移步<a href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a></p>
-<h5 id="函数的属性"><a href="#函数的属性" class="headerlink" title="函数的属性"></a>函数的属性</h5><p>1). <strong>length属性</strong><br>&emsp;&emsp;在函数内部属性部分我们讲到<strong>arguments对象的length属性表示实参个数，而函数的length属性则表示形参个数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person(name, age) &#123;</span><br><span class="line">  console.log(&apos;实参个数：&apos;, arguments.length);</span><br><span class="line">  console.log(&apos;形参个数：&apos;, person.length);</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;, 2, &apos;127.0.0.1&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>2). <strong>name属性</strong><br>&emsp;&emsp;函数定义了一个非标准的name属性，通过这个属性可以访问到给定函数指定的名字，这个属性的值永远等于跟在function关键字后面的标识符，匿名函数的name属性为空<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//IE11-浏览器无效，均输出undefined</span><br><span class="line">//chrome在处理匿名函数的name属性时有问题，会显示函数表达式的名字</span><br><span class="line">function fn()&#123;&#125;;</span><br><span class="line">console.log(fn.name);//&apos;fn&apos;</span><br><span class="line">var fn = function()&#123;&#125;;</span><br><span class="line">console.log(fn.name);//&apos;&apos;，在chrome浏览器中会显示&apos;fn&apos;</span><br><span class="line">var fn = function abc()&#123;&#125;;</span><br><span class="line">console.log(fn.name);//&apos;abc&apos;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;[注意]name属性早就被浏览器广泛支持，但是直到ES6才将其写入了标准，ES6对这个属性的行为做出了一些修改。如果将一个匿名函数赋值给一个变量，ES5的name属性，会返回空字符串，而ES6的name属性会返回实际的函数名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var func1 = function () &#123;&#125;;</span><br><span class="line">func1.name //ES5:  &quot;&quot;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;如果将一个具名函数赋值给一个变量，则ES5和ES6的name属性都返回这个具名函数原本的名字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var bar = function baz() &#123;&#125;;</span><br><span class="line">bar.name //ES5: &quot;baz&quot;</span><br><span class="line">bar.name //ES6: &quot;baz&quot;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;Function构造函数返回的函数实例，name属性的值为“anonymous”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(new Function).name // &quot;anonymous&quot;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;bind返回的函数，name属性值会加上“bound ”前缀<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;&#125;;</span><br><span class="line">foo.bind(&#123;&#125;).name // &quot;bound foo&quot;</span><br><span class="line">(function()&#123;&#125;).bind(&#123;&#125;).name // &quot;bound &quot;</span><br></pre></td></tr></table></figure></p>
-<p>3). <strong>prototype属性</strong><br>&emsp;&emsp;每一个函数都有一个prototype属性，这个属性指向一个对象的引用，这个对象称做原型对象(prototype object)。每一个函数都包含不同的原型对象。将函数用做构造函数时，新创建的对象会从原型对象上继承属性. 关于prototype属性请移步 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a></p>
-<h5 id="函数的方法"><a href="#函数的方法" class="headerlink" title="函数的方法"></a>函数的方法</h5><p>&emsp;&emsp;每个函数都有call(),apply(), bind()三个方法，他们来源于Function.prototype.call()，Function.prototype.apply(), Function.prototype.bind(), 上文提到，在JavaScript 语言里, 函数也是对象，每个函数都是 Function 类的实例，而call、apply和bind是Function类自带的三个方法。 想了解更多请移步<a href="2018/01/25/js-call-apply-bind/">JavaScript函数的call/apply/bind方法</a></p>
-<p>toStrint方法<br>函数的toString方法返回一个字符串，内容是函数的源码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function add(x,y) &#123;</span><br><span class="line">  return x+y;</span><br><span class="line">&#125;</span><br><span class="line">add.toString()</span><br></pre></td></tr></table></figure></p>
-<h5 id="Rerfence"><a href="#Rerfence" class="headerlink" title="Rerfence"></a>Rerfence</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/grammar/function.html#toc7" target="_blank" rel="noopener">阮一峰Javascript标准参考教程——函数的属性和方法</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" rel="noopener">Arguments对象</a></li>
-</ul>
-
+<h5 id="函数的内部属性"><a href="#函数的内部属性" class="headerlink" title="函数的内部属性"></a>函数的内部属性</h5><p>&emsp;&emsp;在函数内部有两个特殊的属性： arguments 和 this<br>
+        
+          <a class="article-more-a" href="/2018/01/24/js-method-and-property-for-function/#more">more >></a>
+        
       
 
       
@@ -503,22 +450,10 @@
       
         <p>&emsp;&emsp;在 JavaScript 语言里，主要有三种方式定义函数，分别是：函数声明，函数表达式和Function构造函数，下面依次介绍</p>
 <h5 id="函数声明-Function-declaration"><a href="#函数声明-Function-declaration" class="headerlink" title="函数声明(Function declaration)"></a>函数声明(Function declaration)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person(name) &#123;</span><br><span class="line">  console.log(name);</span><br><span class="line">  return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;函数声明这是JavaScript最常见的函数定义法， function是函数声明关键词，<strong>person是函数名称标识符</strong>， 函数名之后的圆括号中是参数列表，参数之间使用逗号分隔，花括号是函数体<br>&emsp;&emsp;<strong>函数声明提升(hoisting)</strong>, 函数声明的一个重要特性就是提升, 指的是整个函数体的提升， 也就是说<strong>可以在函数声明前调用函数</strong>。</p>
-<h5 id="函数声明重复"><a href="#函数声明重复" class="headerlink" title="函数声明重复"></a>函数声明重复</h5><p>&emsp;&emsp;如果同一个函数被多次声明，后面的声明就会覆盖前面的声明。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function add(x,y) &#123;</span><br><span class="line">  return x+y;</span><br><span class="line">&#125;</span><br><span class="line">function add(x,y,z) &#123;</span><br><span class="line">  return n=x+y+z;</span><br><span class="line">&#125;</span><br><span class="line">add(2, 3); // 结果是啥？</span><br></pre></td></tr></table></figure></p>
-<p>上面代码中，后一次的函数声明覆盖了前面一次。而且，由于函数名的提升，前一次声明在任何时候都是无效的，这一点要特别注意。</p>
-<h5 id="函数表达式-function-expression"><a href="#函数表达式-function-expression" class="headerlink" title="函数表达式(function expression)"></a>函数表达式(function expression)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var person = function(name) &#123;</span><br><span class="line">  console.log(name);</span><br><span class="line">  return name;</span><br><span class="line">&#125;</span><br><span class="line">person(&apos;up8&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;在 JavaScript 语言里, 函数也是对象，对象可以赋值给一个变量， 函数表达式是将一个匿名函数(anonymous function)赋值给一个变量，<strong>function关键词后面没有标识符</strong></p>
-<h5 id="Function构造函数"><a href="#Function构造函数" class="headerlink" title="Function构造函数"></a>Function构造函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var person = new Function(&apos;name&apos;, &apos;console.log(name); return name;&apos;);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;Function()构造函数可以传入任意数量的字符串实参，最后一个实参所表示的文本是函数体，可以包含任意数量的JavaScript语句。如果构造的函数不包含任何参数，则只需传入一个函数体即可。<br>&emsp;&emsp;与前两者方式不同的是，Function()构造函数允许JavaScript在运行时动态地创建并翻译函数。每次调用Function()构造函数都会解析函数体，并<strong>创建新的函数对象</strong>。因而，在循环或多次调用的函数中执行这个构造函数，执行效率会受影响。相比之下，循环中的嵌套函数和函数定义表达式则不会每次执行时都重新编译。<br>&emsp;&emsp;Function()构造函数还有值得注意的一点就是它所创建的函数并不是使用词法作用域，函数体代码的编译总在顶层函数执行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;up8&apos;; // 顶层函数</span><br><span class="line">function person() &#123;</span><br><span class="line">  var name = &apos;up8.wang&apos; // 局部变量</span><br><span class="line">  return new Function(&apos;console.log(name)&apos;); // 无法捕获局部作用域</span><br><span class="line">&#125;</span><br><span class="line">person()(); // 控制台输出up8，说明构造函数的编译在顶层函数执行</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;我们可以将Function()构造函数认为是在全局作用域中执行的eval()。在实际编程中，Function()构造函数很少用到，前两中定义方法使用比较普遍。</p>
-<h5 id="return语句及其坑"><a href="#return语句及其坑" class="headerlink" title="return语句及其坑"></a>return语句及其坑</h5><p>&emsp;&emsp;在函数体内，遇到return，函数就执行完毕，并返回结果。如果没有 return ，函数执行完毕也会返回结果，只是返回的是undefined<br>&emsp;&emsp;我们要注意的是return有一个坑，在JavaScript中，有一个自动在行末添加分号的机制，看下面的示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return &#123;name: &apos;Felix Cao&apos;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">person() // &#123;name: &apos;Felix Cao&apos;&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>如果我们写成这样的话：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function person() &#123;</span><br><span class="line">  return  // 自动加了分好，相当于return undefined</span><br><span class="line">  &#123;name: &apos;Felix Cao&apos;&#125;; // 因为上面已经返回，所以这句无法执行</span><br><span class="line">&#125;</span><br><span class="line">person() // undefined</span><br></pre></td></tr></table></figure></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://perfectionkills.com/understanding-delete/" target="_blank" rel="noopener">Understanding delete</a> — 这篇文章主要讲解JavaScript的delete操作符</li>
-<li><a href="https://www.davidbcalhoun.com/2011/different-ways-of-defining-functions-in-javascript-this-is-madness/" target="_blank" rel="noopener">Different Ways of Defining Functions in JavaScript (This Is Madness!)</a></li>
-</ul>
-
+<p>&emsp;&emsp;函数声明这是JavaScript最常见的函数定义法， function是函数声明关键词，<strong>person是函数名称标识符</strong>， 函数名之后的圆括号中是参数列表，参数之间使用逗号分隔，花括号是函数体<br>&emsp;&emsp;<strong>函数声明提升(hoisting)</strong>, 函数声明的一个重要特性就是提升, 指的是整个函数体的提升， 也就是说<strong>可以在函数声明前调用函数</strong>。<br>
+        
+          <a class="article-more-a" href="/2018/01/24/js-three-way-to-define-functions/#more">more >></a>
+        
       
 
       
@@ -582,29 +517,10 @@
       
         <p>&emsp;&emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的<strong>this在运行期进行的绑定</strong>，这是JavaScript中this关键词具备多重含义的本质原因。</p>
 <p>&emsp;&emsp;人们对JavaScript中this的绑定常常有两个误解，一是指向函数本身，二是指向函数作用域，这两种想法都是错误的。<strong>this并不指向函数本身，也不指向函数作用域</strong></p>
-<p>&emsp;&emsp;由于JavaScript中this在运行期进行绑定的特性，因此this可以<strong>指向全局对象，指向新创建的对象，指向dot之前的对象</strong>，这个完全取决于函数的调用方式。JavaScript函数的调用有以下几种方式：普通函数调用，构造函数调用，对象方法调用，和使用call和apply调用。</p>
-<h5 id="普通函数调用（指向全局对象）"><a href="#普通函数调用（指向全局对象）" class="headerlink" title="普通函数调用（指向全局对象）"></a>普通函数调用（指向全局对象）</h5><p>  在JavaScript中，最常见的函数调用类型就是普通函数调用，也就是“光秃秃”的调用this默认指向的是全局作用域。这条作为<strong>默认绑定规则</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function up8Wang() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.local: &apos;, this.local);</span><br><span class="line">&#125;</span><br><span class="line">var local = &quot;In global&quot;;</span><br><span class="line">up8Wang(); // this绑定了window, 输出“In global”</span><br></pre></td></tr></table></figure>
-<p><strong>默认绑定里的严格模式</strong><br>&emsp;&emsp;在普通函数调用方式之前加上’use strict’, 则this不能绑定到全局对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;</span><br><span class="line">function up8Wang() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.local: &apos;, this.local);</span><br><span class="line">&#125;</span><br><span class="line">var local = &quot;In global&quot;;</span><br><span class="line">up8Wang(); //Uncaught TypeError: Cannot read property &apos;local&apos; of undefined</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;可以看出，在严格模式下，普通函数调用中的this实际上指向的是<strong>undefined</strong></p>
-<h5 id="new-绑定-指向新创建的对象"><a href="#new-绑定-指向新创建的对象" class="headerlink" title="new 绑定(指向新创建的对象)"></a>new 绑定(指向新创建的对象)</h5><p>&emsp;&emsp;通过new操作符调用构造函数时发生的this绑定，关于构造函数，请移步阅读 <a href="http://up8.wang/2017/12/26/js-constructor/">JavaScript构造函数(constructor)</a> 一文。在这篇文章中有段代码，我们拿过来继续分析分析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function Person(name, age) &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.age = age;</span><br><span class="line">  this.getName = function () &#123;</span><br><span class="line">    onsole.log(this.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 当做构造函数使用时</span><br><span class="line">var person1 = new Person(&apos;Felix&apos;, 100); // this--&gt; person1</span><br><span class="line">person1.getName(); </span><br><span class="line"></span><br><span class="line">// 当做普通函数使用时</span><br><span class="line">var person2 = Person(&apos;Felix Cao&apos;, 111); // this-&gt;window</span><br><span class="line">getName(); // 或window.getName();</span><br><span class="line">console.log(&apos;person2: &apos; + person2);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面定义的Person函数，既可以作普通函数调用，又可以作构造函数调用，</p>
-<ul>
-<li><p>普通函数： 当作普通函数调用时this绑定在了全局对象window上，此时全局对象上增加了name和age属性, 还增加了getName方法(因此可以直接调用geName函数)，Person用作普通函数时，没有return语句，因此person2的值为undefined。</p>
-</li>
-<li><p>构造函数： person1对象是用new操作符调用构造函数Person创建的新对象，并且会把构造函数内的this绑定到这个对象上。</p>
-</li>
-</ul>
-<h5 id="对象方法调用的隐式绑定"><a href="#对象方法调用的隐式绑定" class="headerlink" title="对象方法调用的隐式绑定"></a>对象方法调用的隐式绑定</h5><p>&emsp;&emsp;如果函数有所谓的“落脚点”，即有上下文对象时，隐式绑定规则会把函数中的this绑定到这个上下文对象。通俗点讲<strong>函数作为对象的一个属性</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var person1 = &#123;</span><br><span class="line">  name: &apos;up8&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var person2 = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line">person1.getName();</span><br><span class="line">person2.getName();</span><br><span class="line"></span><br><span class="line">function getName() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;上面的代码利用对象字面量创建的对象person1和person2对象就是getName函数的<strong>落脚点</strong>， 专业一点的说法就是上下文对象。</p>
-<p><strong>隐式绑定中的上下文丢失</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;up8--global&apos;</span><br><span class="line">var person = &#123;</span><br><span class="line">  name: &apos;Felix Cao&apos;,</span><br><span class="line">  getName: getName</span><br><span class="line">&#125;</span><br><span class="line">var personName = person.getName // 设置一个简写 s1</span><br><span class="line">personName(); // up8--global s2</span><br><span class="line"></span><br><span class="line">function getName() &#123;</span><br><span class="line">  console.log(&apos;this: &apos;, this);</span><br><span class="line">  console.log(&apos;this.name: &apos;, this.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;输出的结果是up8–global， 在s1的位置，我们只是给person.getName换了个personName名字。就是这个换名赋值语句操作出事的，因为在javascript中，函数是对象，对象之间是引用传递而不是传值传递， 因此s1位置的赋值实际上是这样的： personName = person.getName = getName, personName = getName, personName最终引用的是getName函数的地址，而与person对象无关了，这就是所谓的丢失上下文。</p>
-<h5 id="显示绑定"><a href="#显示绑定" class="headerlink" title="显示绑定"></a>显示绑定</h5><p>&emsp;&emsp;JavaScript为每个函数提供三种显示绑定的方法： apply, call, bind, 而bind则返回一个新函数。关于三者的具体用法，请移步 <a href="/2018/01/25/js-call-apply-bind/">JavaScript函数的call/apply/bind方法</a>。</p>
-<h5 id="箭头函数中的this绑定"><a href="#箭头函数中的this绑定" class="headerlink" title="箭头函数中的this绑定"></a>箭头函数中的this绑定</h5><p>&emsp;&emsp;箭头函数是ES6里一个重要特性，其this绑定规则跟以上四条都不一样，<strong>ES6的this遵循着JS的词法作用域, 而不是在运行期进行绑定</strong>， 本篇也不做详细介绍，回头拉出来一篇做专门介绍。</p>
-
+<p>&emsp;&emsp;由于JavaScript中this在运行期进行绑定的特性，因此this可以<strong>指向全局对象，指向新创建的对象，指向dot之前的对象</strong>，这个完全取决于函数的调用方式。JavaScript函数的调用有以下几种方式：普通函数调用，构造函数调用，对象方法调用，和使用call和apply调用。<br>
+        
+          <a class="article-more-a" href="/2018/01/23/js-this-bind/#more">more >></a>
+        
       
 
       
@@ -670,24 +586,9 @@
 <blockquote>
 <p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
 </blockquote>
-<h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  counter: function() &#123;</span><br><span class="line">  return counter</span><br><span class="line"> &#125;,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p>
-<h5 id="ES6模块是动态引用，并且不会缓存值"><a href="#ES6模块是动态引用，并且不会缓存值" class="headerlink" title="ES6模块是动态引用，并且不会缓存值"></a>ES6模块是动态引用，并且不会缓存值</h5><p>ES6模块的运行机制与CommonJS不一样，它遇到模块加载命令import时，不会去执行模块，而是只生成一个动态的只读引用。等到真的需要用到时，再到模块里面去取值，换句话说，ES6的输入有点像Unix系统的“符号连接”，原始值变了，import输入的值也会跟着变。因此，ES6模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p>
-<p>还是举上面的例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let counter = 3;</span><br><span class="line">export function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; counter, incCounter &#125; from &apos;./lib&apos;;</span><br><span class="line">console.log(counter); // 3</span><br><span class="line">incCounter();</span><br><span class="line">console.log(counter); // 4</span><br></pre></td></tr></table></figure>
-<p>上面代码说明，ES6模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p>
-<p>由于ES6输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">export let obj = &#123;&#125;;</span><br><span class="line">// main.js</span><br><span class="line">import &#123; obj &#125; from &apos;./lib&apos;;</span><br><span class="line">obj.prop = 123; // OK</span><br><span class="line">obj = &#123;&#125;; // TypeError</span><br></pre></td></tr></table></figure>
-<p>最后，export通过接口，输出的是同一个值。不同的脚本加载这个接口，得到的都是同样的实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// mod.js</span><br><span class="line">function C() &#123;</span><br><span class="line"> this.sum = 0;</span><br><span class="line"> this.add = function () &#123;</span><br><span class="line">  this.sum += 1;</span><br><span class="line"> &#125;;</span><br><span class="line"> this.show = function () &#123;</span><br><span class="line">  console.log(this.sum);</span><br><span class="line"> &#125;;</span><br><span class="line">&#125;</span><br><span class="line">export let c = new C();</span><br></pre></td></tr></table></figure>
-<p>上面的脚本mod.js，输出的是一个C的实例。不同的脚本加载这个模块，得到的都是同一个实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// x.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.add();</span><br><span class="line">// y.js</span><br><span class="line">import &#123;c&#125; from &apos;./mod&apos;;</span><br><span class="line">c.show();</span><br><span class="line">// main.js</span><br><span class="line">import &apos;./x&apos;;</span><br><span class="line">import &apos;./y&apos;;</span><br></pre></td></tr></table></figure>
-<p>现在执行main.js，输出的是1。这就证明了x.js和y.js加载的都是C的同一个实例。</p>
-
+        
+          <a class="article-more-a" href="/2018/01/12/es6-module-load/#more">more >></a>
+        
       
 
       
@@ -754,31 +655,10 @@
 <li>模块需要严格模式</li>
 <li>一个模块就是一个独立的文件，该文件内部的所有变量外部是无法获取的。</li>
 <li>导出：使用export声明需要导出的变量、函数或类</li>
-<li>导入：使用import声明从其他模块导入变量、函数或类。</li>
-</ul>
-<h5 id="export-命名输出-Named-exports"><a href="#export-命名输出-Named-exports" class="headerlink" title="export 命名输出(Named exports)"></a>export 命名输出(Named exports)</h5><p>1). 写法1， 在每个变量、函数或类前面加上关键字<strong>export</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出</span><br><span class="line">export const sqrt = Math.sqrt;</span><br><span class="line">export function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">export function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>2). 写法2,  <em>export列表</em>, 每个要输出的部分前都写上 export 很麻烦，你可以只写一行你想要输出的变量列表，再用花括号包起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts export导出的另外一个写法（推荐）</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts, 在这个文件中import导入</span><br><span class="line">import &#123;sqrt, square&#125; from &apos;lib&apos;;</span><br><span class="line">console.log(square(8));</span><br><span class="line">console.log(add(10,15));</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;import命令接受一个对象（用大括号表示），里面指定要从其他模块导入的变量名。大括号里面的变量名，必须与被导入模块（lib.ts）对外接口的名称相同。<br>&emsp;&emsp;<strong>注意</strong> import { sqrt, square } from ‘lib’; 是import的特有语法，并不是 析构(destructing) 语法<br>&emsp;&emsp;如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。</p>
-<h5 id="export-default默认输出"><a href="#export-default默认输出" class="headerlink" title="export default默认输出"></a>export default默认输出</h5><p>&emsp;&emsp;上面的导出写法比较麻烦， 必须要指定一个名字。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到<strong>export default</strong>命令，为模块指定默认输出。。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// add.ts</span><br><span class="line">export default function (x,y)&#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import add from &apos;./add&apos;</span><br><span class="line">add(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;默认输出的时候不需要指定一个变量名，它默认就是文件名。加载该模块时，import命令可以为该匿名函数指定任意名字。<strong>需要注意的是，这时import命令后面，不使用大括号。</strong></p>
-<p>&emsp;&emsp;本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。它后面不能跟变量声明语句。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br></pre></td></tr></table></figure></p>
-<h5 id="模块的整体加载"><a href="#模块的整体加载" class="headerlink" title="模块的整体加载 *"></a>模块的整体加载 *</h5><p>&emsp;&emsp;除了指定加载某个输出值，还可以使用整体加载，即用<strong>星号(*)</strong>指定一个对象，所有输出值都加载在这个对象里<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// lib.ts</span><br><span class="line">const sqrt = Math.sqrt;</span><br><span class="line">function square(x) &#123;</span><br><span class="line">    return x * x;</span><br><span class="line">&#125;</span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">    return x + y;</span><br><span class="line">&#125;</span><br><span class="line">export &#123;sqrt, square, add&#125;;</span><br><span class="line"></span><br><span class="line">// feature.ts</span><br><span class="line">import * as lib from &apos;lib&apos;;</span><br><span class="line">console.log(lib.square(8));</span><br><span class="line">console.log(lib.add(10,15));</span><br></pre></td></tr></table></figure></p>
-<h5 id="重命名模块输入和模块输出-as"><a href="#重命名模块输入和模块输出-as" class="headerlink" title="重命名模块输入和模块输出 as"></a>重命名模块输入和模块输出 as</h5><p>&emsp;&emsp;如果导入的变量名恰好和你模块中的变量名冲突了，ES6 允许你给你导入的东西重命名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123;add as addNum&#125; from &quot;./add&quot;;</span><br><span class="line">addNum(10,9);</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;类似地，你在导出变量的时候也能重命名。这个特性在你想将同一个变量名导出两次的场景下十分方便，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function add() &#123;&#125;</span><br><span class="line">export &#123;</span><br><span class="line">	add as addNum,</span><br><span class="line">	add as addInt</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h5 id="有趣的静态和动态"><a href="#有趣的静态和动态" class="headerlink" title="有趣的静态和动态"></a>有趣的静态和动态</h5><p>&emsp;&emsp;JavaScript作为一门动态语言已经得到了一个令人惊讶的静态模块系统。</p>
-<ul>
-<li>你只可以在模块的最外层作用域使用import和export，不可在条件语句中使用，也不能在函数作用域中使用import。</li>
-<li>所有导出的标识符一定要在源代码中明确地导出它们的名称，你不能通过编写代码遍历一个数组然后用数据驱动的方式导出一堆名称。</li>
-<li>模块对象被冻结了，所以你无法hack模块对象并为其添加polyfill风格的新特性。</li>
-<li>一个模块的所有依赖必须在模块代码运行前完全加载、解析并且及早连接，不存在一种通过import来按需懒加载的语法。</li>
-<li>import模块产生的错误没有错误恢复机制。一个app可能囊括了上百个模块，一旦有一个模块无法加载或连接，所有的模块都不会运行，而且你不能在try/catch代码块中捕捉import的错误信息。（上面这些描述的本意是说：系统是静态的，webpack可在编译时为你检测那些错误。）</li>
-<li>不支持在模块加载依赖前运行其它代码的钩子，这也意味着无法控制模块的依赖加载过程。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://hacks.mozilla.org/category/es6-in-depth/" target="_blank" rel="noopener">ES6 in Depth</a> (关于 ES6 的一系列新特性的介绍。)</li>
-<li><a href="http://www.infoq.com/cn/articles/es6-in-depth-modules" target="_blank" rel="noopener">深入浅出ES6（十六）：模块 Modules</a></li>
-</ul>
-
+<li>导入：使用import声明从其他模块导入变量、函数或类。
+        
+          <a class="article-more-a" href="/2018/01/12/es6-module/#more">more >></a>
+        
       
 
       
@@ -848,34 +728,10 @@
 <li>定义新模块对其他模块的依赖。</li>
 <li>可对其他模块的引入支持。</li>
 </ul>
-<p>要通用，则必须要有规范化，因此一系列的标准应运而生。</p>
-<h5 id="CommonJS模块规范"><a href="#CommonJS模块规范" class="headerlink" title="CommonJS模块规范"></a>CommonJS模块规范</h5><p>&emsp;&emsp;CommonJS规范历史：</p>
-<ul>
-<li>2009年1月，Mozilla 的工程师 Kevin Dangoor 创建了这个项目，当时的名字是 ServerJS。其是以在浏览器环境之外构建 JavaScript 生态系统为目标而产生的项目，比如在服务器和桌面环境中。</li>
-<li>2009年8月，这个项目改名为 CommonJS，以显示其 API 的更广泛实用性。</li>
-<li>2013年5月，Node.js 的包管理器 NPM 的作者 Isaac Z. Schlueter 说 <a href="https://github.com/nodejs/node-v0.x-archive/issues/5132#issuecomment-15432598" target="_blank" rel="noopener">CommonJS 已经过时，Node.js 的内核开发者已经废弃了该规范。</a></li>
-</ul>
-<p>&emsp;&emsp;随着JavaScript作为后端语言的发展，CommonJS规范应运而生。参考 <a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范</a>， 需要注意的是CommonJS通常是服务器端模块的规范，Node.js采用了这个规范。Node.JS首先采用了js模块化的概念。</p>
-<p>&emsp;&emsp;CommonJS规范要点</p>
-<ul>
-<li>每个文件就是一个模块， 有自己的作用域。</li>
-<li>在一个文件里定义的变量、函数、类都是私有的，对其他文件不可见。</li>
-<li>导出：每个模块内部，变量module代表当前模块，这个变量是一个对象。它的<strong>exports</strong>属性(即module.exports)是一个对外的接口。</li>
-<li>导入：<strong>require</strong>方法用于加载模块。</li>
-</ul>
-<p>&emsp;&emsp;CommonJS的特点</p>
-<ul>
-<li>所有代码都运行在模块作用域，不会污染全局作用域。</li>
-<li>由于Node.js主要用于服务器编程，模块文件一般都已经存在于本地硬盘，所以加载起来比较快，不用考虑非同步加载的方式，所以CommonJS规范比较适用。</li>
-<li>模块可以多次加载，但是只会在第一次加载时运行一次，然后运行结果就被缓存了，以后再加载，就直接读取缓存结果。要想让模块再次运行，必须清楚缓存</li>
-<li>模块加载的顺序，按其在代码中出现的顺序。</li>
-</ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="http://javascript.ruanyifeng.com/nodejs/module.html" target="_blank" rel="noopener">CommonJS规范 – 阮一峰</a></li>
-<li><a href="http://wiki.commonjs.org/wiki/CommonJS" target="_blank" rel="noopener">CommonJS规范</a></li>
-<li><a href="http://blog.js-republic.com/start-of-art-of-javascript-modularization-why-choose-es2015/" target="_blank" rel="noopener">WHY CHOOSE ES2015 MODULES, BASED ON THE STATE OF THE ART OF JAVASCRIPT MODULARIZATION</a></li>
-</ul>
-
+<p>要通用，则必须要有规范化，因此一系列的标准应运而生。<br>
+        
+          <a class="article-more-a" href="/2018/01/12/js-commonjs/#more">more >></a>
+        
       
 
       
@@ -956,22 +812,10 @@
 <ul>
 <li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
 <li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
-<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype</li>
-</ul>
-<h5 id="原型链的属性查找规则"><a href="#原型链的属性查找规则" class="headerlink" title="原型链的属性查找规则"></a>原型链的属性查找规则</h5><p>&emsp;&emsp;当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>&emsp;&emsp;注意： 在实际应用中，不要直接在Object.prototype中添加任何属性和方法，本文是为了方便理解原型链的属性查找才这么写的。<br>&emsp;&emsp;上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp; 当我们查找p1对象的name属性时，先去p1对象自身去搜索一通，发现没有，再去p1的原型对象Person.prototype上搜索，如果没有再去Person.prototype的原型对象Object.protptype上去搜，找到name属性，赋给p1.name; </p>
-<p>我们把上面的代码改一下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype.name = &apos;TOP of prototype&apos;;</span><br><span class="line">function Person() &#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.name = &apos;Person原型上的name&apos;;</span><br><span class="line">var p1 = new Person();</span><br><span class="line">console.log(&apos;p1对象：&apos;, p1);</span><br><span class="line">console.log(&apos;p1的name属性：&apos;, p1.name);</span><br></pre></td></tr></table></figure>
-<p>上面的代码执行结果如下：<br><img src="/images/js-prototype-chain-01.png" width="700"><br>&emsp;&emsp;从这个结构我们可以看出，从开始的p1对象，到众多原型对象组成的链，发挥这种原型链作用靠的是对象的__proto__属性。</p>
-<h5 id="原型链简单图解"><a href="#原型链简单图解" class="headerlink" title="原型链简单图解"></a>原型链简单图解</h5><p><img src="/images/js-prototype-proto-05.png" width="600"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.__proto__); //A &#123;&#125;（即构造器function A 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__); //Object &#123;&#125;（即构造器function Object 的原型对象）</span><br><span class="line">console.log(a.__proto__.__proto__.__proto__); //null</span><br></pre></td></tr></table></figure>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Details_of_the_Object_Model" target="_blank" rel="noopener">对象模型的细节</a></li>
-<li><a href="https://www.jianshu.com/p/e858f729bf4c" target="_blank" rel="noopener">震惊！原来你是这样的原型继承。。。</a></li>
-</ul>
-
+<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype
+        
+          <a class="article-more-a" href="/2017/12/30/js-prototype-chain/#more">more >></a>
+        
       
 
       
@@ -1131,15 +975,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1155,15 +999,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

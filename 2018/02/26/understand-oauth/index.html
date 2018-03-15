@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>理解OAuth2.0 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。  一、应用场景为了理解OAuth的适">
+  <meta name="description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。">
 <meta name="keywords" content="授权,令牌">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解OAuth2.0">
 <meta property="og:url" content="http://up8.wang/2018/02/26/understand-oauth/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。  一、应用场景为了理解OAuth的适用场合，让我举一个假设的例子。 有一个”云冲印”的网站，可以将用户储存在Goog">
+<meta property="og:description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-01.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-02.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-03.png">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-05.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-06.png">
 <meta property="og:image" content="http://up8.wang/images/understand-oauth-07.png">
-<meta property="og:updated_time" content="2018-02-27T02:38:13.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:26:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解OAuth2.0">
-<meta name="twitter:description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。  一、应用场景为了理解OAuth的适用场合，让我举一个假设的例子。 有一个”云冲印”的网站，可以将用户储存在Goog">
+<meta name="twitter:description" content="文章来源阮一峰的《理解OAuth2.0》, 收录至此，以便翻阅。 OAuth是一个关于授权（authorization）的开放网络标准，在全世界得到广泛应用，目前的版本是2.0版。 本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为RFC 6749。">
 <meta name="twitter:image" content="http://up8.wang/images/understand-oauth-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
@@ -189,7 +189,7 @@
         <p>文章来源阮一峰的<a href="http://www.ruanyifeng.com/blog/2014/05/oauth_2_0.html" target="_blank" rel="noopener">《理解OAuth2.0》</a>, 收录至此，以便翻阅。</p>
 <p><strong><a href="https://en.wikipedia.org/wiki/OAuth" target="_blank" rel="noopener">OAuth</a>是一个关于授权（authorization）的开放网络标准</strong>，在全世界得到广泛应用，目前的版本是2.0版。</p>
 <p>本文对OAuth 2.0的设计思路和运行流程，做一个简明通俗的解释，主要参考材料为<a href="http://www.rfcreader.com/#rfc6749" target="_blank" rel="noopener">RFC 6749</a>。</p>
-<p><img src="/images/understand-oauth-01.png"></p>
+<p><img src="/images/understand-oauth-01.png"><br><a id="more"></a></p>
 <h5 id="一、应用场景"><a href="#一、应用场景" class="headerlink" title="一、应用场景"></a>一、应用场景</h5><p>为了理解OAuth的适用场合，让我举一个假设的例子。</p>
 <p>有一个”云冲印”的网站，可以将用户储存在Google的照片，冲印出来。用户为了使用该服务，必须让”云冲印”读取自己储存在Google上的照片</p>
 <p><img src="/images/understand-oauth-02.png"></p>
@@ -643,15 +643,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -667,15 +667,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

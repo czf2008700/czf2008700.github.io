@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="在之前的所有篇幅里，我们每次更改一个文件，都要自己去启动 http-server, 再刷新浏览器，我们希望这个动作自动刷新完成。 Webpack 提供一个可选的本地开发服务器插件 webpack-dev-server， 它是一个小型的 Node.js Express服务器,它使用 webpack-dev-middleware 来服务于 webpack 的包,除此之外，它还有一个通过 Sock.js">
 <meta property="og:image" content="http://up8.wang/images/webpack-dev-server-01.png">
-<meta property="og:updated_time" content="2018-03-05T07:26:24.000Z">
+<meta property="og:updated_time" content="2018-03-15T08:03:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Webpack入门七：开发环境">
 <meta name="twitter:description" content="在之前的所有篇幅里，我们每次更改一个文件，都要自己去启动 http-server, 再刷新浏览器，我们希望这个动作自动刷新完成。 Webpack 提供一个可选的本地开发服务器插件 webpack-dev-server， 它是一个小型的 Node.js Express服务器,它使用 webpack-dev-middleware 来服务于 webpack 的包,除此之外，它还有一个通过 Sock.js">
@@ -181,8 +181,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在之前的所有篇幅里，我们每次更改一个文件，都要自己去启动 http-server, 再刷新浏览器，我们希望这个动作自动刷新完成。</p>
-<p>Webpack 提供一个可选的本地开发服务器插件 webpack-dev-server， 它是一个小型的 Node.js Express服务器,它使用 webpack-dev-middleware 来服务于 webpack 的包,除此之外，它还有一个通过 Sock.js 来连接到服务器的微型运行时.</p>
-<p>接<a href="/2018/03/04/webpack-plugins/">上一篇</a>的代码, 先来安装一下webpack-dev-server, 本篇指定了版本为2.11.1</p>
+<p>Webpack 提供一个可选的本地开发服务器插件 webpack-dev-server， 它是一个小型的 Node.js Express服务器,它使用 webpack-dev-middleware 来服务于 webpack 的包,除此之外，它还有一个通过 Sock.js 来连接到服务器的微型运行时.<br><a id="more"></a><br>接<a href="/2018/03/04/webpack-plugins/">上一篇</a>的代码, 先来安装一下webpack-dev-server, 本篇指定了版本为2.11.1</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm i webpack-dev-server@2.11.1 -D</span><br></pre></td></tr></table></figure>
 <p>安装好以后，执行命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ webpack-dev-server</span><br></pre></td></tr></table></figure>
@@ -482,15 +481,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,15 +505,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

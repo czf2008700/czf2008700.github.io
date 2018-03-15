@@ -13,11 +13,11 @@
 <meta property="og:title" content="ES6模块(Module)和CommonJS模块加载的实质。">
 <meta property="og:url" content="http://up8.wang/2018/01/12/es6-module-load/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="&amp;emsp;&amp;emsp;在 ES6模块(Module) 里介绍了ES6中利用关键词export、import使用模块，在 CommonJS的模块规范 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。  ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。  CommonJS模块输出的是被输出值的拷贝&amp;em">
-<meta property="og:updated_time" content="2018-02-09T06:55:21.000Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;在 ES6模块(Module) 里介绍了ES6中利用关键词export、import使用模块，在 CommonJS的模块规范 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。  ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。">
+<meta property="og:updated_time" content="2018-03-15T08:37:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6模块(Module)和CommonJS模块加载的实质。">
-<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在 ES6模块(Module) 里介绍了ES6中利用关键词export、import使用模块，在 CommonJS的模块规范 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。  ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。  CommonJS模块输出的是被输出值的拷贝&amp;em">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;在 ES6模块(Module) 里介绍了ES6中利用关键词export、import使用模块，在 CommonJS的模块规范 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。  ES6模块加载的机制，与CommonJS模块完全不同。CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -181,6 +181,7 @@
 <blockquote>
 <p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
 </blockquote>
+<a id="more"></a>
 <h5 id="CommonJS模块输出的是被输出值的拷贝"><a href="#CommonJS模块输出的是被输出值的拷贝" class="headerlink" title="CommonJS模块输出的是被输出值的拷贝"></a>CommonJS模块输出的是被输出值的拷贝</h5><p>&emsp;&emsp;也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">var counter = 3;</span><br><span class="line">function incCounter() &#123;</span><br><span class="line"> counter++;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = &#123;</span><br><span class="line"> counter: counter,</span><br><span class="line"> incCounter: incCounter,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">var mod = require(&apos;./lib&apos;);</span><br><span class="line">console.log(mod.counter); // 3</span><br><span class="line">mod.incCounter();</span><br><span class="line">console.log(mod.counter); // 3</span><br></pre></td></tr></table></figure>
@@ -465,15 +466,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -489,15 +490,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
