@@ -155,6 +155,241 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-variable-primitive-value" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/06/js-variable-primitive-value/" class="archive-article-date">
+  	<time datetime="2017-12-06T00:48:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 <a href="https://en.wikipedia.org/wiki/Type_system" target="_blank" rel="noopener">类型系统（Type System）</a></p>
+<blockquote>
+<p>变量本身数据类型不固定的语言称之为动态语言。<br>与之相反的是静态类型的编程语言，指的是在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。</p>
+</blockquote>
+<p>&emsp;&emsp;JavaScript的变量的数据类型可以分为两类：<strong>基本类型(Primitive Values)和引用类型(Reference Values)</strong>, 也有其他的叫法。 引用类型请移步 <a href="/2018/02/09/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a><br>&emsp;&emsp;基本类型主要有五种： String, Number, Boolean, Null, undefined（ES6新增了 <a href="http://es6.ruanyifeng.com/#docs/symbol" target="_blank" rel="noopener">Symbol</a>，Symbol生成一个全局的唯一的值）。其访问方式是按值访问的，就是说你可以操作保存在变量中的实际值。基本类型的数据类型有以下4个特点：<br>
+        
+          <a class="article-more-a" href="/2017/12/06/js-variable-primitive-value/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/06/js-variable-primitive-value/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/04/js-short-circuit-logic/">JS中的逻辑运算符和短路表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/04/js-short-circuit-logic/" class="archive-article-date">
+  	<time datetime="2017-12-04T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>逻辑运算 Logical operators<br>短路计算 Short-circuit evaluation</p>
+<blockquote>
+<p>短路表达式，JS逻辑计算有一个短路计算原则, MDN描述如下：由于逻辑表达式的运算的顺序是从左到右的，利用其规则进行“短路”运算。</p>
+</blockquote>
+<h5 id="JS逻辑运算符的说明："><a href="#JS逻辑运算符的说明：" class="headerlink" title="JS逻辑运算符的说明："></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank" rel="noopener">JS逻辑运算符</a>的说明：</h5><table>
+<thead>
+<tr>
+<th>运算法</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逻辑与(&amp;&amp;)</td>
+<td>expr1 &amp;&amp; expr2</td>
+<td>如果expr1 能转换成false则返回expr1,否则返回expr2<br>因此, 在Boolean环境中使用时, 两个操作结果都为true时返回true,否则返回false.</td>
+</tr>
+<tr>
+<td>逻辑或(ll)</td>
+<td>expr1 ll expr2</td>
+<td>如果expr1能转换成true则返回expr1,否则返回expr2.<br> 因此,在boolean环境(在if的条件判断中)中使用时, 二者操作结果中只要有一个为true,返回true;<br>二者操作结果都为false时返回false.</td>
+</tr>
+<tr>
+<td>逻辑非(!)</td>
+<td>!expr</td>
+<td>如果单个表达式能转换为true的话返回false,否则返回true.</td>
+</tr>
+</tbody>
+</table>
+<p>能够转换为false的表达式有:””(空字符串), 0和NaN, false, null, undefined.<br>
+        
+          <a class="article-more-a" href="/2017/12/04/js-short-circuit-logic/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/04/js-short-circuit-logic/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-css-normal-flow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/25/css-normal-flow/">CSS基础标准文档流</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/25/css-normal-flow/" class="archive-article-date">
+  	<time datetime="2017-11-25T04:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CSS 语言倡导结构、样式、行为分离。</p>
+<h5 id="什么是标准文档流"><a href="#什么是标准文档流" class="headerlink" title="什么是标准文档流"></a>什么是标准文档流</h5><blockquote>
+<p>Normal Document Stream， 网页在解析的时候，遵循一个元素排版布局标准，即从上到下，从左到右的一个流式顺序，而这个顺序即为标准文档流</p>
+</blockquote>
+<h5 id="如何理解"><a href="#如何理解" class="headerlink" title="如何理解"></a>如何理解</h5><p>&emsp;&emsp;我们用Fireworks作图，可以在任何一个地方落笔；word这个软件则不一样，有一个“光标”位置，你必须在当前光标位置去书写文字。<br>第二行文字的位置，仰赖于第一行文字，比如第一行文字多，第二行文字就下移了；比如第一行文字大，第二行文字又下移了。<br>网页也是这样，从左至右、从上到下，有一个“光标”的概念。 标准文档流中，内置了很多性质。</p>
+<h5 id="标准文档流的特征"><a href="#标准文档流的特征" class="headerlink" title="标准文档流的特征"></a>标准文档流的特征</h5><ul>
+<li>空白折叠现象<br>&emsp;标签内的文字，不管有多少个空格、换行、tab，都会缩减为同一个空格。</li>
+<li>高矮不齐，底边对齐</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/25/css-normal-flow/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-css-base-block-inline" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -685,307 +920,6 @@
 
 
   
-    <article id="post-centos-jenkins" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/12/centos-jenkins/" class="archive-article-date">
-  	<time datetime="2017-10-12T07:05:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要讲述在Centos7.2系统下搭建Jenkins环境， 在上一篇文章讲述了<a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>，但是在实际应用中，性能很差。因此我决定去Docker,直接在Centos中安装。</p>
-<h5 id="安装Java-环境"><a href="#安装Java-环境" class="headerlink" title="安装Java 环境"></a>安装Java 环境</h5><ul>
-<li>下载JDK8<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracal JDK8</a></li>
-</ul>
-<p>下载后上传至服务器目录下/home/software</p>
-<ul>
-<li><p>解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">mkdir /usr/java</span><br><span class="line">mv jdk1.8.0_144 /usr/java/jdk1.8.0_144</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置java环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>在文件的末尾增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_144</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br></pre></td></tr></table></figure></p>
-<p>保存退出后执行命令source /etc/profile, 使得新增的环境变量立即生效</p>
-<ul>
-<li>查看java环境变量是否生效<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@atlascca001 ~]# java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>也可以用javac看一看</p>
-<ul>
-<li>安装过程可能错误解析</li>
-</ul>
-<ol>
-<li>有时候在您的系统可能已经用RPM方式装了openjdk.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep java // 先查看</span><br><span class="line">rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.144-0.b01.el7_4.x86_64 // 对查看列表中的软件卸载</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h5><ul>
-<li><p>Jenkins默认用8080端口，先查下8080端口是否被占用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp|grep 8080</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置yum源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>jenkins.repo内容是这样：</p>
-<p>[jenkins]<br>name=Jenkins-stable<br>baseurl=<a href="http://pkg.jenkins.io/redhat-stable" target="_blank" rel="noopener">http://pkg.jenkins.io/redhat-stable</a><br>gpgcheck=1</p>
-<ul>
-<li>导入公钥</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装Jenkins</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins</span><br><span class="line">＃或者 加`-y`参数：回答全部问题为是</span><br><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Jenkins配置<br>vi /etc/rc.d/init.d/jenkins, 搜索candidates, 添加一行/usr/java/jdk1.8.0_144/bin/java<br>修改默认端口8080: vi /etc/sysconfig/jenkins, 搜索JENKINS_PORT。</p>
-</li>
-<li><p>安装过程错误解析<br>1). 选择Jenkins版本<br>  a). 列出jenkins所有版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --showduplicates list jenkins</span><br></pre></td></tr></table></figure>
-<p>  b). 安装2.70-1.1版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins-2.70-1.1</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>2). Job for jenkins.service failed because the control process exited with error code. See “systemctl status jenkins.service” and “journalctl -xe” for details.</p>
-<p>a). 执行 journalctl -xe， 我们发现</p>
-<p>error: Could not load host key: /etc/ssh/ssh_host_dsa_key, 显然是没有SSH KEY造成的，<br>解决：  ssh-keygen  -t  rsa -C “user-id@cisco.com”</p>
-<p>b). 执行 journalctl -xe， 我们发现<br>Caused by: java.lang.UnsatisfiedLinkError: /tmp/jna–1712433994/jna1777215790425700984<br>这个问题花了我2天的时间，最终在<a href="https://support.cloudbees.com/hc/en-us/articles/215281717-Jenkins-fails-to-start-with-JNA-error" target="_blank" rel="noopener">Jenkins fails to start with JNA error</a>找到了解决方案<br>解决：vi /etc/fstab<br>As root, edit /etc/fstab configuration file and remove noexec from the mount option of /tmp directory. Then run:<br>mount -o remount /tmp</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/12/centos-jenkins/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jenkins-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/10/jenkins-base-on-docker/" class="archive-article-date">
-  	<time datetime="2017-10-10T06:55:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;本篇开始之前，新手还是阅读一下 <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>, <a href="https://jenkins.io/index.html" target="_blank" rel="noopener">Jenkins官网</a></p>
-<h5 id="Jenkins简介"><a href="#Jenkins简介" class="headerlink" title="Jenkins简介"></a>Jenkins简介</h5><p>&emsp;&emsp;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。我们主要用它来构建一个自动化的持续集成环境来“自动化”编译、打包、分发部署你的应用。</p>
-<h5 id="基于Docker的Jenkins镜像搭建jenkins"><a href="#基于Docker的Jenkins镜像搭建jenkins" class="headerlink" title="基于Docker的Jenkins镜像搭建jenkins"></a>基于Docker的Jenkins镜像搭建jenkins</h5><ul>
-<li><p>创建 /home/jenkins_home, 用于挂载（挂载的目的是持久化Jenkins配置数据）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir jenkins_home</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>拉取Jenkins镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动jenkins Docker 在8080端口 （如果已经被占用，可以换成对应其他的端口）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -p 50000:50000 --privileged=true -v /home/jenkins_home:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
-<p>备注：</p>
-<p>1). 可能会报错：</p>
-<blockquote>
-<p>touch: cannot touch ‘/var/jenkins_home/copy_reference_file.log’: Permission denied<br>Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?</p>
-</blockquote>
-<p>解决方法：把jenkins_home文件夹给jenkins用户操作权限， 参考<a href="http://blog.csdn.net/yulei_qq/article/details/53228601" target="_blank" rel="noopener">Docker Volume之权限管理</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /home/jenkins_home</span><br></pre></td></tr></table></figure></p>
-<p>2). 有时候，由于网络等因素导致有些插件安装不成功，耐心retry几次就OK了。</p>
-<h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
-<p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
-<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/10/jenkins-base-on-docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-nginx-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/03/nginx-base-on-docker/" class="archive-article-date">
-  	<time datetime="2017-10-02T16:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;Docker的安装请阅读上一篇  <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>。如今的nginx可以说是一个web服务中的一个标配，网上已经有很多很多成熟的教程和案例. 本篇不对nginx的搭建和配置做详细介绍。</p>
-<p>&emsp;&emsp;题外话：提到Nginx， 有一段很艰辛的经历，时至今日，回想起来像是发生在昨天， 感谢当时自己的奋斗和学习。 2010年我做广告联盟时， 一开始采用的Win+IIS+做了简单的MySql读写分离，后来IIS换为Apache, 悲剧的是连续半个月我解决不了高并发高负载的问题， 为此我研究了一个月，每天加班只睡3个小时，期间骑摩托车回家，骑着骑着就睡着了，一次撞到大树，一次撞到电线杆，一次撞到石墩上，想来自己命大。最后在网上看到张宴的博客详细阐述了LNMP性能是Apache的十倍，当时对Linux命令根本是从零开始，当我用Nginx成功解决当时的问题后， 自此我就很开心的用上了Nginx.</p>
-<h5 id="直接利用官方-Docker-Hub-的Nginx镜像"><a href="#直接利用官方-Docker-Hub-的Nginx镜像" class="headerlink" title="直接利用官方(Docker Hub)的Nginx镜像"></a>直接利用官方(Docker Hub)的Nginx镜像</h5><ul>
-<li>拉取镜像</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br><span class="line">docker images</span><br></pre></td></tr></table></figure>
-<p>docker pull: 从Docker Hub中拉取或者更新指定镜。（是不是有点像git pull命令）<br>docker images: 列出本地所有docker镜像。（是不是有点像git branch）</p>
-<ul>
-<li>基于镜像创建新的容器</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mynginx -p 80:80 nginx // 见注释1</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
-<p>注释1：使用docker镜像nginx启动一个容器，将这个容器命名为mynginx, 同时将容器的80端口映射到宿主机的80端口上。<br>docker ps: 列出所有在运行中的容器。</p>
-<p>这个时候，我们在浏览器中输入IP地址即可访问到nginx的默认的欢迎页面。OK, 到这里如果你觉得已经完成了本篇的主题， 那么如此简单的操作步骤其实也不值得我花精力去写这个的。</p>
-<ul>
-<li>来一个复杂一点的： 自定义配置</li>
-</ul>
-<p>&emsp;&emsp;Nginx的配置项很多， 从而满足我们各种需求，上一步 <strong>基于镜像创建新的容器</strong>中，当访问宿主机的80端口， docker会自动将访问引入mynginx容器中，利用容器中的nginx配置进行相关的服务。可是现在的需求是这样的：</p>
-<ol>
-<li>定义自己的配置文件nginx.conf及用于include的vhost文件夹方便管理，放置于宿主机目录下/home/nginx下</li>
-<li>定义自己的WEB根目录www, 放置于宿主机目录下/home/nginx下。</li>
-<li>创建自己的两个日志追踪文件nginx_error.log和access.log，放置于宿主机目录下/home/nginx/logs下</li>
-</ol>
-<p>于是我们得研究一下docker run 命令了</p>
-<blockquote>
-<p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>-d: 后台运行容器，并返回容器UUID；<br>-i: 以交互模式运行容器，通常与 -t 同时使用；<br>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>-v, –volume=[]            给容器挂载存储卷，挂载到容器的某个目录<br>–privileged=false         指定容器是否为特权容器，特权容器拥有所有的capabilities<br>–name=””                  指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字</p>
-</blockquote>
-<p>详情参考<a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="noopener">Docker run reference</a></p>
-<p>根据docker run的语法，我们得到如下命令写法即可满足需求。我们可以将这些写入到一个shell脚本里。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx-atlascca3 --privileged=true -p 80:80 -v /home/nginx/nginx.conf:/etc/nginx/nginx.conf -v /home/nginx/vhost:/home/nginx/vhost -v /home/nginx/logs/nginx_error.log:/home/nginx/logs/nginx_error -v /home/nginx/www:/home/nginx/www -d nginx</span><br></pre></td></tr></table></figure>
-<p>注意，在调试过程中，利用docker ps查看容器是否创建， 利用docker rm containerid删除一个容器，<br>若没有创建说明命令执行不成功，可以把命令行中的 -d 选项去掉即将显示出相关错误信息。</p>
-<p>另外一个方法利用Dockerfile搭建Nginx服务器将来单独开个主题再写。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/03/nginx-base-on-docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1080,6 +1014,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
@@ -1104,15 +1042,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Event Loop</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">定时器</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1128,15 +1066,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
