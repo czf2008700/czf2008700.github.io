@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>Promise基础知识 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面">
+  <meta name="description" content="一、可读性我们平时要阅读的所有媒体：报纸、书、新闻，我们在阅读的时候，都是从上到下一直读下去的，然而，我们的在读代码的时候，经常要跳着去读，这种阅读方式其实是反人类的，如果我们能在读代码的时候，也可以从上往下一直读下去，那么，代码就会变得可读性提高很多。 二、什么是 Promise？Promise 是异步编程的一个解决">
 <meta name="keywords" content="异步回调">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Promise基础知识">
 <meta property="og:url" content="http://up8.wang/2018/02/28/es6-promise/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
+<meta property="og:description" content="一、可读性我们平时要阅读的所有媒体：报纸、书、新闻，我们在阅读的时候，都是从上到下一直读下去的，然而，我们的在读代码的时候，经常要跳着去读，这种阅读方式其实是反人类的，如果我们能在读代码的时候，也可以从上往下一直读下去，那么，代码就会变得可读性提高很多。 二、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方">
 <meta property="og:image" content="http://up8.wang/images/es6-promise-01.png">
-<meta property="og:updated_time" content="2018-03-15T08:25:09.000Z">
+<meta property="og:updated_time" content="2018-03-26T12:22:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Promise基础知识">
-<meta name="twitter:description" content="一、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。 所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promi">
+<meta name="twitter:description" content="一、可读性我们平时要阅读的所有媒体：报纸、书、新闻，我们在阅读的时候，都是从上到下一直读下去的，然而，我们的在读代码的时候，经常要跳着去读，这种阅读方式其实是反人类的，如果我们能在读代码的时候，也可以从上往下一直读下去，那么，代码就会变得可读性提高很多。 二、什么是 Promise？Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方">
 <meta name="twitter:image" content="http://up8.wang/images/es6-promise-01.png">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
@@ -180,7 +180,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h5 id="一、什么是-Promise？"><a href="#一、什么是-Promise？" class="headerlink" title="一、什么是 Promise？"></a>一、什么是 Promise？</h5><p>Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。<br>它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
+        <h2 id="一、可读性"><a href="#一、可读性" class="headerlink" title="一、可读性"></a>一、可读性</h2><p>我们平时要阅读的所有媒体：报纸、书、新闻，我们在阅读的时候，都是从上到下一直读下去的，然而，我们的在读代码的时候，经常要跳着去读，这种阅读方式其实是反人类的，如果我们能在读代码的时候，也可以从上往下一直读下去，那么，代码就会变得可读性提高很多。</p>
+<h2 id="二、什么是-Promise？"><a href="#二、什么是-Promise？" class="headerlink" title="二、什么是 Promise？"></a>二、什么是 Promise？</h2><p>Promise 是异步编程的一个解决方案，完全改变了js异步编程的写法，让异步编程变得十分的易于理解，比传统的解决方案——回调函数和事件更合理和更强大。<br>它由社区最早提出和实现，ES6 将其写进了语言标准，统一了用法，原生提供了Promise对象。</p>
 <p>所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。从语法上说，Promise 是一个对象，从它可以获取异步操作的消息。Promise 提供统一的 API，各种异步操作都可以用同样的方法进行处理。</p>
 <p>Promise字面上理解即承诺的意思，new一个Promise就是新建一个承诺。在新建一个承诺的时候你需要做两件事情：</p>
 <ul>
@@ -196,24 +197,29 @@
 <li>reject用来将Promise对象的状态置为失败，并将异步操作结果error作为参数传递给失败回调函数</li>
 <li>then方法绑定两个回调函数，第一个用来处理Promise成功状态，第二个用来处理Promise失败状态。</li>
 </ol>
-<h5 id="Promise-状态"><a href="#Promise-状态" class="headerlink" title="Promise 状态"></a>Promise 状态</h5><p>Promise对象有三种状态：</p>
+<h2 id="三、Promise-状态"><a href="#三、Promise-状态" class="headerlink" title="三、Promise 状态"></a>三、Promise 状态</h2><p>Promise对象有三种状态：</p>
 <ul>
 <li>Pending(进行中)</li>
 <li>Fulfilled(已完成，又称为Resolved)</li>
 <li>Rejected(已失败)<br><img src="/images/es6-promise-01.png"></li>
 </ul>
 <p>如上图所示，Promise对象有两个特点：<br>1、对象状态只由异步操作结果决定。resolve方法会使Promise对象由pendding状态变为fulfilled状态；reject方法或者异常会使得Promise对象由pendding状态变为rejected状态。Promise状态变化只有上图这两条路径。<br>2、对象状态一旦改变，任何时候都能得到这个结果。即状态一旦进入fulfilled或者rejected，promise便不再出现状态变化，同时我们再添加回调会立即得到结果。这点跟事件不一样，事件是发生后再绑定监听，就监听不到了。</p>
-<h5 id="Promise-的缺点"><a href="#Promise-的缺点" class="headerlink" title="Promise 的缺点"></a>Promise 的缺点</h5><p>有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。</p>
+<h2 id="四、Promise-的缺点"><a href="#四、Promise-的缺点" class="headerlink" title="四、Promise 的缺点"></a>四、Promise 的缺点</h2><p>有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象提供统一的接口，使得控制异步操作更加容易。</p>
 <p>但是 Promise也有一些缺点：</p>
 <ul>
 <li>无法取消Promise，一旦新建它就会立即执行，无法中途取消。</li>
 <li>如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。</li>
 <li>当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。</li>
 </ul>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h5><ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
 <li><a href="http://www.zhangxinxu.com/wordpress/2014/02/es6-javascript-promise-%E6%84%9F%E6%80%A7%E8%AE%A4%E7%9F%A5/" target="_blank" rel="noopener">ES6 JavaScript Promise的感性认知</a> —– 时间是单线程的</li>
 <li><a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="noopener">Promise 对象</a> —– 阮一峰</li>
 <li><a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/0014345008539155e93fc16046d4bb7854943814c4f9dc2000" target="_blank" rel="noopener">Promise 廖雪峰blog</a></li>
+<li><a href="http://www.ghostchina.com/promises-the-sync-problem-part-1/" target="_blank" rel="noopener">深入理解 Promise 五部曲 – 1.异步问题</a></li>
+<li><a href="http://www.ghostchina.com/promises-the-inversion-problem-part-2/" target="_blank" rel="noopener">深入理解 Promise 五部曲 – 2.控制权转换问题</a></li>
+<li><a href="http://www.ghostchina.com/promises-the-trust-problem-part-3/" target="_blank" rel="noopener">深入理解 Promise 五部曲 – 3.可靠性问题</a></li>
+<li><a href="http://www.ghostchina.com/promises-the-extension-problem-part-4/" target="_blank" rel="noopener">深入理解 Promise 五部曲 – 4.扩展问题</a></li>
+<li><a href="http://www.ghostchina.com/promises-the-lego-problem-part-5/" target="_blank" rel="noopener">深入理解 Promise 五部曲 – 5.LEGO</a></li>
 </ul>
 
       
@@ -489,15 +495,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">module</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -521,15 +527,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

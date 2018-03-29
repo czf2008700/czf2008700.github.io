@@ -155,6 +155,141 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js-this-bind" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/23/js-this-bind/">JavaScript中的this绑定/指向</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/23/js-this-bind/" class="archive-article-date">
+  	<time datetime="2018-01-23T06:44:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;JavaScript中的this关键词是一个比较容易混乱的概念，在不同的场景下，this会指向不同的对象，在主流的面向对象的语言中（如Java, C#等），this含义是明确且具体的，即指向当前对象，一般在编译期就绑定了。而JavaScript中的<strong>this在运行期进行的绑定</strong>，这是JavaScript中this关键词具备多重含义的本质原因。</p>
+<p>&emsp;&emsp;人们对JavaScript中this的绑定常常有两个误解，一是指向函数本身，二是指向函数作用域，这两种想法都是错误的。<strong>this并不指向函数本身，也不指向函数作用域</strong></p>
+<p>&emsp;&emsp;由于JavaScript中this在运行期进行绑定的特性，因此this可以<strong>指向全局对象，指向新创建的对象，指向dot之前的对象</strong>，这个完全取决于函数的调用方式。JavaScript函数的调用有以下几种方式：普通函数调用，构造函数调用，对象方法调用，和使用call和apply调用。<br>
+        
+          <a class="article-more-a" href="/2018/01/23/js-this-bind/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/23/js-this-bind/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-es6-module-load" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/es6-module-load/">ES6模块(Module)和CommonJS模块加载的实质。</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/es6-module-load/" class="archive-article-date">
+  	<time datetime="2018-01-12T09:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在 <a href="/2018/01/12/es6-module/">ES6模块(Module)</a> 里介绍了ES6中利用关键词export、import使用模块，在 <a href="/2018/01/12/js-commonjs/">CommonJS的模块规范</a> 介绍了CommonJS的模块规范。本篇主要聊一聊两种模块的加载机制。</p>
+<blockquote>
+<p>ES6模块加载的机制，与CommonJS模块完全不同。<br>CommonJS模块输出的是一个值的拷贝，而ES6模块输出的是值的引用。</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/2018/01/12/es6-module-load/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/es6-module-load/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-es6-module" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -761,174 +896,6 @@
 
 
   
-    <article id="post-js-execution-context-stack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/18/js-execution-context-stack/">JavaScript执行上下文栈(Execution Context Stack简称ECS)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/18/js-execution-context-stack/" class="archive-article-date">
-  	<time datetime="2017-12-18T14:01:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>  本文重点讲解JavaScript的执行上下文栈，顺带稍稍提了下执行上下文。</p>
-<ul>
-<li>执行上下文栈来管理执行上下文的顺序。</li>
-<li>JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(Execution Context简称EC)。</li>
-</ul>
-<h5 id="JavaScript代码是如何执行的"><a href="#JavaScript代码是如何执行的" class="headerlink" title="JavaScript代码是如何执行的"></a>JavaScript代码是如何执行的</h5><p>  JavaScript语言执行时是自上而下的，JavaScript执行程序的时候，会首先创建一个全局的执行上下文，将其放入栈中，成为栈底。而后每次执行一个函数的时候，都会去创建一个当前函数的执行上下文，然后将其压入栈中，当函数结束或者返回的时候，再从栈中弹出当前函数的执行上下文。</p>
-<h5 id="执行上下文的生命周期"><a href="#执行上下文的生命周期" class="headerlink" title="执行上下文的生命周期"></a>执行上下文的生命周期</h5><p>&emsp;&emsp;仔细琢磨<strong>JavaScript代码是如何执行的</strong>的描述，相信我们大家都可以看出一个执行上下文的生命周期通常包含三个发展阶段：创建阶段、代码执行阶段、执行完毕阶段。</p>
-<ul>
-<li>创建阶段：在这个阶段中，执行上下文会分别创建变量对象，建立作用域链，以及确定this的指向.</li>
-<li>代码执行阶段：创建完成之后，就会开始执行代码，这个时候，会完成变量赋值，函数引用，以及执行其他代码。</li>
-<li>执行完毕阶段：执行完毕之后，就会开始将执行上下文出栈，随后释放掉所占用的内存</li>
-</ul>
-<h5 id="执行上下文栈-Execution-Context-Stack简称ECS"><a href="#执行上下文栈-Execution-Context-Stack简称ECS" class="headerlink" title="执行上下文栈(Execution Context Stack简称ECS)"></a>执行上下文栈(Execution Context Stack简称ECS)</h5><p>&emsp;&emsp;JavaScript引擎创建了执行上下文栈来管理执行上下文的顺序</p>
-<blockquote>
-<p>栈stack是数据结构上的概念，用来处理数据的存放方式，特点为LIFO，即后进先出（Last in, first out）。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var a = 10;</span><br><span class="line"></span><br><span class="line">function functionA() &#123;</span><br><span class="line"></span><br><span class="line">	console.log(&quot;Start function A&quot;);</span><br><span class="line"></span><br><span class="line">	function functionB()&#123;</span><br><span class="line">		console.log(&quot;In function B&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	functionB();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">functionA();</span><br><span class="line"></span><br><span class="line">console.log(&quot;GlobalContext&quot;);</span><br></pre></td></tr></table></figure>
-<p>  在浏览器中，javascript引擎的工作方式是单线程的。也就是说，某一时刻只有唯一的一个事件是被激活处理的，其它的事件被放入队列中，等待被处理。下面的示例图描述了这样的一个堆栈：</p>
-<p><img src="/images/js-execution-context.gif" width="800"></p>
-<ul>
-<li>  当javascript代码文件被浏览器载入后，首先进入全局环境，创建一个全局执行上下文，全局变量对象window，全局作用域Global，确定this指向，this==window。当在全局上下文中调用执行一个函数时，程序流就进入该被调用函数内，此时引擎就会为该函数创建一个新的执行上下文，并且将其压入到执行上下文堆栈的顶部。浏览器总是执行当前在堆栈顶部的上下文，一旦执行完毕，该上下文就会从堆栈顶部被弹出，然后，进入其下的上下文执行代码。这样，堆栈中的上下文就会被依次执行并且弹出堆栈，直到回到全局的上下文。</li>
-</ul>
-<h5 id="Reference-Doc"><a href="#Reference-Doc" class="headerlink" title="Reference Doc"></a>Reference Doc</h5><p><a href="https://hackernoon.com/execution-context-in-javascript-319dd72e8e2c" target="_blank" rel="noopener">Execution context, Scope chain and JavaScript internals</a><br><a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/" target="_blank" rel="noopener">ECMA-262-3 in detail. Chapter 1. Execution Contexts.</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/18/js-execution-context-stack/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-lexical-scope" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/07/js-lexical-scope/">JavaScript是词法作用域(Lexical Scope)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/07/js-lexical-scope/" class="archive-article-date">
-  	<time datetime="2017-12-07T02:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="思考一下这两段代码的输出结果"><a href="#思考一下这两段代码的输出结果" class="headerlink" title="思考一下这两段代码的输出结果"></a>思考一下这两段代码的输出结果</h5><p>Case 1:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">  console.log(up);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">  var up = 88;</span><br><span class="line">  foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();</span><br></pre></td></tr></table></figure>
-<p>输出8还是88呢？</p>
-<p>Case 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">	up = 88</span><br><span class="line">	function bar() &#123;</span><br><span class="line">		up = 888</span><br><span class="line">		console.log(up);</span><br><span class="line">	&#125;</span><br><span class="line">	bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
-<p>输出8, 88 还是888呢？</p>
-<h5 id="JavaScript是词法作用域"><a href="#JavaScript是词法作用域" class="headerlink" title="JavaScript是词法作用域"></a>JavaScript是词法作用域</h5><p>作用域: Scope</p>
-<blockquote>
-<p>域表示的就是范围，即作业范围，具有访问权限的代码空间，作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。简单的讲就是在什么地方能使用，在什么不能使用。</p>
-</blockquote>
-<p>词法作用域： Lexical Scope (Sometimes known as static scope)</p>
-<blockquote>
-<p>词法作用域（通常也被叫做静态作用域）是代码在编写过程中就静态体现出来了作用范围，代码一旦写好，不用执行，他的作用范围就已经确定好了，这个就是所谓的词法作用域。</p>
-</blockquote>
-<p>动态作用域： Dynamic Scope, 与词法作用域相反。</p>
-<blockquote>
-<p>动态作用域并不关心函数和作用域是如何生命以及在何处声明的，之关心它们从何处调用。</p>
-</blockquote>
-<h5 id="回头分析下上面的两段代码"><a href="#回头分析下上面的两段代码" class="headerlink" title="回头分析下上面的两段代码"></a>回头分析下上面的两段代码</h5><p>在Case1中，函数foo执行时，内部查找是否有变量up, 如果没有向上, 就根据书写的位置，查找上面一层的代码（也叫父变量对象，当然是词法结构上的），查找up = 8, 因此输出为8</p>
-<p>在Case2中，函数bar执行，内部查找变量up, 就近原则，所以输出为888</p>
-<h5 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h5><p>JS的词法作用域有两种，一种是全局作用域，另外一种是函数作用域， <strong>在函数作用域内会屏蔽在全局作用域上的相同名称的变量。</strong></p>
-<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h5><p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/07/js-lexical-scope/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1043,15 +1010,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">module</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1075,15 +1042,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
