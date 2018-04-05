@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://up8.wang/2018/04/06/npm-two-way-install/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="npm 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题，常见的使用场景有以下几种：  允许用户从NPM服务器下载别人编写的第三方包到本地使用。 允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。 允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入">
-<meta property="og:updated_time" content="2018-04-05T16:22:53.000Z">
+<meta property="og:updated_time" content="2018-04-05T16:54:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="npm 两种安装方式的区别">
 <meta name="twitter:description" content="npm 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题，常见的使用场景有以下几种：  允许用户从NPM服务器下载别人编写的第三方包到本地使用。 允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。 允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入">
@@ -185,8 +185,8 @@
 <li>允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。<br>由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入 “npm -v” 来测试是否成功安装。</li>
 </ul>
 <p>npm 的包安装分为本地安装（local）、全局安装（global）两种，可以通过命令行查看<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm help install</span><br></pre></td></tr></table></figure></p>
-<h2 id="全局安装方式"><a href="#全局安装方式" class="headerlink" title="全局安装方式"></a>全局安装方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt; -g</span><br><span class="line">npm i &lt;Package Name&gt; -g</span><br><span class="line">npm install &lt;Package Name&gt; --global</span><br></pre></td></tr></table></figure>
-<p>查看全局安装目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm root -g</span><br></pre></td></tr></table></figure></p>
+<h2 id="一、全局安装方式"><a href="#一、全局安装方式" class="headerlink" title="一、全局安装方式"></a>一、全局安装方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt; -g</span><br><span class="line">npm i &lt;Package Name&gt; -g</span><br><span class="line">npm install &lt;Package Name&gt; --global</span><br></pre></td></tr></table></figure>
+<p><strong>查看全局安装目录</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm root -g</span><br></pre></td></tr></table></figure></p>
 <p>MAC 下 /usr/local/lib/node_modules, </p>
 <ul>
 <li>usr 是 unix system resources 的缩写</li>
@@ -196,10 +196,20 @@
 </blockquote>
 </li>
 </ul>
-<p>调用方式<br>全局安装后可以供命令行(Command Line Interface)使用， 用可以可以在命令行中直接运行该包支持的命令</p>
-<h2 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h2><p>将安装包放在 ./node_modules 下（运行npm时所在的目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt;</span><br><span class="line">npm install &lt;Package Name&gt; --save-dev</span><br><span class="line">npm i &lt;Package Name&gt;</span><br><span class="line">npm i &lt;Package Name&gt; -D</span><br></pre></td></tr></table></figure></p>
+<p><strong>调用方式</strong><br>全局安装后可以供命令行(Command Line Interface)使用， 用可以可以在命令行中直接运行该包支持的命令<br><strong>卸载</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall &lt;Package Name&gt;</span><br></pre></td></tr></table></figure></p>
+<p>还有几个比较重要的命令</p>
+<ul>
+<li>npm ls -g 查看所有全局安装的模块</li>
+<li>npm config ls    查看npm默认设置（部分）</li>
+<li>npm config ls -l 查看npm默认设置（全部）</li>
+</ul>
+<h2 id="二、本地安装"><a href="#二、本地安装" class="headerlink" title="二、本地安装"></a>二、本地安装</h2><p>将安装包放在 ./node_modules 下（运行npm时所在的目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt;</span><br><span class="line">npm install &lt;Package Name&gt; --save-dev</span><br><span class="line">npm i &lt;Package Name&gt;</span><br><span class="line">npm i &lt;Package Name&gt; -D</span><br></pre></td></tr></table></figure></p>
 <p>–save-dev(简写 -D)d 含义是把你的安装包信息写入到package.json文件的devDependencies字段中</p>
 <p>调用方式<br>本地安装后可以直接通过require()的方式引入项目中node_modules目录下的模块。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://javascript.ruanyifeng.com/nodejs/npm.html#toc18" target="_blank" rel="noopener">npm模块管理器</a></li>
+<li><a href="https://docs.npmjs.com" target="_blank" rel="noopener">npm docs</a></li>
+</ul>
 
       
 
@@ -477,11 +487,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,11 +507,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
+                <a href="javascript:void(0)" class="js-tag color2">module</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">module</a>
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
              
               <li class="article-tag-list-item">
