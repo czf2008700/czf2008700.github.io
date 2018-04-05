@@ -155,6 +155,253 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-npm-two-way-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/npm-two-way-install/">npm 两种安装方式的区别</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/06/npm-two-way-install/" class="archive-article-date">
+  	<time datetime="2018-04-05T16:01:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>npm 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题，常见的使用场景有以下几种：</p>
+<ul>
+<li>允许用户从NPM服务器下载别人编写的第三方包到本地使用。</li>
+<li>允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。</li>
+<li>允许用户将自己编写的包或命令行程序上传到NPM服务器供别人使用。<br>由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入 “npm -v” 来测试是否成功安装。</li>
+</ul>
+<p>npm 的包安装分为本地安装（local）、全局安装（global）两种，可以通过命令行查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm help install</span><br></pre></td></tr></table></figure></p>
+<h2 id="全局安装方式"><a href="#全局安装方式" class="headerlink" title="全局安装方式"></a>全局安装方式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt; -g</span><br><span class="line">npm i &lt;Package Name&gt; -g</span><br><span class="line">npm install &lt;Package Name&gt; --global</span><br></pre></td></tr></table></figure>
+<p>查看全局安装目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm root -g</span><br></pre></td></tr></table></figure></p>
+<p>MAC 下 /usr/local/lib/node_modules, </p>
+<ul>
+<li>usr 是 unix system resources 的缩写</li>
+<li>/usr 通常只包含系统发行时自带的程序，</li>
+<li>/usr/local 则是本地系统管理员用来自由添加程序的目录；<blockquote>
+<p>/usr 是系统核心所在，包含了所有的共享文件。它是 unix 系统中最重要的目录之一，涵盖了二进制文件，各种文档，各种头文件，x，还有各种库文件；还有诸多程序，例如 ftp，telnet 等等。<br>曾经的 /usr 还是用户的家目录，存放着各种用户文件 —— 现在已经被 /home 取代了（例如 /usr/someone 已经改为 /home/someone）。现代的 /usr 只专门存放各种程序和数据，用户目录已经转移。虽然  /usr 名称未改，不过其含义已经从“用户目录”变成了“unix 系统资源”目录。值得注意的是，在一些 unix 系统上，仍然把 /usr/someone 当做用户家目录，如 Minix。 </p>
+</blockquote>
+</li>
+</ul>
+<p>调用方式<br>全局安装后可以供命令行(Command Line Interface)使用， 用可以可以在命令行中直接运行该包支持的命令</p>
+<h2 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h2><p>将安装包放在 ./node_modules 下（运行npm时所在的目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;Package Name&gt;</span><br><span class="line">npm install &lt;Package Name&gt; --save-dev</span><br><span class="line">npm i &lt;Package Name&gt;</span><br><span class="line">npm i &lt;Package Name&gt; -D</span><br></pre></td></tr></table></figure></p>
+<p>–save-dev(简写 -D)d 含义是把你的安装包信息写入到package.json文件的devDependencies字段中</p>
+<p>调用方式<br>本地安装后可以直接通过require()的方式引入项目中node_modules目录下的模块。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Nodejs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/06/npm-two-way-install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-npm-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/05/npm-install/">npm 模块安装机制简介</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/05/npm-install/" class="archive-article-date">
+  	<time datetime="2018-04-05T06:39:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文转自 阮一峰老师的 <a href="http://www.ruanyifeng.com/blog/2016/01/npm-install.html" target="_blank" rel="noopener">npm 模块安装机制简介</a><br><img src="/images/npm-install-01.jpg" width="550"></p>
+<p>npm 是 Node 的模块管理器，功能极其强大。它是 Node 获得成功的重要原因之一。<br>正因为有了npm，我们只要一行命令，就能安装别人写好的模块 。<br>
+        
+          <a class="article-more-a" href="/2018/04/05/npm-install/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Nodejs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/05/npm-install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-timeline" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/timeline/">基于D3实现的timeline</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/02/timeline/" class="archive-article-date">
+  	<time datetime="2018-04-02T08:09:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/timeline-01.png" width="850"><br>先看看上面实现的最终效果图</p>
+<p>To Be Continued</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">d3</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/02/timeline/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-restful-api-specification" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -309,19 +556,19 @@
 
 
   
-    <article id="post-js-location" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js/js-location" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/29/js-location/">location.hash 使用说明</a>
+      <a class="article-title" href="/2018/03/29/js/js-location/">location.hash 使用说明</a>
     </h1>
   
 
         
-        <a href="/2018/03/29/js-location/" class="archive-article-date">
+        <a href="/2018/03/29/js/js-location/" class="archive-article-date">
   	<time datetime="2018-03-29T01:57:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-29</time>
 </a>
         
@@ -331,7 +578,7 @@
       
         <p>BOM（浏览器对象模型）中最有用的对象之一就是 location。<br>Location 对象是很特别的对象，因为它既是 window 对象的属性，也是 document 对象的属性。<br>Location 对象包含有关当前 URL 的信息, Location 对象是 Window 对象的一个部分，可通过 window.location 属性来访问。<br>
         
-          <a class="article-more-a" href="/2018/03/29/js-location/#more">more >></a>
+          <a class="article-more-a" href="/2018/03/29/js/js-location/#more">more >></a>
         
       
 
@@ -355,7 +602,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/29/js-location/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/29/js/js-location/">展开全文 >></a>
         </p>
       
 
@@ -385,19 +632,19 @@
 
 
   
-    <article id="post-js-browser-event" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js/js-browser-event" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/23/js-browser-event/">JavaScript 浏览器事件</a>
+      <a class="article-title" href="/2018/03/23/js/js-browser-event/">JavaScript 浏览器事件</a>
     </h1>
   
 
         
-        <a href="/2018/03/23/js-browser-event/" class="archive-article-date">
+        <a href="/2018/03/23/js/js-browser-event/" class="archive-article-date">
   	<time datetime="2018-03-23T15:22:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-23</time>
 </a>
         
@@ -412,7 +659,7 @@
 </blockquote>
 <p>简页言之，在 web 前端编程里面 JavaScript 通过浏览器提供的事件模型 API 和用户交互，接收用户的输入.<br>
         
-          <a class="article-more-a" href="/2018/03/23/js-browser-event/#more">more >></a>
+          <a class="article-more-a" href="/2018/03/23/js/js-browser-event/#more">more >></a>
         
       
 
@@ -436,7 +683,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/23/js-browser-event/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/23/js/js-browser-event/">展开全文 >></a>
         </p>
       
 
@@ -622,19 +869,19 @@
 
 
   
-    <article id="post-js-garbage-collecation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js/js-garbage-collecation" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/20/js-garbage-collecation/">JavaScript的垃圾回收机制</a>
+      <a class="article-title" href="/2018/03/20/js/js-garbage-collecation/">JavaScript的垃圾回收机制</a>
     </h1>
   
 
         
-        <a href="/2018/03/20/js-garbage-collecation/" class="archive-article-date">
+        <a href="/2018/03/20/js/js-garbage-collecation/" class="archive-article-date">
   	<time datetime="2018-03-20T10:46:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-20</time>
 </a>
         
@@ -650,7 +897,7 @@
 <li>使用内存（读或写）</li>
 <li>释放内存
         
-          <a class="article-more-a" href="/2018/03/20/js-garbage-collecation/#more">more >></a>
+          <a class="article-more-a" href="/2018/03/20/js/js-garbage-collecation/#more">more >></a>
         
       
 
@@ -674,248 +921,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/20/js-garbage-collecation/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-webpack-tslint" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/15/webpack-tslint/">Webpack入门十：使用tslint</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/15/webpack-tslint/" class="archive-article-date">
-  	<time datetime="2018-03-15T06:03:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文翻译自 <a href="https://templecoding.com/blog/2016/04/07/linting-typescript-with-webpack/" target="_blank" rel="noopener">Linting TypeScript with Webpack</a></p>
-<p>各种各样的Linter是一种加强机器代码结构、避免错误的极好方式，</p>
-<p>To Be Continued</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/15/webpack-tslint/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-js-object-create" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/14/js-object-create/">JavaScript的对象创建</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/14/js-object-create/" class="archive-article-date">
-  	<time datetime="2018-03-14T06:29:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文转自 <a href="http://www.cnblogs.com/gaojun/archive/2013/10/24/3386552.html" target="_blank" rel="noopener">JS面向对象的程序设计</a></p>
-<p>面向对象的语言有一个标志，即拥有类的概念，抽象实例对象的公共属性与方法，基于类可以创建任意多个实例对象，一般具有封装、继承、多态的特性！但JS中对象与纯面向对象语言中的对象是不同的，ECMA标准定义JS中对象：无序属性的集合，其属性可以包含基本值、对象或者函数。可以简单理解为JS的对象是一组无序的值，其中的属性或方法都有一个名字，根据这个名字可以访问相映射的值（值可以是基本值/对象/方法）。<br>
-        
-          <a class="article-more-a" href="/2018/03/14/js-object-create/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/14/js-object-create/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-microservice-architecture" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/13/microservice-architecture/">微服务架构(MicroService Architecture)</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/13/microservice-architecture/" class="archive-article-date">
-  	<time datetime="2018-03-13T13:49:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>软件架构（software architecture）就是软件的基本结构。合适的架构是软件成功的最重要因素之一。大型软件公司通常有专门的架构师职位（architect），只有资深程序员才可以担任。</p>
-<p>本篇主要聊一聊微服务架构（microservices architecture）， 微服务架构是服务导向架构（service-oriented architecture，缩写 SOA）的升级。</p>
-<blockquote>
-<p> 技术为业务而生，架构也为业务而出现。随着业务的发展、用户量的增长，系统数量增多，调用依赖关系也变得复杂，为了确保系统高可用、高并发的要求，系统的架构也从单体时代慢慢迁移至服务SOA时代，根据不同服务对系统资源的要求不同，我们可以更合理的配置系统资源，使系统资源利用率最大化。 </p>
-</blockquote>
-<p>有位“大神”——马丁·福勒，给出了微服务特点的描述。大概从以下四个方面来说：</p>
-<ul>
-<li>根据业务模块划分服务种类</li>
-<li>每个服务可以独立部署，相互隔离</li>
-<li>通过轻量的API调用服务</li>
-<li>服务必须保证良好的高可用性</li>
-</ul>
-<p><img src="/images/microservice-architeture-01.jpg"></p>
-        
-          <a class="article-more-a" href="/2018/03/13/microservice-architecture/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">微服务</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/13/microservice-architecture/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/20/js/js-garbage-collecation/">展开全文 >></a>
         </p>
       
 
@@ -947,7 +953,7 @@
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1059,7 +1065,39 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">授权</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1067,7 +1105,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color4">CommonJS</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1084,34 +1122,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">thread</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">授权</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
             
             <div class="clearfix"></div>
