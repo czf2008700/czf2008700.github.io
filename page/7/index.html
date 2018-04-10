@@ -155,6 +155,187 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jenkins-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/10/jenkins-base-on-docker/" class="archive-article-date">
+  	<time datetime="2017-10-10T06:55:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;本篇开始之前，新手还是阅读一下 <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>, <a href="https://jenkins.io/index.html" target="_blank" rel="noopener">Jenkins官网</a></p>
+<h5 id="Jenkins简介"><a href="#Jenkins简介" class="headerlink" title="Jenkins简介"></a>Jenkins简介</h5><p>&emsp;&emsp;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。我们主要用它来构建一个自动化的持续集成环境来“自动化”编译、打包、分发部署你的应用。</p>
+<h5 id="基于Docker的Jenkins镜像搭建jenkins"><a href="#基于Docker的Jenkins镜像搭建jenkins" class="headerlink" title="基于Docker的Jenkins镜像搭建jenkins"></a>基于Docker的Jenkins镜像搭建jenkins</h5><ul>
+<li><p>创建 /home/jenkins_home, 用于挂载（挂载的目的是持久化Jenkins配置数据）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir jenkins_home</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>拉取Jenkins镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动jenkins Docker 在8080端口 （如果已经被占用，可以换成对应其他的端口）</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -p 50000:50000 --privileged=true -v /home/jenkins_home:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
+<p>备注：</p>
+<p>1). 可能会报错：</p>
+<blockquote>
+<p>touch: cannot touch ‘/var/jenkins_home/copy_reference_file.log’: Permission denied<br>Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?</p>
+</blockquote>
+<p>解决方法：把jenkins_home文件夹给jenkins用户操作权限， 参考<a href="http://blog.csdn.net/yulei_qq/article/details/53228601" target="_blank" rel="noopener">Docker Volume之权限管理</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /home/jenkins_home</span><br></pre></td></tr></table></figure></p>
+<p>2). 有时候，由于网络等因素导致有些插件安装不成功，耐心retry几次就OK了。</p>
+<h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
+<p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
+<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/10/jenkins-base-on-docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-nginx-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/03/nginx-base-on-docker/" class="archive-article-date">
+  	<time datetime="2017-10-02T16:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;Docker的安装请阅读上一篇  <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>。如今的nginx可以说是一个web服务中的一个标配，网上已经有很多很多成熟的教程和案例. 本篇不对nginx的搭建和配置做详细介绍。</p>
+<p>&emsp;&emsp;题外话：提到Nginx， 有一段很艰辛的经历，时至今日，回想起来像是发生在昨天， 感谢当时自己的奋斗和学习。 2010年我做广告联盟时， 一开始采用的Win+IIS+做了简单的MySql读写分离，后来IIS换为Apache, 悲剧的是连续半个月我解决不了高并发高负载的问题， 为此我研究了一个月，每天加班只睡3个小时，期间骑摩托车回家，骑着骑着就睡着了，一次撞到大树，一次撞到电线杆，一次撞到石墩上，想来自己命大。最后在网上看到张宴的博客详细阐述了LNMP性能是Apache的十倍，当时对Linux命令根本是从零开始，当我用Nginx成功解决当时的问题后， 自此我就很开心的用上了Nginx.</p>
+<h5 id="直接利用官方-Docker-Hub-的Nginx镜像"><a href="#直接利用官方-Docker-Hub-的Nginx镜像" class="headerlink" title="直接利用官方(Docker Hub)的Nginx镜像"></a>直接利用官方(Docker Hub)的Nginx镜像</h5><ul>
+<li>拉取镜像</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>docker pull: 从Docker Hub中拉取或者更新指定镜。（是不是有点像git pull命令）<br>docker images: 列出本地所有docker镜像。（是不是有点像git branch）</p>
+<ul>
+<li>基于镜像创建新的容器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mynginx -p 80:80 nginx // 见注释1</span><br><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+<p>注释1：使用docker镜像nginx启动一个容器，将这个容器命名为mynginx, 同时将容器的80端口映射到宿主机的80端口上。<br>docker ps: 列出所有在运行中的容器。</p>
+<p>这个时候，我们在浏览器中输入IP地址即可访问到nginx的默认的欢迎页面。OK, 到这里如果你觉得已经完成了本篇的主题， 那么如此简单的操作步骤其实也不值得我花精力去写这个的。</p>
+<ul>
+<li>来一个复杂一点的： 自定义配置</li>
+</ul>
+<p>&emsp;&emsp;Nginx的配置项很多， 从而满足我们各种需求，上一步 <strong>基于镜像创建新的容器</strong>中，当访问宿主机的80端口， docker会自动将访问引入mynginx容器中，利用容器中的nginx配置进行相关的服务。可是现在的需求是这样的：</p>
+<ol>
+<li>定义自己的配置文件nginx.conf及用于include的vhost文件夹方便管理，放置于宿主机目录下/home/nginx下</li>
+<li>定义自己的WEB根目录www, 放置于宿主机目录下/home/nginx下。</li>
+<li>创建自己的两个日志追踪文件nginx_error.log和access.log，放置于宿主机目录下/home/nginx/logs下</li>
+</ol>
+<p>于是我们得研究一下docker run 命令了</p>
+<blockquote>
+<p>docker run [OPTIONS] IMAGE [COMMAND] [ARG…]<br>-d: 后台运行容器，并返回容器UUID；<br>-i: 以交互模式运行容器，通常与 -t 同时使用；<br>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；<br>-v, –volume=[]            给容器挂载存储卷，挂载到容器的某个目录<br>–privileged=false         指定容器是否为特权容器，特权容器拥有所有的capabilities<br>–name=””                  指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字</p>
+</blockquote>
+<p>详情参考<a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="noopener">Docker run reference</a></p>
+<p>根据docker run的语法，我们得到如下命令写法即可满足需求。我们可以将这些写入到一个shell脚本里。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx-atlascca3 --privileged=true -p 80:80 -v /home/nginx/nginx.conf:/etc/nginx/nginx.conf -v /home/nginx/vhost:/home/nginx/vhost -v /home/nginx/logs/nginx_error.log:/home/nginx/logs/nginx_error -v /home/nginx/www:/home/nginx/www -d nginx</span><br></pre></td></tr></table></figure>
+<p>注意，在调试过程中，利用docker ps查看容器是否创建， 利用docker rm containerid删除一个容器，<br>若没有创建说明命令执行不成功，可以把命令行中的 -d 选项去掉即将显示出相关错误信息。</p>
+<p>另外一个方法利用Dockerfile搭建Nginx服务器将来单独开个主题再写。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/03/nginx-base-on-docker/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-docker-brief-introduction-and-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -821,493 +1002,6 @@
 
 
   
-    <article id="post-keyboard-shortcuts-webstorm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/27/keyboard-shortcuts-webstorm/">Keyboard Shortcuts for WebStorm(MAC)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/27/keyboard-shortcuts-webstorm/" class="archive-article-date">
-  	<time datetime="2017-07-27T03:16:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h5><ol>
-<li>Command+alt+T 用 (if..else, try..catch, for, etc.)包住</li>
-<li>Command+/ 注释/取消注释的行注释</li>
-<li>Command+alt+/ 注释/取消注释与块注释</li>
-<li>alt+↑ 向上选取代码块</li>
-<li>alt+↓ 向下选取代码块</li>
-<li>Command+alt+L 格式化代码</li>
-<li>tab,shift+tab 调整缩进</li>
-<li>Control+alt+I 快速调整缩进</li>
-<li>Command+C 复制</li>
-<li>Command+X 剪切</li>
-<li>Command+V 粘贴</li>
-<li>Command+shift+V 从剪贴板里选择粘贴</li>
-<li>Command+D 复制代码副本</li>
-<li>Command+delete 删除当前行</li>
-<li>Control+Shift+J 清除缩进变成单行</li>
-<li>shift+回车 快速换行</li>
-<li>Command+回车 换行光标还在原先位置</li>
-<li>Command+shift+U 大小写转换</li>
-<li>Command+shift+[,Command+shift+] 文件选项卡快速切换</li>
-<li>Command+加号,Command+减号 收缩代码块</li>
-<li>Command+shift+加号，Command+shift+减号 收缩整个文档的代码块</li>
-<li>Command+W 关闭当前文件选项卡</li>
-<li>alt+单击 光标在多处定位</li>
-<li>Control+shift+J 把下面行的缩进收上来</li>
-<li>shift + F6 高级修改，可快速修改光标所在的标签、变量、函数等</li>
-<li>alt+/ 代码补全</li>
-</ol>
-<h5 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h5><ol>
-<li>Control+alt+R 运行项目</li>
-<li>Command+Control+R 运行Debug</li>
-<li>Command+F8 添加断点</li>
-<li>Command+shift+F8 打开断点列表</li>
-</ol>
-<h5 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h5><ol>
-<li>Command+O 跳转到某个类</li>
-<li>Command+shift+O 跳转到某个文件</li>
-<li>Command+alt+O 跳转到某个符号</li>
-<li>Control+←,Control+→ 转到上/下一个编辑器选项卡</li>
-<li>F12 打开之前打开的工具窗口（TODO、终端等）</li>
-<li>Command+L 跳转行</li>
-<li>Command+E 弹出最近文件</li>
-<li>Command+alt+←,Command+alt+→ 向前向后导航到代码块交接处（一般是空行处）</li>
-<li>Command+shift+delete 导航到上一个编辑位置的位置</li>
-<li>Command+B 跳转到变量声明处</li>
-<li>Control+J 获取变量相关信息（类型、注释等，注释是拿上一行的注释）</li>
-<li>Command+Y 小浮窗显示变量声明时的行</li>
-<li>Command+[,Command+] 光标现在的位置和之前的位置切换</li>
-<li>Command+F12 文件结构弹出式菜单</li>
-<li>alt+H 类的层次结构</li>
-<li>F2,shift+F2 切换到上\下一个突出错误的位置</li>
-<li>Command+↑ 跳转到导航栏</li>
-<li>F3 添加书签</li>
-<li>alt+F3 添加带助记的书签</li>
-<li>alt+1,alt+2… 切换到相应助记的书签位置</li>
-<li>Command+F3 打开书签列表</li>
-</ol>
-<h5 id="VCS-本地历史记录"><a href="#VCS-本地历史记录" class="headerlink" title="VCS/本地历史记录"></a>VCS/本地历史记录</h5><ol>
-<li>control+V 打开VST小浮窗</li>
-<li>Command+K 提交项目</li>
-<li>Command+T 更新项目</li>
-<li>alt+shift+C 打开最近修改列表</li>
-</ol>
-<h5 id="搜索和替换"><a href="#搜索和替换" class="headerlink" title="搜索和替换"></a>搜索和替换</h5><ol>
-<li>Command+F 搜索</li>
-<li>Command+R 替换</li>
-<li>Command+G 查找下一个</li>
-<li>Command+shift+G 查找下一个</li>
-<li>Command+shift+F 按路径搜索</li>
-<li>Command+shift+R 按路径替换</li>
-</ol>
-<h5 id="选中文字的搜索"><a href="#选中文字的搜索" class="headerlink" title="选中文字的搜索"></a>选中文字的搜索</h5><ol>
-<li>Command+F7 向声明的地方搜索并选中</li>
-<li>Command+shift+F7 打开搜索框进行搜索</li>
-<li>Command+alt+F7 打开小浮窗显示搜索列表</li>
-</ol>
-<h5 id="对项目文件的操作（重构）"><a href="#对项目文件的操作（重构）" class="headerlink" title="对项目文件的操作（重构）"></a>对项目文件的操作（重构）</h5><ol>
-<li>F5 复制文件到某个目录</li>
-<li>F6 移动文件到某个目录</li>
-<li>Command+delete 安全删除</li>
-<li>shift+F6 重命名</li>
-</ol>
-<h5 id="全局的"><a href="#全局的" class="headerlink" title="全局的"></a>全局的</h5><ol>
-<li>双击shift 弹出小浮窗搜索所有</li>
-<li>Command+切换项目 Command+shift+ 反向切换项目</li>
-<li>Command+shift+A 整个工程的查找操作</li>
-<li>Command+1,Command+2… 打开各种工具窗口</li>
-<li>alt+shift+F 把文件添加到收藏夹</li>
-<li>alt+shift+I 打开项目描述</li>
-<li>alt+~ 快速切换当前计划</li>
-<li>Command+, 设置编辑器</li>
-<li>Control+Tab 选项卡和工具窗口之间进行切换</li>
-<li>alert+回车 显示npm版本升级列表</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/27/keyboard-shortcuts-webstorm/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-git-commands" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/26/git-commands/">Git commands</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/26/git-commands/" class="archive-article-date">
-  	<time datetime="2017-07-26T01:29:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Here is a list of some basic Git commands to get you going with Git.</p>
-<p>For more detail, check out the  <a href="https://www.atlassian.com/git" target="_blank" rel="noopener">Atlassian Git Tutorials</a>  for a visual introduction to Git commands and workflows, including examples. </p>
-<table>
-<thead>
-<tr>
-<th>Summary</th>
-<th>Commands</th>
-<th>Tips</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>配置全局</td>
-<td>$ git config –global user.name “Your Name”<br>$ git config –global user.email “name@eb.com”</td>
-<td></td>
-</tr>
-<tr>
-<td>查看配置</td>
-<td>$ git config –list<br>$ git config –list –global</td>
-<td></td>
-</tr>
-<tr>
-<td>创建版本库</td>
-<td>$ git init</td>
-<td>通过git init命令把某个目录变成Git可以管理的仓库</td>
-</tr>
-<tr>
-<td>获取仓库状态</td>
-<td>$ git status</td>
-<td>随时掌握工作区的状态</td>
-</tr>
-<tr>
-<td>查看修改</td>
-<td>$ git diff readme.txt<br>$ git diff HEAD readme.txt</td>
-<td></td>
-</tr>
-<tr>
-<td>提交修改提交新文件</td>
-<td>$ git add readme.txt</td>
-<td></td>
-</tr>
-<tr>
-<td>提交</td>
-<td>$ git commit -m “add distributed”</td>
-<td>提交到版库</td>
-</tr>
-<tr>
-<td>查看提交日志</td>
-<td>$ git log<br>$ git log –pretty=oneline<br>$ git log –oneline –graph</td>
-<td><a href="#gitLog">More</a></td>
-</tr>
-<tr>
-<td>命令日志</td>
-<td>$ git reflog<br>$ git reflog –relative-date<br>$ git reflog –date=iso</td>
-<td></td>
-</tr>
-<tr>
-<td>版本回退</td>
-<td>$ git reset –hard commit_id<br> $ git reset –hard HEAD^</td>
-<td></td>
-</tr>
-<tr>
-<td>撤销修改</td>
-<td>$ git checkout — filename<br>$ git reset head file</td>
-<td>当使用git add file后，想从暂存区中删除时，使用git reset head file</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>$ rm file<br>$ git rm file<br>$ git commit</td>
-<td>1.  删除也是一个修改操作</td>
-</tr>
-<tr>
-<td>远程库添加</td>
-<td>$ git remote add &lt;主机名&gt; &lt;网址&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库删除</td>
-<td>$ git remote rm &lt;主机名&gt;<br>$ git remote remove &lt;主机名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库重命名</td>
-<td>$ git remote rename &lt;原主机名&gt; &lt;新主机名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>远程库查看</td>
-<td>$ git remote<br>$ git remote -v</td>
-<td><a href="#viewRemote">More</a></td>
-</tr>
-<tr>
-<td>查看远程库详细信息</td>
-<td>$ git remote show &lt; hostname &gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>推送到远程库</td>
-<td>$ git push -u origin master</td>
-<td></td>
-</tr>
-<tr>
-<td>克隆</td>
-<td>$ git clone &lt;远程库网址&gt;</td>
-<td><a href="#gitClone">More</a></td>
-</tr>
-<tr>
-<td>创建分支</td>
-<td>$ git branch branchName<br>$ git checkout -b &lt;分支名&gt;</td>
-<td><a href="#gitBranch">More</a></td>
-</tr>
-<tr>
-<td>分支重命名</td>
-<td>$ git branch –m oldName newName</td>
-<td></td>
-</tr>
-<tr>
-<td>切换分支</td>
-<td>$ git checkout branchName</td>
-<td></td>
-</tr>
-<tr>
-<td>查看分支</td>
-<td>$ git branch <br> $ git branch -r<br>$ git branch -a 查看本地所有分支</td>
-<td>列出所有分支，当前分支前面会标一个*号</td>
-</tr>
-<tr>
-<td>合并分支</td>
-<td>$ git merge branchName <br>$ git cherry-pick <commit id=""> 合并某个commit ID 到当前分支</commit></td>
-<td>合并指定分支到当前分支</td>
-</tr>
-<tr>
-<td>删除分支</td>
-<td>$ git branch -d &lt;分支名&gt; 删除时提示分支没有合并<br>$ git branch -D &lt;分支名&gt;</td>
-<td></td>
-</tr>
-<tr>
-<td>分支重命名</td>
-<td>$  git branch -m oldname newname</td>
-<td></td>
-</tr>
-<tr>
-<td>删除远程分支</td>
-<td>$ git push origin :gemSCSS</td>
-<td>删除远程origin主机的gemSCSS分支</td>
-</tr>
-<tr>
-<td>推送分支到远程</td>
-<td>$ git push origin dev</td>
-<td></td>
-</tr>
-<tr>
-<td>取回远程库的更新</td>
-<td>$ git fetch &lt;远程主机名&gt;<br>$ git fetch &lt;远程主机名&gt; &lt;分支名&gt;</td>
-<td><a href="#gitFetch">More</a></td>
-</tr>
-<tr>
-<td>取回远程库某个分支的更新</td>
-<td>$ git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;</td>
-<td><a href="#gitPull">More</a></td>
-</tr>
-<tr>
-<td>推送</td>
-<td>$ git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;</td>
-<td><a href="#gitPush">More</a></td>
-</tr>
-<tr>
-<td>追踪关系</td>
-<td>tracking</td>
-<td><a href="#tracking">More</a></td>
-</tr>
-<tr>
-<td>储藏</td>
-<td>git stash</td>
-<td></td>
-</tr>
-<tr>
-<td>储藏列表</td>
-<td>git stash list</td>
-<td></td>
-</tr>
-<tr>
-<td>应用储藏储藏</td>
-<td>git stash pop</td>
-<td><a href="https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%82%A8%E8%97%8F%EF%BC%88Stashing%EF%BC%89" target="_blank" rel="noopener">More</a></td>
-</tr>
-</tbody>
-</table>
-<h5 id="gitLog">git log</h5>
-
-<ol>
-<li>git log命令显示从最近到最远的提交日志 我们可以看到3次提交.</li>
-<li>如果嫌输出信息太多，看得眼花缭乱的，可以试试加上–pretty=oneline参数</li>
-<li>git log alias<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.gitconfig</span><br><span class="line">[alias]</span><br><span class="line">zclog=log --graph --pretty=format:&apos;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cred%cn  %Cgreen(%ad)%Creset&apos; --abbrev --date=iso</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="viewRemote">远程库查看</h5>
-
-<ol>
-<li>为了便于管理，Git要求每个远程主机都必须指定一个主机名。git remote命令就用于管理主机名</li>
-<li>用git remote -v显示更详细的信息，可以看到抓取（fetch）和推送(push)的origin的地址。</li>
-<li>如果没有推送权限，就看不到push的地址。</li>
-<li>克隆版本库的时候，所使用的远程主机自动被Git命名为origin。 如果想用其他的主机名，需要用git clone命令的-o选项指定。（见git clone部分）</li>
-</ol>
-<h5 id="gitClone">git clone</h5>
-
-<ol>
-<li>Git支持多种协议，包括https，默认的git://使用ssh，但通过ssh支持的原生git协议速度最快。</li>
-<li>默认会在本地主机生成一个目录与远程主机的版本库同名</li>
-<li>如果要在本地指定不同的目录名，可以将目录名作为git clone命令的第二个参数。 $ git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;</li>
-<li>指定主机名,下面克隆的时候，指定远程主机叫做jQuery $ git clone -o jQuery <a href="https://github.com/jquery/jquery.git" target="_blank" rel="noopener">https://github.com/jquery/jquery.git</a> $ git remote jQuery</li>
-</ol>
-<h5 id="gitBranch">git branch</h5>
-
-<ol>
-<li>$ git branch branchName 基于当前分支创建分支名称为branchName</li>
-<li>$ git checkout -b branchName 相当于两步:<ul>
-<li>$ git branch branchName</li>
-<li>$ git checkout branchName</li>
-</ul>
-</li>
-</ol>
-<h5 id="gitFetch">git fetch</h5>
-
-<ol>
-<li>一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到git fetch命令。</li>
-<li>$ git fetch &lt;远程主机名&gt; 此命令将某个远程主机的更新，全部取回本地。</li>
-<li>$ git fetch origin master 所取回的更新，在本地主机上要用”远程主机名/分支名”的形式读取。比如origin主机的master，就要用origin/master读取。</li>
-<li>取回远程主机的更新以后，可以在它的基础上，使用git checkout命令创建一个新的分支。 $ git checkout -b newBrach origin/master， 该 命令表示，在origin/master的基础上，创建一个新分支</li>
-<li>在本地分支上合并远程分支， 使用git merge或者git rebase $ git merge origin/master # 或者 $ git rebase origin/master 上面命令表示在当前分支上，合并origin/master。</li>
-</ol>
-<h5 id="gitPull">git pull</h5>
-
-<ol>
-<li>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并。它的完整格式稍稍有点复杂。 比如，取回origin主机的next分支，与本地的master分支合并，需要写成下面这样。 $ git pull origin next:master </li>
-<li>如果远程分支是与当前分支合并，则冒号后面的部分可以省略。 $ git pull origin next 上面命令表示，取回origin/next分支，再与当前分支合并。实质上，这等同于先做git fetch，再做git merge。 $ git fetch origin $ git merge origin/next</li>
-<li>git pull –rebase 表示把你的本地当前分支里的每个提交(commit)取消掉，并且把它们临时保存为补丁(patch)(这些补丁放到” .git/rebase”目录中),然后把本地当前分支更新 为最新的”origin”分支，最后把保存的这些补丁应用到本地当前分支上。</li>
-</ol>
-<h5 id="gitPush">git push</h5>
-
-<ol>
-<li>分支推送顺序的写法是&lt;来源地&gt;:&lt;目的地&gt;，所以git pull是&lt;远程分支&gt;:&lt;本地分支&gt;， 而git push是&lt;本地分支&gt;:&lt;远程分支&gt;。</li>
-<li>如果省略远程分支名，则表示将本地分支推送与之存在”追踪关系”的远程分支（通常两者同名）， 如果该远程分支不存在，则会被新建。 $ git push origin master 上面命令表示，将本地的master分支推送到origin主机的master分支。如果后者不存在，则会被新建。</li>
-<li>如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。 $ git push origin :master # 等同于 $ git push origin –delete master</li>
-<li>如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。 $ git push origin 上面命令表示，将当前分支推送到origin主机的对应分支。</li>
-<li>如果当前分支只有一个追踪分支，那么主机名都可以省略。 $ git push</li>
-<li>如果当前分支与多个主机存在追踪关系，则可以使用-u选项指定一个默认主机， 这样后面就可以不加任何参数使用git push $ git push -u origin master 上面命令将本地的master分支推送到origin主机，同时指定origin为默认主机，后面就可以不加任何参数使用git push了。</li>
-<li>还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用–all选项。 $ git push –all origin</li>
-</ol>
-<h5 id="tracking">tracking追踪关系</h5>
-
-<ol>
-<li>在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。 比如，在git clone的时候， 所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的master分支自动”追踪 “origin/master分支。</li>
-<li>手动建立追踪 $ git branch –set-upstream master origin/next 上面命令指定master分支追踪origin/next分支。</li>
-<li>如果当前分支与远程分支存在追踪关系，git pull就可以省略远程分支名。 $ git pull origin 上面命令表示，本地的当前分支自动与对应的origin主机”追踪分支”（remote-tracking branch）进行合并。</li>
-<li>如果当前分支只有一个追踪分支，连远程主机名都可以省略。 $ git pull 上面命令表示，当前分支自动与唯一一个追踪分支进行合并。</li>
-<li>如果合并需要采用rebase模式，可以使用–rebase选项。 $ git pull –rebase &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;<br>6.删除tracking追踪关系,git branch -d -r origin/branch name</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Git</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/26/git-commands/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -1402,6 +1096,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
@@ -1410,19 +1108,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1430,7 +1120,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Angular</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1438,11 +1132,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1451,6 +1149,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">

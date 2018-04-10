@@ -155,6 +155,163 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-commonjs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/js/js-commonjs/">CommonJS模块规范</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/js/js-commonjs/" class="archive-article-date">
+  	<time datetime="2018-01-12T01:56:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺理成章地有了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发之CommonJS规范。</p>
+<p>&emsp;&emsp;理想状态下，Developer只需要实现核心的业务逻辑，其他的可以加载别人已经写好的模块即可，因此JavaScript语言的模块化编程就显得异常重要了。然而，ES6之前JavaScript没有为组织管理代码提供任何方案，甚至没有类(Class)的概念，更不用说模块(Module)了.</p>
+<p>模块化管理需要具备：</p>
+<ul>
+<li>定义封装的模块。</li>
+<li>定义新模块对其他模块的依赖。</li>
+<li>可对其他模块的引入支持。</li>
+</ul>
+<p>要通用，则必须要有规范化，因此一系列的标准应运而生。<br>
+        
+          <a class="article-more-a" href="/2018/01/12/js/js-commonjs/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">module</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CommonJS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/js/js-commonjs/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js/js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/30/js/js-prototype-chain/">JavaScript的原型链(prototype chain)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/30/js/js-prototype-chain/" class="archive-article-date">
+  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
+<ul>
+<li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
+<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
+<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype
+        
+          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-constructor-property" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -771,172 +928,6 @@
 
 
   
-    <article id="post-js/js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/04/js/js-short-circuit-logic/">JS中的逻辑运算符和短路表达式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/04/js/js-short-circuit-logic/" class="archive-article-date">
-  	<time datetime="2017-12-04T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>逻辑运算 Logical operators<br>短路计算 Short-circuit evaluation</p>
-<blockquote>
-<p>短路表达式，JS逻辑计算有一个短路计算原则, MDN描述如下：由于逻辑表达式的运算的顺序是从左到右的，利用其规则进行“短路”运算。</p>
-</blockquote>
-<h5 id="JS逻辑运算符的说明："><a href="#JS逻辑运算符的说明：" class="headerlink" title="JS逻辑运算符的说明："></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank" rel="noopener">JS逻辑运算符</a>的说明：</h5><table>
-<thead>
-<tr>
-<th>运算法</th>
-<th>示例</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逻辑与(&amp;&amp;)</td>
-<td>expr1 &amp;&amp; expr2</td>
-<td>如果expr1 能转换成false则返回expr1,否则返回expr2<br>因此, 在Boolean环境中使用时, 两个操作结果都为true时返回true,否则返回false.</td>
-</tr>
-<tr>
-<td>逻辑或(ll)</td>
-<td>expr1 ll expr2</td>
-<td>如果expr1能转换成true则返回expr1,否则返回expr2.<br> 因此,在boolean环境(在if的条件判断中)中使用时, 二者操作结果中只要有一个为true,返回true;<br>二者操作结果都为false时返回false.</td>
-</tr>
-<tr>
-<td>逻辑非(!)</td>
-<td>!expr</td>
-<td>如果单个表达式能转换为true的话返回false,否则返回true.</td>
-</tr>
-</tbody>
-</table>
-<p>能够转换为false的表达式有:””(空字符串), 0和NaN, false, null, undefined.<br>
-        
-          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-css-normal-flow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/25/css-normal-flow/">CSS基础标准文档流</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/25/css-normal-flow/" class="archive-article-date">
-  	<time datetime="2017-11-25T04:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CSS 语言倡导结构、样式、行为分离。</p>
-<h5 id="什么是标准文档流"><a href="#什么是标准文档流" class="headerlink" title="什么是标准文档流"></a>什么是标准文档流</h5><blockquote>
-<p>Normal Document Stream， 网页在解析的时候，遵循一个元素排版布局标准，即从上到下，从左到右的一个流式顺序，而这个顺序即为标准文档流</p>
-</blockquote>
-<h5 id="如何理解"><a href="#如何理解" class="headerlink" title="如何理解"></a>如何理解</h5><p>&emsp;&emsp;我们用Fireworks作图，可以在任何一个地方落笔；word这个软件则不一样，有一个“光标”位置，你必须在当前光标位置去书写文字。<br>第二行文字的位置，仰赖于第一行文字，比如第一行文字多，第二行文字就下移了；比如第一行文字大，第二行文字又下移了。<br>网页也是这样，从左至右、从上到下，有一个“光标”的概念。 标准文档流中，内置了很多性质。</p>
-<h5 id="标准文档流的特征"><a href="#标准文档流的特征" class="headerlink" title="标准文档流的特征"></a>标准文档流的特征</h5><ul>
-<li>空白折叠现象<br>&emsp;标签内的文字，不管有多少个空格、换行、tab，都会缩减为同一个空格。</li>
-<li>高矮不齐，底边对齐</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/25/css-normal-flow/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -1031,6 +1022,10 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
@@ -1039,19 +1034,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
+                <a href="javascript:void(0)" class="js-tag color4">Git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1059,7 +1046,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color1">React</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Angular</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1067,11 +1058,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1080,6 +1075,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
