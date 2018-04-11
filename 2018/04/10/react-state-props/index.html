@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://up8.wang">
   <title>React 的两种数据模型state和props | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 也就是说 s">
+  <meta name="description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 state ">
 <meta name="keywords" content="React">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React 的两种数据模型state和props">
 <meta property="og:url" content="http://up8.wang/2018/04/10/react-state-props/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 也就是说 state 属性主要用来存储组件自身需要的数据，是组件自己私有的，我们一般通过修改">
-<meta property="og:updated_time" content="2018-04-10T07:44:44.000Z">
+<meta property="og:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 sta">
+<meta property="og:updated_time" content="2018-04-11T01:17:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React 的两种数据模型state和props">
-<meta name="twitter:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 也就是说 state 属性主要用来存储组件自身需要的数据，是组件自己私有的，我们一般通过修改">
+<meta name="twitter:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 sta">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -180,7 +180,7 @@
       
         <p>在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性</p>
 <h2 id="一、-state-属性"><a href="#一、-state-属性" class="headerlink" title="一、 state 属性"></a>一、 state 属性</h2><p>React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。</p>
-<p>也就是说 state 属性主要用来存储组件自身需要的数据，是组件自己私有的，我们一般通过修改 state 属性的值来更新数据，React 内部会监听 state 的变化，一旦发生变化就会主动触发组件的 render() 方法来更新 Dom 结构， 因此 <strong>state 数据是可变的</strong>。<br><a id="more"></a></p>
+<p>state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 state 属性的值来更新数据，React 内部会监听 state 的变化，一旦发生变化就会主动触发组件的 render() 方法来更新 Dom 结构， 因此 <strong>state 数据是可变的</strong>。<br><a id="more"></a></p>
 <h3 id="1-state-的使用"><a href="#1-state-的使用" class="headerlink" title="1. state 的使用"></a>1. state 的使用</h3><p>一般来说，你需要在 constructor() 方法中初始化 state（这是ES6的写法，ES5 中一般在 getInitialState() 方法中来初始化 state），然后在需要修改时调用 setState() 方法。</p>
 <p>不要使用 this.state 来修改 state 属性值，应该调用 setState() 方法，this.state 是不可变的。</p>
 <h3 id="2-setState-方法"><a href="#2-setState-方法" class="headerlink" title="2. setState() 方法"></a>2. setState() 方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setState(updater, [callback])</span><br></pre></td></tr></table></figure>
@@ -295,6 +295,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/04/11/react-jsx/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          React 之JSX语法
+        
+      </div>
+    </a>
   
   
     <a href="/2018/04/08/react-angular/" id="article-nav-older" class="article-nav-link-wrap">
@@ -469,7 +478,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -485,15 +494,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">

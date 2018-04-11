@@ -155,6 +155,75 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-variable-primitive-value" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/06/js/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/06/js/js-variable-primitive-value/" class="archive-article-date">
+  	<time datetime="2017-12-06T00:48:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;变量是内存中被分配的指定空间的名字,而数据是这个空间中的存储的东西。变量的作用域在任何一个编程语言中应该是一个基本概念，而在 Javascript 中，这一基本概念往往挑战初学者的常识。 JavaScript 是个动态类型的编程语言（关于语言的分类可以研究一下这篇文字 <a href="https://en.wikipedia.org/wiki/Type_system" target="_blank" rel="noopener">类型系统（Type System）</a></p>
+<blockquote>
+<p>变量本身数据类型不固定的语言称之为动态语言。<br>与之相反的是静态类型的编程语言，指的是在定义变量时必须指定变量类型，如果赋值的时候类型不匹配，就会报错。</p>
+</blockquote>
+<p>&emsp;&emsp;JavaScript的变量的数据类型可以分为两类：<strong>基本类型(Primitive Values)和引用类型(Reference Values)</strong>, 也有其他的叫法。 引用类型请移步 <a href="/2018/02/09/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a><br>&emsp;&emsp;基本类型主要有五种： String, Number, Boolean, Null, undefined（ES6新增了 <a href="http://es6.ruanyifeng.com/#docs/symbol" target="_blank" rel="noopener">Symbol</a>，Symbol生成一个全局的唯一的值）。其访问方式是按值访问的，就是说你可以操作保存在变量中的实际值。基本类型的数据类型有以下4个特点：<br>
+        
+          <a class="article-more-a" href="/2017/12/06/js/js-variable-primitive-value/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/06/js/js-variable-primitive-value/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -851,126 +920,6 @@
 
 
   
-    <article id="post-centos-jenkins" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/12/centos-jenkins/" class="archive-article-date">
-  	<time datetime="2017-10-12T07:05:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要讲述在Centos7.2系统下搭建Jenkins环境， 在上一篇文章讲述了<a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>，但是在实际应用中，性能很差。因此我决定去Docker,直接在Centos中安装。</p>
-<h5 id="安装Java-环境"><a href="#安装Java-环境" class="headerlink" title="安装Java 环境"></a>安装Java 环境</h5><ul>
-<li>下载JDK8<br><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracal JDK8</a></li>
-</ul>
-<p>下载后上传至服务器目录下/home/software</p>
-<ul>
-<li><p>解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf jdk-8u144-linux-x64.tar.gz</span><br><span class="line">mkdir /usr/java</span><br><span class="line">mv jdk1.8.0_144 /usr/java/jdk1.8.0_144</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置java环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>在文件的末尾增加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/java/jdk1.8.0_144</span><br><span class="line">export PATH=$JAVA_HOME/bin:$PATH</span><br><span class="line">export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br></pre></td></tr></table></figure></p>
-<p>保存退出后执行命令source /etc/profile, 使得新增的环境变量立即生效</p>
-<ul>
-<li>查看java环境变量是否生效<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@atlascca001 ~]# java -version</span><br><span class="line">java version &quot;1.8.0_144&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_144-b01)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>也可以用javac看一看</p>
-<ul>
-<li>安装过程可能错误解析</li>
-</ul>
-<ol>
-<li>有时候在您的系统可能已经用RPM方式装了openjdk.<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep java // 先查看</span><br><span class="line">rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.144-0.b01.el7_4.x86_64 // 对查看列表中的软件卸载</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h5><ul>
-<li><p>Jenkins默认用8080端口，先查下8080端口是否被占用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnp|grep 8080</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置yum源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>jenkins.repo内容是这样：</p>
-<p>[jenkins]<br>name=Jenkins-stable<br>baseurl=<a href="http://pkg.jenkins.io/redhat-stable" target="_blank" rel="noopener">http://pkg.jenkins.io/redhat-stable</a><br>gpgcheck=1</p>
-<ul>
-<li>导入公钥</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key</span><br></pre></td></tr></table></figure>
-<ul>
-<li>安装Jenkins</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins</span><br><span class="line">＃或者 加`-y`参数：回答全部问题为是</span><br><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Jenkins配置<br>vi /etc/rc.d/init.d/jenkins, 搜索candidates, 添加一行/usr/java/jdk1.8.0_144/bin/java<br>修改默认端口8080: vi /etc/sysconfig/jenkins, 搜索JENKINS_PORT。</p>
-</li>
-<li><p>安装过程错误解析<br>1). 选择Jenkins版本<br>  a). 列出jenkins所有版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --showduplicates list jenkins</span><br></pre></td></tr></table></figure>
-<p>  b). 安装2.70-1.1版本</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jenkins-2.70-1.1</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>2). Job for jenkins.service failed because the control process exited with error code. See “systemctl status jenkins.service” and “journalctl -xe” for details.</p>
-<p>a). 执行 journalctl -xe， 我们发现</p>
-<p>error: Could not load host key: /etc/ssh/ssh_host_dsa_key, 显然是没有SSH KEY造成的，<br>解决：  ssh-keygen  -t  rsa -C “user-id@cisco.com”</p>
-<p>b). 执行 journalctl -xe， 我们发现<br>Caused by: java.lang.UnsatisfiedLinkError: /tmp/jna–1712433994/jna1777215790425700984<br>这个问题花了我2天的时间，最终在<a href="https://support.cloudbees.com/hc/en-us/articles/215281717-Jenkins-fails-to-start-with-JNA-error" target="_blank" rel="noopener">Jenkins fails to start with JNA error</a>找到了解决方案<br>解决：vi /etc/fstab<br>As root, edit /etc/fstab configuration file and remove noexec from the mount option of /tmp directory. Then run:<br>mount -o remount /tmp</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/12/centos-jenkins/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1097,7 +1046,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1113,15 +1062,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">

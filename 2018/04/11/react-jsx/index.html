@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://up8.wang">
-  <title>RESTful 架构概念详解 | 专注高性能的WEB研发。</title>
+  <title>React 之JSX语法 | 专注高性能的WEB研发。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 微服务架构(MicroService Architecture) 一篇中，我们提到在微服务的服务之间是通过轻量级的API来实现服务之间的通信和交互。 RESTful API架构经常会用于这种服务之间的通信，本文主要来讨论一下 RESTful 架构。 REST 全称是 Representational State T">
-<meta name="keywords" content="Archiecture)">
+  <meta name="description" content="React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。  JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。当遇到&am">
+<meta name="keywords" content="React">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RESTful 架构概念详解">
-<meta property="og:url" content="http://up8.wang/2018/03/30/restful-architecture/index.html">
+<meta property="og:title" content="React 之JSX语法">
+<meta property="og:url" content="http://up8.wang/2018/04/11/react-jsx/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
-<meta property="og:description" content="在 微服务架构(MicroService Architecture) 一篇中，我们提到在微服务的服务之间是通过轻量级的API来实现服务之间的通信和交互。 RESTful API架构经常会用于这种服务之间的通信，本文主要来讨论一下 RESTful 架构。 REST 全称是 Representational State Transfer，中文意思是表现层状态转移。 指的是一组架构约束条件和原则。” 如">
-<meta property="og:updated_time" content="2018-04-02T06:56:21.000Z">
+<meta property="og:description" content="React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。  JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。当遇到&amp;lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析。">
+<meta property="og:updated_time" content="2018-04-11T07:21:25.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RESTful 架构概念详解">
-<meta name="twitter:description" content="在 微服务架构(MicroService Architecture) 一篇中，我们提到在微服务的服务之间是通过轻量级的API来实现服务之间的通信和交互。 RESTful API架构经常会用于这种服务之间的通信，本文主要来讨论一下 RESTful 架构。 REST 全称是 Representational State Transfer，中文意思是表现层状态转移。 指的是一组架构约束条件和原则。” 如">
+<meta name="twitter:title" content="React 之JSX语法">
+<meta name="twitter:description" content="React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。  JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。当遇到&amp;lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析。">
   
     <link rel="alternative" href="/atom.xml" title="专注高性能的WEB研发。" type="application/atom+xml">
   
@@ -158,52 +158,66 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-restful-architecture" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-react-jsx" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      RESTful 架构概念详解
+      React 之JSX语法
     </h1>
   
 
         
-        <a href="/2018/03/30/restful-architecture/" class="archive-article-date">
-  	<time datetime="2018-03-30T08:31:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-30</time>
+        <a href="/2018/04/11/react-jsx/" class="archive-article-date">
+  	<time datetime="2018-04-11T01:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在 <a href="http://127.0.0.1:4000/2018/03/13/microservice-architecture/" target="_blank" rel="noopener">微服务架构(MicroService Architecture)</a> 一篇中，我们提到在微服务的服务之间是通过轻量级的API来实现服务之间的通信和交互。 RESTful API架构经常会用于这种服务之间的通信，本文主要来讨论一下 RESTful 架构。</p>
-<p>REST 全称是 Representational State Transfer，中文意思是表现层状态转移。 指的是一组架构约束条件和原则。” <strong>如果一个架构符合 REST 的约束条件和原则，我们就称它为 RESTful 架构</strong>。简单的来说： 就是用URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。<br><a id="more"></a></p>
-<h2 id="一、REST的由来"><a href="#一、REST的由来" class="headerlink" title="一、REST的由来"></a>一、REST的由来</h2><p>全称：REST，全称是Resource Representational State Transfer，即：资源在网络中以某种形式进行状态转移。————所谓状态的转移，可参考《HTTP权威指南》一书中对协议的详细解释，此处不过多赘述！</p>
-<p>出现：REST最早是由Roy Fielding博士发表的论文中提到的，他也曾参与设计了HTTP协议。<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" target="_blank" rel="noopener">论文地址</a></p>
-<p>定义：简单来说REST是一种系统架构设计风格（而非标准），一种分布式系统的应用层解决方案。</p>
-<p>背景：早期的网页端是前后台一起的，比如PHP、JSP等。而随着近几年移动端的快速发展和分布式架构的应用，各种Client层出不穷，这个时候就需要有个统一的机制，来为前后端通信提供服务。而RESTful API就是目前比较成熟的的一套应用程序API设计理论。</p>
-<p>目的：Client和Server端进一步解耦。</p>
-<p>应用：最为经典的莫过于github API。</p>
-<h2 id="二、什么是状态表述转移"><a href="#二、什么是状态表述转移" class="headerlink" title="二、什么是状态表述转移"></a>二、什么是状态表述转移</h2><p>在 REST 的世界中，资源(Resource)即状态，每个资源都使用URI(Universal Resource Identifier)得到一个唯一的地址.</p>
-<p>而互联网就是一个巨大的状态机；<strong>每个网页是其一个状态；URL是状态的表述</strong>；REST风格的应用则是从一个状态迁移到下一个状态的状态转移过程。</p>
-<p>早期互联网只有静态页面的时候，通过超链接在静态网页间浏览跳转的page-&gt;lint-&gt;page-&gt;link…模式就是一种典型的状态转移过程。</p>
-<h2 id="三、无状态-Stateless-服务器"><a href="#三、无状态-Stateless-服务器" class="headerlink" title="三、无状态(Stateless)服务器"></a>三、无状态(Stateless)服务器</h2><p>REST 风格应用可以实现交互，但它却天然地具有服务器无状态的特征。客户端和服务器之间的交互在请求之间是无状态的，在状态转移的过程中，服务器不需要记录任何Session, 所有的状态都通过URL的形式记录在了客户端。</p>
-<h2 id="四、REST-架构风格约束"><a href="#四、REST-架构风格约束" class="headerlink" title="四、REST 架构风格约束"></a>四、REST 架构风格约束</h2><ul>
-<li>客户-服务器（Client-Server）通信只能由客户端单方面发起，表现为请求-响应的形式。</li>
-<li>无状态（Stateless）通信的会话状态（Session State）应该全部由客户端负责维护。</li>
-<li>缓存（Cache）响应内容可以在通信链的某处被缓存，以改善网络效率。</li>
-<li>统一接口（Uniform Interface）通信链的组件之间通过统一的接口相互通信，以提高交互的可见性。</li>
-<li>分层系统（Layered System）通过限制组件的行为（即，每个组件只能“看到”与其交互的紧邻层），将架构分解为若干等级的层。</li>
+        <p>React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。 </p>
+<p>JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。<strong>当遇到&lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析</strong>。</p>
+<p>实际上 HTML 也是 XML 协议，由浏览器解析，而 JSX 是由 JS 解析，当然也可以通过构建工具解析完成，如 grunt、webpack，可以避免 JS 在运行中解析 JSX 所消耗的时间。JSX 原本是使用官方自己提供的方法处理， 2015-7-12日官方<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="noopener">博客文章</a>声明其自身用于 JSX 语法解析的编译器 JSTransform 已经过期，不再维护，React JS 和 React Native 已经全部采用第三方 Babel 的 JSX 编译器实现<br><a id="more"></a><br>JSX 并不是一门新的语言，仅仅是个语法糖（syntactic sugar），允许开发者在 JavaScript 中书写 HTML 语法。最后，每个 HTML 标签都转化为 JavaScript 代码来运行。<br>这样对于使用 JavaScript 来构建组件以及组件之间关系的应用，在代码层面显得更加清晰。而不再像过于一样用 JavsScript 操作 DOM 来创建组件以及组件之间的嵌套关系。</p>
+<h2 id="一、运行环境"><a href="#一、运行环境" class="headerlink" title="一、运行环境"></a>一、运行环境</h2><ul>
+<li>JSX 必须借助 ReactJS 环境才能运行，所以使用前要先加载 ReactJS 文件（react.js、react-dom.js）</li>
+<li>除了 ReactJS 环境，还需要加载 JSX 的解析器（babel.js）</li>
 </ul>
-<p>文字比较学院派，仔细一想，想必也发现我们实际工作都已经遵守这五条架构风格了。</p>
-<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>引用别人的一句话简单的概括REST是干啥的：就是用URL定位资源，用HTTP动词（GET,POST,DELETE,DETC）描述操作。</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a href="http://www.ruanyifeng.com/blog/2011/09/restful.html" target="_blank" rel="noopener">理解RESTful架构</a></li>
-<li><a href="http://www.runoob.com/w3cnote/restful-architecture.html" target="_blank" rel="noopener">RESTful 架构详解</a></li>
-<li><a href="https://www.cnblogs.com/lovemo1314/p/7233095.html" target="_blank" rel="noopener">restful API 规范</a></li>
-<li><a href="https://www.cnblogs.com/imyalost/p/7923230.html" target="_blank" rel="noopener">RESTful API浅谈</a></li>
+<h2 id="二、基本语法"><a href="#二、基本语法" class="headerlink" title="二、基本语法"></a>二、基本语法</h2><p>1). JSX 必须严格闭合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 报错</span><br><span class="line">&lt;div&gt;</span><br><span class="line">// 正确</span><br><span class="line">&lt;div/&gt;</span><br><span class="line">&lt;div&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>可以把 JSX 标签当做一个变量，可以在任何位置使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var tag = &lt;div&gt;I&apos;m JSX tag&lt;/div&gt;</span><br><span class="line">ReactDom.render(div);</span><br></pre></td></tr></table></figure></p>
+<p>2). JSX 一个标签就是一个组件，当存在两个组件在同一级时，必须使用一个标签（组件）包起来。<br>下面是错误的写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;div&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>正确的写法是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;tag&gt;</span><br><span class="line">  &lt;div&gt;&lt;/div&gt;</span><br><span class="line">  &lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;tag&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3). 自定义组件使用时必须首字母大写，首字母不大写直接解析为同名html标签。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Test/&gt; // 自定义</span><br><span class="line">&lt;div&gt;&lt;/div&gt; // 直接解析为&lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;test/&gt; // 直接解析为&lt;test&gt;&lt;/test&gt;, 在浏览器时不识别的，无法显示。</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、代码转换"><a href="#三、代码转换" class="headerlink" title="三、代码转换"></a>三、代码转换</h2><p>使用 JSX 的书写是为了让我们能更直观地看到组件的 DOM 结果，其最终还是通过解析器转化为 JavaScript 代码才能在浏览器端执行。<br>比如我们写了如下一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var msg = &lt;h1 width=&quot;10px&quot;&gt;hello hangge.com&lt;/h1&gt;;</span><br></pre></td></tr></table></figure></p>
+<p>那么解析器就会转化为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var msg = React.createElement(&quot;h1&quot;, &#123;width: &quot;10px&quot;&#125;, &quot;hello hangge.com&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>也就是说我们每写一个标签，就相当于调用一次 React.createElement 方法并最后返回一个 ReactElement 对象给我们。<br>当然我们不使用 JSX，而是直接通过 React.createElement 方法来创建 ReactElement 对象也是可以的。React.createElement 方法中各个参数的含义如下：</p>
+<ul>
+<li>第一个参数：可以是一个字符串，表示一个标准的 HTML 元素。或者是一个 ReactClass 类型的对象，表示我们之前封装好的自定义组件。</li>
+<li>第二个参数：是一个对象（字典）。它保存了这个元素的所有固有属性（即传入后基本不会改变的值）。</li>
+<li>从第三个参数开始：都被认作是该元素的子元素。</li>
+</ul>
+<h2 id="四、JSX使用JavaScript"><a href="#四、JSX使用JavaScript" class="headerlink" title="四、JSX使用JavaScript"></a>四、JSX使用JavaScript</h2><p>在 基本语法 部分的代码体现了 JSX 的基本语法规则：遇到 HTML 标签（以 &lt; 开头），就用 HTML 规则解析；遇到代码块（以 { 开头），就用JavaScript 规则解析。不是什么 JavaScript 语法都可以用的， 像if语句就不可以用，下面列举一些用法。其实会用最基本的用法就够了，其他的了解下。</p>
+<p>1)、在 JSX 中使用变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;test&apos;;</span><br><span class="line">&lt;div&gt;&#123;name + &apos;6666&apos;&#125;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>2)、在 JSX 中使用 Array (特殊的变量)<br>这个方式很方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr=[</span><br><span class="line">  &lt;h1&gt;Hello JSX one&lt;/h1&gt;,</span><br><span class="line">  &lt;h2&gt;React is awesome&lt;/h2&gt;,</span><br><span class="line">];</span><br><span class="line">ReactDom.render(</span><br><span class="line">  &lt;div&gt;&#123;arr&#125;&lt;/div&gt;,</span><br><span class="line">  document.getElementById(&apos;root&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>3)、在 JSX 中使用函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var names = [&apos;Felix&apos;, &apos;David&apos;, &apos;Lucy&apos;];</span><br><span class="line">&lt;div&gt;</span><br><span class="line"> &#123;</span><br><span class="line">   names.map(function(item)&#123;</span><br><span class="line">     return &lt;div&gt;Hello, &#123;item&#125;&lt;/div&gt;</span><br><span class="line">   &#125;)</span><br><span class="line"> &#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>其实就是相当于函数返回一个结果，这个结果没有绑在变量上，直接使用了。</p>
+<p>3)、条件判断<br>直接使用 if 语句，目前 JSX 是不支持的，可以使用以下方法</p>
+<ul>
+<li>使用三目运算符</li>
+<li>设置一个变量并在属性中引用它</li>
+<li>将逻辑转化到函数中</li>
+<li>使用短路运算符</li>
+</ul>
+<p>4)、在JSX中使用…操作符<br>…操作符是ES6新特性，JSX 使用了她的特点，但并不是真正的ES6语法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var obj=&#123;&#125;;</span><br><span class="line">obj.foo = x;</span><br><span class="line">obj.bar = y;</span><br><span class="line">var component = &lt;Component &#123;...obj&#125; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var component = &lt;Component foo=&#123;obj.foo&#125; bar=&#123;obj.bar&#125; /&gt;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="五、JSX优点和特点"><a href="#五、JSX优点和特点" class="headerlink" title="五、JSX优点和特点"></a>五、JSX优点和特点</h2><ul>
+<li>更加熟悉， 语法跟HTML非常相似（90以上相似度）</li>
+<li>更加语义化，语序自定义标间及组件。</li>
+<li>更加直观，标签处理方式，更加可读</li>
+<li>抽象化， React的升级不需要改动任何JSX代码</li>
+<li>关键点分离，模块化， JSX以干净和简介的方式保证了组件中的标签与所有业务逻辑的互相分离。</li>
 </ul>
 
       
@@ -239,7 +253,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Archiecture)</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
         		</li>
       		
 		</ul>
@@ -295,7 +309,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/03/30/restful-architecture/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://up8.wang/2018/04/11/react-jsx/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -309,18 +323,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/04/02/restful-api-specification/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          RESTful API规范概要简述
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/29/js/js-location/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">location.hash 使用说明</div>
+    <a href="/2018/04/10/react-state-props/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">React 的两种数据模型state和props</div>
       <i class="icon-circle-right"></i>
     </a>
   

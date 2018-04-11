@@ -155,6 +155,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-react-jsx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/11/react-jsx/">React 之JSX语法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/11/react-jsx/" class="archive-article-date">
+  	<time datetime="2018-04-11T01:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。 </p>
+<p>JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。<strong>当遇到&lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析</strong>。</p>
+<p>实际上 HTML 也是 XML 协议，由浏览器解析，而 JSX 是由 JS 解析，当然也可以通过构建工具解析完成，如 grunt、webpack，可以避免 JS 在运行中解析 JSX 所消耗的时间。JSX 原本是使用官方自己提供的方法处理， 2015-7-12日官方<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="noopener">博客文章</a>声明其自身用于 JSX 语法解析的编译器 JSTransform 已经过期，不再维护，React JS 和 React Native 已经全部采用第三方 Babel 的 JSX 编译器实现<br>
+        
+          <a class="article-more-a" href="/2018/04/11/react-jsx/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/11/react-jsx/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-react-state-props" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -177,7 +255,7 @@
       
         <p>在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性</p>
 <h2 id="一、-state-属性"><a href="#一、-state-属性" class="headerlink" title="一、 state 属性"></a>一、 state 属性</h2><p>React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。</p>
-<p>也就是说 state 属性主要用来存储组件自身需要的数据，是组件自己私有的，我们一般通过修改 state 属性的值来更新数据，React 内部会监听 state 的变化，一旦发生变化就会主动触发组件的 render() 方法来更新 Dom 结构， 因此 <strong>state 数据是可变的</strong>。<br>
+<p>state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 state 属性的值来更新数据，React 内部会监听 state 的变化，一旦发生变化就会主动触发组件的 render() 方法来更新 Dom 结构， 因此 <strong>state 数据是可变的</strong>。<br>
         
           <a class="article-more-a" href="/2018/04/10/react-state-props/#more">more >></a>
         
@@ -859,85 +937,6 @@
 
 
   
-    <article id="post-commonjs-in-browser" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/21/commonjs-in-browser/">浏览器加载 CommonJS 模块的原理与实现</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/21/commonjs-in-browser/" class="archive-article-date">
-  	<time datetime="2018-03-21T08:58:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文摘自阮一峰老师的博文 <a href="http://www.ruanyifeng.com/blog/2015/05/commonjs-in-browser.html" target="_blank" rel="noopener">浏览器加载 CommonJS 模块的原理与实现</a></p>
-<p><img src="/images/commonjs-in-browser-01.png" width="500"></p>
-<p>npm 的模块都是 JavaScript 语言写的，但浏览器用不了，因为不支持 CommonJS 格式。要想让浏览器用上这些模块，必须转换格式。</p>
-<p>本文介绍浏览器加载 CommonJS 的原理，并且给出一种非常简单的<a href="https://github.com/ruanyf/tiny-browser-require/blob/master/require.js" target="_blank" rel="noopener">实现</a>。<br>
-        
-          <a class="article-more-a" href="/2018/03/21/commonjs-in-browser/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Nodejs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/21/commonjs-in-browser/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1064,7 +1063,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1080,15 +1079,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
