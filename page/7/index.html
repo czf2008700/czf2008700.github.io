@@ -155,6 +155,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jenkins-credentials-ssh" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/25/jenkins-credentials-ssh/">Jenkins凭证(credentials)和SSH认证(Secure Shell)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/25/jenkins-credentials-ssh/" class="archive-article-date">
+  	<time datetime="2017-10-25T07:26:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;想一想，Jenkins从git仓库(gitHub)中去pull代码，git仓库为什么允许Jenkins这么干呢？ 因此Jenkins和git仓库之间必须建立一种信任关系。本文讲的这种信任关系就是Jenkins凭证(credentials)和SSH认证(Secure Shell)。</p>
+<h5 id="SSH-认证"><a href="#SSH-认证" class="headerlink" title="SSH 认证"></a>SSH 认证</h5><p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/14/jenkins-github-push/">Jenkins自动化部署(Github之Push)</a> 这篇文章中 的 配置Github中Hooks &amp; services 部分提到这部分的内容， 登录到jenkins服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">ssh-keygen // 一路回车</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub //获取key</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;然后把公钥添加到gitHub <strong>某个repo的Display keys</strong>上，这时jenkins服务器就可以拿自己的私钥与github服务进行通信。</p>
+<h5 id="Jenkins凭证-Credentials-配置项"><a href="#Jenkins凭证-Credentials-配置项" class="headerlink" title="Jenkins凭证(Credentials)配置项"></a>Jenkins凭证(Credentials)配置项</h5><p>&emsp;&emsp;“凭证”是我对它的理解，Jenkins对于“Credentials”一直没有汉化，由此可见官方对此也是比较犹豫的，我想也可以理解为秘钥。</p>
+<p>在jenkins界面 Credentials -&gt; System -&gt; Add domain：<br>Domain Name: 一般我都填写你git服务器的地址，如 github.xxx.com<br>Description: 简单的描述，如 This is the Credential for github</p>
+<p><img src="./images/jenkins-credentials-ssh-1.png" alt=""></p>
+<p>点击 ok 后，再点击左侧的 “Add Credentials”</p>
+<p>进入页面后.<br>Kind: 可以选择 Username with password 或者 SSH Username with private key.(这里选择后者)<br>Scope: Global(Jenkins, nodes, items, all child items, etc)<br>Username: 随便起一个名字，以便在创建 Job 的时候使用该 Credential<br>Private Key：可以指定文件，也可以使用默认的 ~/.ssh，当然也可以直接将<strong>私钥</strong>复制粘贴到此处。<br>Passphrase: 如果你在创建 ssh key 的时候输入了 Passphrase那就填写相应的Passphrase，为空就不填写<br>ID: 空<br>Description： 空</p>
+<h5 id="github-SSH-amp-GPG-keys"><a href="#github-SSH-amp-GPG-keys" class="headerlink" title="github SSH &amp; GPG keys"></a>github SSH &amp; GPG keys</h5><p>&emsp;&emsp;我们之前把公钥配置到gitHub的<strong>某个repo的Display keys</strong>上，那么Jenkins服务器只能对该repo有相应的权限，那如果我想对gitHub账号下的所有repo都有权限呢？</p>
+<p><img src="./images/jenkins-credentials-ssh-2.png" alt=""> </p>
+<p>&emsp;&emsp;然后我同样把私钥配置到Jenkins的Credentials中。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/25/jenkins-credentials-ssh/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-docker-image-dockerfile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -999,71 +1073,6 @@
 
 
   
-    <article id="post-one-way-data-binding-and" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/11/one-way-data-binding-and/">One way data-binding in angular1.5.x --- Part 2</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/11/one-way-data-binding-and/" class="archive-article-date">
-  	<time datetime="2017-08-11T08:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本篇主要讲解单向数据绑定之And（&amp;）绑定，主要用于子与父的单向数据通信。上一篇主要讲父与子的单向数据通信（<a href="http://up8.wang/demo/one-way-data-binding-less-than">One way data-binding in angular1.5.x — Part 1</a>).</p>
-<p>先看下本篇的<a href="http://up8.wang/demo/one-way-data-binding-and">Demo</a></p>
-<p>To be continued …</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/11/one-way-data-binding-and/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -1198,11 +1207,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1214,19 +1223,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">授权</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">module</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">授权</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">令牌</a>
               </li>
              
               <li class="article-tag-list-item">
