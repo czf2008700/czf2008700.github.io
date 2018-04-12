@@ -155,6 +155,250 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-one-way-data-binding-less-than" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/11/one-way-data-binding-less-than/">One way data-binding in angular1.5.x --- Part 1</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/11/one-way-data-binding-less-than/" class="archive-article-date">
+  	<time datetime="2017-08-11T02:48:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  本篇主要讲解单向数据绑定之小于号（&lt;）绑定，主要用于父与子的单向数据通信。建议先阅读 <a href="http://up8.wang/2017/09/11/exploring-lifecycle-hooks/">探讨Angular1.5的Lifecycle Hooks</a></p>
+<p>  先看下我这里写的<a href="http://up8.wang/demo/one-way-data-binding-less-than">Demo</a>。</p>
+<p>  其实， 前面有一篇文章关于实现Timezone的Dropdown（<a href="http://up8.wang/demo/timezoneDropdownDemo">How to implement timezone dropdown with moment.js?</a>），也用到了这里的小于号绑定。</p>
+<p>  Vue, React, Angular是时下比较火的前端js Frameworks, 他们都有共同的特点：双向数据绑定，组件化开发。而在Angular1.5版本之前，是以directive作为组件化，而directive本事是一个指令，并非一个组件，所以它并不能很好的承担组件这一职责， 所以google在1.5 version中推出了component组件，是Angular应用中最重要的构建单元，用于承担应用中组件化开发的重担。Components are the most basic building block of an UI in an Angular application.</p>
+<p>  在component的重复和嵌套使用中，我们经常遇到component之间的通信问题。那么当父component中数据产生变化时，子component又如何收到数据呢？</p>
+<h5 id="创建入口模块app"><a href="#创建入口模块app" class="headerlink" title="创建入口模块app"></a>创建入口模块app</h5><p>HTML ./index.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span> <span class="attr">ng-app</span>=<span class="string">"app"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"page-header"</span>&gt;</span></span><br><span class="line">	  &lt;h1&gt;Ony way data-binding(&lt;)&lt;small&gt;parent to child&lt;/small&gt;&lt;/h1&gt;</span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">parent-component</span>&gt;</span><span class="tag">&lt;/<span class="name">parent-component</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Javascript: 创建app模块<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">angular.module(<span class="string">'app'</span>,[]);</span><br></pre></td></tr></table></figure></p>
+<h5 id="创建父component-parentComponent"><a href="#创建父component-parentComponent" class="headerlink" title="创建父component: parentComponent"></a>创建父component: parentComponent</h5><p>HTML ./tpl/parent2child-parent.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;well&quot;&gt;</span><br><span class="line">	&lt;form class=&quot;form-horizontal&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">			&lt;label for=&quot;input&quot; class=&quot;col-sm-4 control-label&quot;&gt;parent Component&lt;/label&gt;</span><br><span class="line">			&lt;div class=&quot;col-sm-8&quot;&gt;</span><br><span class="line">			  &lt;input class=&quot;form-control&quot; id=&quot;input&quot; ng-model=&quot;inputWording&quot; placeholder=&quot;please input your wording ...&quot;&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">		&lt;div class=&quot;form-group&quot;&gt;</span><br><span class="line">			&lt;label for=&quot;input&quot; class=&quot;col-sm-4 control-label&quot;&gt;child Component&lt;/label&gt;</span><br><span class="line">			&lt;div class=&quot;col-sm-8&quot;&gt;</span><br><span class="line">				&lt;child-component input=&quot;inputWording&quot;&gt;&lt;/child-component&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>对inputWording进行双向数据绑定，并作为child-component的属性值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">angular.module(&apos;app&apos;)</span><br><span class="line">.component(&apos;parentComponent&apos;, &#123;</span><br><span class="line">	templateUrl: &apos;./tpl/parent2child-parent.html&apos;,</span><br><span class="line">	controller: function($scope) &#123;</span><br><span class="line">		$scope.inputWording = &apos;&apos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<h5 id="创建子component-childComponent"><a href="#创建子component-childComponent" class="headerlink" title="创建子component: childComponent"></a>创建子component: childComponent</h5><p>HTML ./tpl/parent2child-child.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;select class=&quot;form-control&quot;</span><br><span class="line">	ng-model=&quot;selected&quot;</span><br><span class="line">	ng-options=&quot;item.label for item in options&quot;</span><br><span class="line">	&gt;</span><br><span class="line">	&lt;option value=&quot;&quot;&gt; Please select your option &lt;/option&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">.component(&apos;childComponent&apos;, &#123;</span><br><span class="line">		bindings: &#123; input: &apos;&lt;&apos; &#125;,</span><br><span class="line">		templateUrl: &apos;./tpl/parent2child-child.html&apos;,</span><br><span class="line">		controller: function($scope) &#123;</span><br><span class="line">			$scope.options_=[&#123;</span><br><span class="line">				label: &apos;hello-01&apos;,</span><br><span class="line">				value: &apos;hello-01&apos;,</span><br><span class="line">			&#125;, &#123;</span><br><span class="line">				label: &apos;bello-02&apos;,</span><br><span class="line">				value: &apos;bello-02&apos;,</span><br><span class="line">			&#125;, &#123;</span><br><span class="line">				label: &apos;cello-03&apos;,</span><br><span class="line">				value: &apos;cello-03&apos;,</span><br><span class="line">			&#125;];</span><br><span class="line">			$scope.options = $scope.options_;</span><br><span class="line"></span><br><span class="line">			this.$onChanges = function(changes) &#123;</span><br><span class="line">				console.log(changes);</span><br><span class="line">				var input = changes.input;</span><br><span class="line">				if (!input.currentValue) &#123;</span><br><span class="line">					$scope.selected = undefined;</span><br><span class="line">					return;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				var inputStr = input.currentValue;</span><br><span class="line">				var selected = _.filter($scope.options_, function(item) &#123;</span><br><span class="line">					return _.includes(item.label, inputStr);</span><br><span class="line">				&#125;);</span><br><span class="line">				$scope.selected = selected[0];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="Knowledge-points"><a href="#Knowledge-points" class="headerlink" title="Knowledge points"></a>Knowledge points</h5><ul>
+<li>在子component中，bindings: { input: ‘&lt;’ }, input属性将接收父component传递过来的数据, ‘&lt;’标识表示了单向数据流，单向数据流会使子component中的$onChanges钩子被调用。</li>
+<li>在父component或控制器中，加载子component: <child-option input="inputWording"></child-option>。</li>
+</ul>
+<p>To be continued …</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/11/one-way-data-binding-less-than/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-etlKettleBased" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/09/etlKettleBased/">ETL利器kettle基础</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/09/etlKettleBased/" class="archive-article-date">
+  	<time datetime="2017-08-09T09:13:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="ETL（Extract-Transform-Load"><a href="#ETL（Extract-Transform-Load" class="headerlink" title="ETL（Extract-Transform-Load)"></a>ETL（Extract-Transform-Load)</h5><ul>
+<li><p>ETL，是英文 Extract-Transform-Load 的缩写，用来描述将数据从来源端经过抽取（extract）、转换（transform）、加载（load）至目的端的过程。ETL一词较常用在数据仓库，但其对象并不限于数据仓库。</p>
+</li>
+<li><p>ETL是构建数据仓库的重要一环，用户从数据源抽取出所需的数据，经过数据清洗,最终按照预先定义好的数据仓库模型，将数据加载到数据仓库中去。</p>
+</li>
+</ul>
+<h5 id="Kettle概念"><a href="#Kettle概念" class="headerlink" title="Kettle概念"></a>Kettle概念</h5><ul>
+<li><p>Kettle是一款国外开源的ETL工具，纯java编写，可以在Window、Linux、Unix上运行，绿色无需安装，数据抽取高效稳定。</p>
+</li>
+<li><p>Kettle 中文名称叫水壶，该项目的主程序员MATT希望把各种数据放到一个壶里，然后以一种指定的格式流出。</p>
+</li>
+<li><p>Kettle这个ETL工具集，它允许你管理来自不同数据库的数据，通过提供一个图形化的用户环境来描述你想做什么，而不是你想怎么做。</p>
+</li>
+<li><p>Kettle中有两种脚本文件，transformation和job，transformation完成针对数据的基础转换，job则完成整个工作流的控制。</p>
+</li>
+<li><p>Kettle组件：</p>
+<ul>
+<li>Spoon.sh: 图形界面方式启动左右和转换设计器</li>
+<li>Pan.sh 命令行方式执行转换 </li>
+<li>Kitchen.sh 命令行方式执行作业</li>
+<li>Carte.sh 启动web服务， 用于Kettle的远程运行和集群运行。</li>
+</ul>
+</li>
+</ul>
+<h5 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h5><ul>
+<li><p>下载： <a href="http://community.pentaho.com/projects/data-integration/" target="_blank" rel="noopener">http://community.pentaho.com/projects/data-integration/</a></p>
+</li>
+<li><p>安装：因kettle为绿色软件，解压缩到任意本地路径即可， 到该路径下执行相应的脚本， 如 ./spoon.sh</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/09/etlKettleBased/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-gmt-utc-dst-timezone" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/08/gmt-utc-dst-timezone/">GMT UTC DST and time zone</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/08/gmt-utc-dst-timezone/" class="archive-article-date">
+  	<time datetime="2017-08-08T03:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="GMT-–-Greenwich-Mean-Time"><a href="#GMT-–-Greenwich-Mean-Time" class="headerlink" title="GMT – Greenwich Mean Time"></a>GMT – Greenwich Mean Time</h5><ul>
+<li><p>Greenwich Mean Time or GMT is the clock time at the Royal Observatory in Greenwich, London. It is the same all year round and is not affected by Summer Time or Daylight Saving Time.</p>
+</li>
+<li><p>GMT is still widely used as the standard time against which all the other time zones in the world are referenced.</p>
+</li>
+</ul>
+<h5 id="Time-Zone"><a href="#Time-Zone" class="headerlink" title="Time Zone"></a>Time Zone</h5><p>There are 25 integer World Time Zones from -12 through 0 (GMT) to +12. Each one is 15° of Longitude as measured East and West from the Prime Meridian of the World at Greenwich, England. Some countries have adopted non-standard time zones, usually 30 minutes offset which have a * designation.</p>
+<p><img src="https://ojlty2hua.qnssl.com/image-1502162724224-MS5naWY=.gif?imageMogr2/auto-orient/blur/1x0/quality/75|watermark/2/text/RmVsaXggQ2Fv/font/5a6L5L2T/fontsize/480/fill/IzAwMDAwMA==/dissolve/50/gravity/SouthEast/dx/10/dy/10|imageslim" alt="Time Zone"></p>
+<h5 id="UTC-–-Coordinated-Universal-Time-Standard-Time"><a href="#UTC-–-Coordinated-Universal-Time-Standard-Time" class="headerlink" title="UTC – Coordinated Universal Time (Standard Time)"></a>UTC – Coordinated Universal Time (Standard Time)</h5><ul>
+<li>is the primary time standard by which the world regulates clocks and time. It is within about 1 second of mean solar time at 0° longitude;[1] it does not observe daylight saving time. For most purposes, UTC is considered interchangeable with Greenwich Mean Time (GMT), but GMT is no longer precisely defined by the scientific community.</li>
+</ul>
+<h5 id="DST-–-Daylight-saving-time-Summer-time"><a href="#DST-–-Daylight-saving-time-Summer-time" class="headerlink" title="DST – Daylight saving time/Summer time"></a>DST – Daylight saving time/Summer time</h5><p>Daylight Saving Time (DST) is the practice of setting the clocks forward 1 hour from standard time during the summer months, and back again in the fall, in order to make better use of natural daylight.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/08/gmt-utc-dst-timezone/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-timezoneDropdown" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -890,6 +1134,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
@@ -914,19 +1162,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

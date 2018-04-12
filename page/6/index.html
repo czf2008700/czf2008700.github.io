@@ -155,6 +155,246 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-variable-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/19/js/js-variable-object/">JavaScript变量对象(Variable Object简称VO)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/19/js/js-variable-object/" class="archive-article-date">
+  	<time datetime="2017-12-19T11:02:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在上篇 <a href="">JavaScript执行上下文栈(Execution Context Stack简称ECS)</a> 中，浏览器引擎执行一段JavaScript可执行代码(Executable code)时，会创建对应的执行上下文，执行上下文在创建阶段会创建变量对象，建立作用域，以及确定this的指向。 也就是说对于每一个执行上下文，都有三个重要属性：</p>
+<ul>
+<li>变量对象（Variable Object）</li>
+<li>作用域链（Scope chain）</li>
+<li>this指向</li>
+</ul>
+<p>本篇主要聊一聊变量对象。</p>
+<p>&emsp;&emsp;变量对象是与执行上下文相关的<strong>数据作用域</strong>，存储了在上下文中定义的<strong>变量和函数声明</strong>。不同的执行上下文下的变量对象稍有不同，所以我们来聊聊全局上下文下的变量对象和函数上下文下的变量对象。<br>
+        
+          <a class="article-more-a" href="/2017/12/19/js/js-variable-object/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/19/js/js-variable-object/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js/js-execution-context-stack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/18/js/js-execution-context-stack/">JavaScript执行上下文栈(Execution Context Stack简称ECS)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/18/js/js-execution-context-stack/" class="archive-article-date">
+  	<time datetime="2017-12-18T14:01:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  本文重点讲解JavaScript的执行上下文栈，顺带稍稍提了下执行上下文。</p>
+<ul>
+<li>执行上下文栈来管理执行上下文的顺序。</li>
+<li>JavaScript代码执行一段可执行代码(executable code)时，会创建对应的执行上下文(Execution Context简称EC)。</li>
+</ul>
+<h5 id="JavaScript代码是如何执行的"><a href="#JavaScript代码是如何执行的" class="headerlink" title="JavaScript代码是如何执行的"></a>JavaScript代码是如何执行的</h5><p>  JavaScript语言执行时是自上而下的，JavaScript执行程序的时候，会首先创建一个全局的执行上下文，将其放入栈中，成为栈底。而后每次执行一个函数的时候，都会去创建一个当前函数的执行上下文，然后将其压入栈中，当函数结束或者返回的时候，再从栈中弹出当前函数的执行上下文。</p>
+<h5 id="执行上下文的生命周期"><a href="#执行上下文的生命周期" class="headerlink" title="执行上下文的生命周期"></a>执行上下文的生命周期</h5><p>&emsp;&emsp;仔细琢磨<strong>JavaScript代码是如何执行的</strong>的描述，相信我们大家都可以看出一个执行上下文的生命周期通常包含三个发展阶段：创建阶段、代码执行阶段、执行完毕阶段。</p>
+<ul>
+<li>创建阶段：在这个阶段中，执行上下文会分别创建变量对象，建立作用域链，以及确定this的指向.</li>
+<li>代码执行阶段：创建完成之后，就会开始执行代码，这个时候，会完成变量赋值，函数引用，以及执行其他代码。</li>
+<li>执行完毕阶段：执行完毕之后，就会开始将执行上下文出栈，随后释放掉所占用的内存</li>
+</ul>
+<h5 id="执行上下文栈-Execution-Context-Stack简称ECS"><a href="#执行上下文栈-Execution-Context-Stack简称ECS" class="headerlink" title="执行上下文栈(Execution Context Stack简称ECS)"></a>执行上下文栈(Execution Context Stack简称ECS)</h5><p>&emsp;&emsp;JavaScript引擎创建了执行上下文栈来管理执行上下文的顺序</p>
+<blockquote>
+<p>栈stack是数据结构上的概念，用来处理数据的存放方式，特点为LIFO，即后进先出（Last in, first out）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var a = 10;</span><br><span class="line"></span><br><span class="line">function functionA() &#123;</span><br><span class="line"></span><br><span class="line">	console.log(&quot;Start function A&quot;);</span><br><span class="line"></span><br><span class="line">	function functionB()&#123;</span><br><span class="line">		console.log(&quot;In function B&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	functionB();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">functionA();</span><br><span class="line"></span><br><span class="line">console.log(&quot;GlobalContext&quot;);</span><br></pre></td></tr></table></figure>
+<p>  在浏览器中，javascript引擎的工作方式是单线程的。也就是说，某一时刻只有唯一的一个事件是被激活处理的，其它的事件被放入队列中，等待被处理。下面的示例图描述了这样的一个堆栈：</p>
+<p><img src="/images/js-execution-context.gif" width="800"></p>
+<ul>
+<li>  当javascript代码文件被浏览器载入后，首先进入全局环境，创建一个全局执行上下文，全局变量对象window，全局作用域Global，确定this指向，this==window。当在全局上下文中调用执行一个函数时，程序流就进入该被调用函数内，此时引擎就会为该函数创建一个新的执行上下文，并且将其压入到执行上下文堆栈的顶部。浏览器总是执行当前在堆栈顶部的上下文，一旦执行完毕，该上下文就会从堆栈顶部被弹出，然后，进入其下的上下文执行代码。这样，堆栈中的上下文就会被依次执行并且弹出堆栈，直到回到全局的上下文。</li>
+</ul>
+<h5 id="Reference-Doc"><a href="#Reference-Doc" class="headerlink" title="Reference Doc"></a>Reference Doc</h5><p><a href="https://hackernoon.com/execution-context-in-javascript-319dd72e8e2c" target="_blank" rel="noopener">Execution context, Scope chain and JavaScript internals</a><br><a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/" target="_blank" rel="noopener">ECMA-262-3 in detail. Chapter 1. Execution Contexts.</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/18/js/js-execution-context-stack/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-js/js-lexical-scope" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/07/js/js-lexical-scope/">JavaScript是词法作用域(Lexical Scope)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/07/js/js-lexical-scope/" class="archive-article-date">
+  	<time datetime="2017-12-07T02:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="思考一下这两段代码的输出结果"><a href="#思考一下这两段代码的输出结果" class="headerlink" title="思考一下这两段代码的输出结果"></a>思考一下这两段代码的输出结果</h5><p>Case 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">  console.log(up);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar() &#123;</span><br><span class="line">  var up = 88;</span><br><span class="line">  foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar();</span><br></pre></td></tr></table></figure>
+<p>输出8还是88呢？</p>
+<p>Case 2:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var up = 8;</span><br><span class="line"></span><br><span class="line">function foo() &#123;</span><br><span class="line">	up = 88</span><br><span class="line">	function bar() &#123;</span><br><span class="line">		up = 888</span><br><span class="line">		console.log(up);</span><br><span class="line">	&#125;</span><br><span class="line">	bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p>输出8, 88 还是888呢？</p>
+<h5 id="JavaScript是词法作用域"><a href="#JavaScript是词法作用域" class="headerlink" title="JavaScript是词法作用域"></a>JavaScript是词法作用域</h5><p>作用域: Scope</p>
+<blockquote>
+<p>域表示的就是范围，即作业范围，具有访问权限的代码空间，作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。简单的讲就是在什么地方能使用，在什么不能使用。</p>
+</blockquote>
+<p>词法作用域： Lexical Scope (Sometimes known as static scope)</p>
+<blockquote>
+<p>词法作用域（通常也被叫做静态作用域）是代码在编写过程中就静态体现出来了作用范围，代码一旦写好，不用执行，他的作用范围就已经确定好了，这个就是所谓的词法作用域。</p>
+</blockquote>
+<p>动态作用域： Dynamic Scope, 与词法作用域相反。</p>
+<blockquote>
+<p>动态作用域并不关心函数和作用域是如何生命以及在何处声明的，之关心它们从何处调用。</p>
+</blockquote>
+<h5 id="回头分析下上面的两段代码"><a href="#回头分析下上面的两段代码" class="headerlink" title="回头分析下上面的两段代码"></a>回头分析下上面的两段代码</h5><p>在Case1中，函数foo执行时，内部查找是否有变量up, 如果没有向上, 就根据书写的位置，查找上面一层的代码（也叫父变量对象，当然是词法结构上的），查找up = 8, 因此输出为8</p>
+<p>在Case2中，函数bar执行，内部查找变量up, 就近原则，所以输出为888</p>
+<h5 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h5><p>JS的词法作用域有两种，一种是全局作用域，另外一种是函数作用域， <strong>在函数作用域内会屏蔽在全局作用域上的相同名称的变量。</strong></p>
+<h5 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h5><p><a href="https://medium.com/@nickbalestra/javascripts-lexical-scope-hoisting-and-closures-without-mystery-c2324681d4be" target="_blank" rel="noopener">Javascript’s lexical scope, hoisting and closures without mystery.</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/07/js/js-lexical-scope/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-variable-primitive-value" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -670,256 +910,6 @@
 
 
   
-    <article id="post-docker-image-dockerfile" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/24/docker-image-dockerfile/">Docker镜像创建之Dockerfile的创建</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/24/docker-image-dockerfile/" class="archive-article-date">
-  	<time datetime="2017-10-24T05:42:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;之前有几篇关于Docker入门基础的文章，本文的重点是Dockerfile。</p>
-<p><a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a><br><a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a><br><a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a></p>
-<p>&emsp;&emsp;在 <a href="http://up8.wang/2017/10/03/nginx-base-on-docker/">基于Docker搭建Nginx服务器</a> <a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a> 这两篇文章中是利用docker pull 从<a href="https://hub.docker.com/" target="_blank" rel="noopener">官方</a>拉取一个镜像，然后基于这个镜像利用命令docker run 创建一个容器。但是面对复杂的应用，最佳的方案就是使用Dockerfile, Dockerfile是为快速构建docker image而设计的, 就像jenkins有jenkinsfile一样。</p>
-<p>&emsp;&emsp;Dockfile是一种被Docker程序解释的脚本，Dockerfile由一条一条的指令组成，每条指令对应Linux下面的一条命令。Docker程序将这些Dockerfile指令翻译真正的Linux命令。Dockerfile有自己书写格式和支持的命令，Docker程序解决这些命令间的依赖关系，类似于Makefile。Docker程序将读取Dockerfile，根据指令生成定制的image。相比image这种黑盒子，Dockerfile这种显而易见的脚本更容易被使用者接受，它明确的表明image是怎么产生的。有了Dockerfile，当我们需要定制自己额外的需求时，只需在Dockerfile上添加或者修改指令，重新生成image即可，省去了敲命令的麻烦。</p>
-<h5 id="Dockerfile文件结构（四个部分）"><a href="#Dockerfile文件结构（四个部分）" class="headerlink" title="Dockerfile文件结构（四个部分）"></a>Dockerfile文件结构（四个部分）</h5><ol>
-<li>基础镜像：以哪个镜像作为基础进行制作，用法是FROM 基础镜像名称</li>
-<li>维护者信息：需要写下该Dockerfile编写人的姓名或邮箱，用法是MANITAINER 名字/邮箱</li>
-<li>镜像操作命令：对基础镜像要进行的改造命令，比如安装新的软件，进行哪些特殊配置等，常见的是RUN 命令</li>
-<li>容器启动命令：当基于该镜像的容器启动时需要执行哪些命令，常见的是CMD 命令或ENTRYPOINT</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Version 0.1</span><br><span class="line">FROM centos:7.2.1511</span><br><span class="line"></span><br><span class="line">MAINTAINER zoncao@cisco.com</span><br><span class="line">RUN yum install git -y</span><br><span class="line">RUN yum install wget -y</span><br><span class="line">RUN wget https://dl.yarnpkg.com/rpm/yarn.repo -O /etc/yum.repos.d/yarn.repo</span><br><span class="line">RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -</span><br><span class="line">RUN yum install yarn -y</span><br></pre></td></tr></table></figure>
-<p>#####<br>docker build -t atlas-build .</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/24/docker-image-dockerfile/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-centos-self-reboot" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/15/centos-self-reboot/">Centos开机启动自己的脚本</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/15/centos-self-reboot/" class="archive-article-date">
-  	<time datetime="2017-10-15T03:08:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="Create-一个脚本myService-sh"><a href="#Create-一个脚本myService-sh" class="headerlink" title="Create 一个脚本myService.sh"></a>Create 一个脚本myService.sh</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">touch myService.sh</span><br></pre></td></tr></table></figure>
-<h5 id="在脚本中输入启动服务的命令"><a href="#在脚本中输入启动服务的命令" class="headerlink" title="在脚本中输入启动服务的命令"></a>在脚本中输入启动服务的命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">systemctl start docker</span><br><span class="line">systemctl start jenkins</span><br></pre></td></tr></table></figure>
-<h5 id="添加可执行权限"><a href="#添加可执行权限" class="headerlink" title="添加可执行权限"></a>添加可执行权限</h5><p>chmod +x ./myService.sh</p>
-<h5 id="两种方法自启动"><a href="#两种方法自启动" class="headerlink" title="两种方法自启动"></a>两种方法自启动</h5><ul>
-<li>/etc/rc.d/rc.local里</li>
-</ul>
-<p>1). 打开/etc/rc.d/rc.local文件，在末尾增加如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/myService.sh</span><br></pre></td></tr></table></figure>
-<p>2). 在centos7中，/etc/rc.d/rc.local的权限被降低了，所以需要执行如下命令赋予其可执行权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/rc.d/rc.local</span><br></pre></td></tr></table></figure>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/15/centos-self-reboot/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jenkins-github-push" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/14/jenkins-github-push/">Jenkins自动化部署(Github之Push)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/14/jenkins-github-push/" class="archive-article-date">
-  	<time datetime="2017-10-14T01:19:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;前面我们已经讲过Jenkins的安装，<a href="http://up8.wang/2017/10/12/centos-jenkins/">在Centos下搭建Jenkins环境</a> 和 <a href="http://up8.wang/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>, 建议先在Centos下搭建Jenkins环境。本篇主要讲解一下如何利用Jenkins进行简单的自动化部署。</p>
-<p>我要实现的目标是这样的：</p>
-<blockquote>
-<p>在Team内部我们使用Github这个平台管理Code, 团队里的每个人都要push自己的Code(具体的流程，抽时间来讲讲)，我希望每次push Code时，能自动部署到我的测试环境中以便实时测试新feature.</p>
-</blockquote>
-<p>在进行下面的步骤之前请安装好git。最好使用Safari浏览器(我在Chrome下出现错误直接至卡死)</p>
-<ul>
-<li><p>安装Github Integration Plugin<br><img src="/images/jenkins-github-push-0.gif" width="700"> </p>
-</li>
-<li><p>配置Github中Hooks &amp; services</p>
-</li>
-</ul>
-<p>Jenkins hook url 格式为 ： /github-webhook/</p>
-<p><img src="/images/jenkins-github-push-0-1.gif" width="700"></p>
-<ul>
-<li>配置Github中的Display keys</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">ssh-keygen // 一路回车</span><br><span class="line">cat /var/lib/jenkins/.ssh/id_rsa.pub //获取key</span><br></pre></td></tr></table></figure>
-<p>打开自己在Github中的仓库，点击右上角的setting –&gt; Display keys, 输入刚才获取到的key.</p>
-<ul>
-<li>检测Jenkins是否可以访问Github</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo su -s /bin/bash jenkins // 务必以用户jenkins身份登录到centos中</span><br><span class="line">cd /var/lib/jenkins/.ssh</span><br><span class="line">ssh git@github.com //</span><br></pre></td></tr></table></figure>
-<p>如果jenkins成功访问Github,则提示如下信息</p>
-<blockquote>
-<p>Warning: Permanently added the RSA host key for IP address ‘{YOUR_SERVER_IP}’ to the list of known hosts.<br>PTY allocation request failed on channel 0<br>Hi marcbest/medium-jenkins-git-tut! You’ve successfully authenticated, but GitHub does not provide shell access.<br>Connection to github.com closed.</p>
-</blockquote>
-<ul>
-<li>进入Jenkins, 创建item</li>
-</ul>
-<p><img src="/images/jenkins-github-push-1.gif" width="700"></p>
-<ul>
-<li>Job配置</li>
-</ul>
-<p><img src="/images/jenkins-github-push-2.gif" width="700"></p>
-<p>总结：</p>
-<p>1）. Jenkins安装后，会在Centos中自动创建一个用户jenkins, 可以通过命令cat /etc/passwd | grep jenkins查看</p>
-<blockquote>
-<p>jenkins:x:497:188:Jenkins Automation Server:/var/lib/jenkins:/bin/false</p>
-</blockquote>
-<p>2）. 执行命令ssh-keygen 和 ssh git@github.com 务必以jenkins身份登录到centos中<br>3）. 对于Github Enterprise级的用户， 有可能会自定义域名point at Github, 因此执行ssh git@github.com， 要换成自己的domain.</p>
-<p>好了，可以去试试push到自己的repository去看看了。</p>
-<p>Jenkins的功能非常强大，对于持续集成（Continuous Integration, 简称CI）持续部署(Continuous Deploy, 简称CD)的配置也是相当的复杂，由于精力和知识有限，本文仅仅起到抛砖引玉之作用。后面将抽时间整理一下jenkins的pipeline以及如何用jenkins自动化部署前端代码。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/14/jenkins-github-push/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1026,6 +1016,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
@@ -1050,19 +1044,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
