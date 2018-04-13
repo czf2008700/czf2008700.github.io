@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://up8.wang/2018/04/10/react-state-props/index.html">
 <meta property="og:site_name" content="专注高性能的WEB研发。">
 <meta property="og:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 sta">
-<meta property="og:updated_time" content="2018-04-11T01:17:52.000Z">
+<meta property="og:updated_time" content="2018-04-12T12:48:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React 的两种数据模型state和props">
 <meta name="twitter:description" content="在 React 里有两种数据来控制一个组件：state (状态)和 props (properties), 是 React 用来更新数据的核心特性 一、 state 属性React 是基于状态实现对DOM控制和渲染，React 把用户界面当作状态机，根据状态变化渲染用户界面，可以让用户界面和数据保持一致。 state 属性是组件自己私有的， 主要用来存储组件自身需要的数据，我们一般通过修改 sta">
@@ -192,6 +192,7 @@
 <h2 id="二、单向数据流"><a href="#二、单向数据流" class="headerlink" title="二、单向数据流"></a>二、单向数据流</h2><p>父组件和子组件之间不能通过 state 来交互，父组件只能将自己的 state 值传给子组件的 props。这种数据传递的方式通常被称为 “自顶向下（top-down）”或者“单向（unidirectional）”数据流。</p>
 <p>任何 state 都是由一个特定的组件所拥有的，任何由 state 驱动的数据或者 UI 只会影响到该组件的子组件。</p>
 <p>如果你将组件树想象成一个 props 瀑布，那么每个组件的状态就像是那个组件水源上的附属品，但是也是向下流动的。</p>
+<p><strong>props 对象的属性与组件的属性一一对应，但是有一个例外，就是 this.props.children 属性。它表示组件的所有子节点</strong></p>
 
       
 
@@ -482,15 +483,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,15 +511,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">module</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">SASS</a>
               </li>
              
               <li class="article-tag-list-item">
