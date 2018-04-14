@@ -162,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/12/js/js-event-capture-target-bubbling/">JavaScript 事件的三个阶段</a>
+      <a class="article-title" href="/2018/04/12/js/js-event-capture-target-bubbling/">JavaScript 事件流</a>
     </h1>
   
 
@@ -175,7 +175,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、图述事件的三个阶段"><a href="#一、图述事件的三个阶段" class="headerlink" title="一、图述事件的三个阶段"></a>一、图述事件的三个阶段</h2><p><img src="/images/js-event-capture-target-bubbling-01.jpg" width="600"><br>
+        <p>事件流所描述的就是从页面中接受事件的顺序，分为事件捕获和事件冒泡两种形式。</p>
+<h2 id="一、事件之事件冒泡和事件捕获"><a href="#一、事件之事件冒泡和事件捕获" class="headerlink" title="一、事件之事件冒泡和事件捕获"></a>一、事件之事件冒泡和事件捕获</h2><p>事件流最早要从IE和网景公司的浏览器大战说起，IE提出的是冒泡流，而网景提出的是捕获流，后来在W3C组织的统一之下，JS支持了冒泡流和捕获流，但是目前低版本的IE浏览器还是只能支持冒泡流(IE6,IE7,IE8均只支持冒泡流)，所以为了能够兼容更多的浏览器，<strong>现行的主流是事件冒泡</strong>。</p>
         
           <a class="article-more-a" href="/2018/04/12/js/js-event-capture-target-bubbling/#more">more >></a>
         
@@ -1059,10 +1060,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
@@ -1072,6 +1069,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
               </li>
              
               <li class="article-tag-list-item">
