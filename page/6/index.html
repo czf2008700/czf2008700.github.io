@@ -155,6 +155,72 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-prototype-proto" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/29/js/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/29/js/js-prototype-proto/" class="archive-article-date">
+  	<time datetime="2017-12-29T01:26:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="一、new操作符的缺点"><a href="#一、new操作符的缺点" class="headerlink" title="一、new操作符的缺点"></a>一、new操作符的缺点</h5><p>&emsp;&emsp;上一节我们聊了 <a href="/2017/12/26/js-constructor-function/">JavaScript构造函数(constructor)</a>，<strong>但是构造函数内部的属性和方法无法被共享</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function Person(name)&#123;</span><br><span class="line">  this.name = name;</span><br><span class="line">  this.group = &apos;China&apos;; // 我要将group作为实例对象的共有属性</span><br><span class="line">  this.getGroup = function() &#123;</span><br><span class="line">    console.log(&apos;method: &apos;, this.group);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 生成两个实例对象</span><br><span class="line">var p1 = new Person(&apos;p1&apos;);</span><br><span class="line">var p2 = new Person(&apos;p2&apos;);</span><br><span class="line"></span><br><span class="line">// 两个实例对象的group属性都是独立的，修改其中一个不会影响另外一个</span><br><span class="line">p1.group = &apos;US&apos;;</span><br><span class="line">p1.getGroup = function() &#123;</span><br><span class="line">  console.log(&apos;change the method in p1: &apos;, &apos;not US, not China&apos;);</span><br><span class="line">&#125;</span><br><span class="line">console.log(&apos;change the property in p1: &apos;, p1.group);</span><br><span class="line">console.log(p1.getGroup());</span><br><span class="line">console.log(&apos;property:&apos;, p2.group);</span><br><span class="line">console.log(p2.getGroup());</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;在上面的代码中，p1和p2对象的group属性和getGroup方法都是独立的，修改其中一个不会影响另外一个，因此<strong>每一个实例对象都会拥有其构造函数内部的属性和方法的副本</strong>。这无法做到数据共享，也是占用内存极大的浪费资源。<br>
+        
+          <a class="article-more-a" href="/2017/12/29/js/js-prototype-proto/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/29/js/js-prototype-proto/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-constructor-function" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -882,69 +948,6 @@
 
 
   
-    <article id="post-jenkins-slave-node" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/03/jenkins-slave-node/">Jenkins之Slave节点集群配置</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/03/jenkins-slave-node/" class="archive-article-date">
-  	<time datetime="2017-11-03T02:49:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h5><p>To be continued<br>先占位，抽时间来整理吧。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/03/jenkins-slave-node/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1043,15 +1046,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES5</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Object</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1083,14 +1086,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
@@ -1099,15 +1094,23 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
