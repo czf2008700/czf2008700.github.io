@@ -155,6 +155,126 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-docker-brief-introduction-and-install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/30/docker-brief-introduction-and-install/" class="archive-article-date">
+  	<time datetime="2017-09-30T02:09:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker是一个开源的引擎，可以轻松的为任何应用创建一个轻量级的、可移植的、自给自足的容器。<br>Docker是一个新的容器化的技术，它轻巧，且易移植，号称“build once, configure once and run anywhere”  <a href="https://www.docker.com/" target="_blank" rel="noopener">官网</a> <a href="https://hub.docker.com" target="_blank" rel="noopener">Docker镜像</a></p>
+<h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><ul>
+<li>先确定Linux的版本（我需要 centos7.2）.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/redhat-release</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一步安装。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install docker</span><br></pre></td></tr></table></figure>
+<p>   安装过程中你的服务器环境也许可能缺少yum源， 可以参考阅读： <a href="http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html" target="_blank" rel="noopener">http://www.cnblogs.com/mchina/archive/2013/01/04/2842275.html</a></p>
+<ul>
+<li>启动Docker。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start docker</span><br></pre></td></tr></table></figure>
+<p>systemctl status docker<br>systemctl enable docker</p>
+<ul>
+<li>查看Docker 版本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker -v</span><br><span class="line">docker --version</span><br></pre></td></tr></table></figure>
+<h5 id="八个Docker的真实应用场景"><a href="#八个Docker的真实应用场景" class="headerlink" title="八个Docker的真实应用场景"></a>八个Docker的真实应用场景</h5><p>这段摘自：<a href="http://dockone.io/article/126" target="_blank" rel="noopener">http://dockone.io/article/126</a></p>
+<ul>
+<li>简化配置</li>
+</ul>
+<p>这是Docker公司宣传的Docker的主要使用场景。虚拟机的最大好处是能在你的硬件设施上运行各种配置不一样的平台（软件、系统），Docker在降低额外开销的情况下提供了同样的功能。它能让你将运行环境和配置放在代码中然后部署，同一个Docker的配置可以在不同的环境中使用，这样就降低了硬件要求和应用环境之间耦合度。</p>
+<ul>
+<li>代码流水线（Code Pipeline）管理</li>
+</ul>
+<p>前一个场景对于管理代码的流水线起到了很大的帮助。代码从开发者的机器到最终在生产环境上的部署，需要经过很多的中间环境。而每一个中间环境都有自己微小的差别，Docker给应用提供了一个从开发到上线均一致的环境，让代码的流水线变得简单不少。</p>
+<ul>
+<li>提高开发效率</li>
+</ul>
+<p>这就带来了一些额外的好处：Docker能提升开发者的开发效率。如果你想看一个详细一点的例子，可以参考Aater在DevOpsDays Austin 2014 大会或者是DockerCon上的演讲。</p>
+<p>不同的开发环境中，我们都想把两件事做好。一是我们想让开发环境尽量贴近生产环境，二是我们想快速搭建开发环境。</p>
+<p>理想状态中，要达到第一个目标，我们需要将每一个服务都跑在独立的虚拟机中以便监控生产环境中服务的运行状态。然而，我们却不想每次都需要网络连接，每次重新编译的时候远程连接上去特别麻烦。这就是Docker做的特别好的地方，开发环境的机器通常内存比较小，之前使用虚拟的时候，我们经常需要为开发环境的机器加内存，而现在Docker可以轻易的让几十个服务在Docker中跑起来。</p>
+<ul>
+<li>隔离应用</li>
+</ul>
+<p>有很多种原因会让你选择在一个机器上运行不同的应用，比如之前提到的提高开发效率的场景等。</p>
+<p>我们经常需要考虑两点，一是因为要降低成本而进行服务器整合，二是将一个整体式的应用拆分成松耦合的单个服务（译者注：微服务架构）。如果你想了解为什么松耦合的应用这么重要，请参考Steve Yege的这篇论文，文中将Google和亚马逊做了比较。</p>
+<ul>
+<li>整合服务器</li>
+</ul>
+<p>正如通过虚拟机来整合多个应用，Docker隔离应用的能力使得Docker可以整合多个服务器以降低成本。由于没有多个操作系统的内存占用，以及能在多个实例之间共享没有使用的内存，Docker可以比虚拟机提供更好的服务器整合解决方案。</p>
+<ul>
+<li>调试能力</li>
+</ul>
+<p>Docker提供了很多的工具，这些工具不一定只是针对容器，但是却适用于容器。它们提供了很多的功能，包括可以为容器设置检查点、设置版本和查看两个容器之间的差别，这些特性可以帮助调试Bug。你可以在《Docker拯救世界》的文章中找到这一点的例证。</p>
+<ul>
+<li>多租户环境</li>
+</ul>
+<p>另外一个Docker有意思的使用场景是在多租户的应用中，它可以避免关键应用的重写。我们一个特别的关于这个场景的例子是为IoT（译者注：物联网）的应用开发一个快速、易用的多租户环境。这种多租户的基本代码非常复杂，很难处理，重新规划这样一个应用不但消耗时间，也浪费金钱。</p>
+<p>使用Docker，可以为每一个租户的应用层的多个实例创建隔离的环境，这不仅简单而且成本低廉，当然这一切得益于Docker环境的启动速度和其高效的diff命令。</p>
+<p>你可以在这里了解关于此场景的更多信息。</p>
+<ul>
+<li>快速部署</li>
+</ul>
+<p>在虚拟机之前，引入新的硬件资源需要消耗几天的时间。虚拟化技术（Virtualization）将这个时间缩短到了分钟级别。而Docker通过为进程仅仅创建一个容器而无需启动一个操作系统，再次将这个过程缩短到了秒级。这正是Google和Facebook都看重的特性。</p>
+<p>你可以在数据中心创建销毁资源而无需担心重新启动带来的开销。通常数据中心的资源利用率只有30%，通过使用Docker并进行有效的资源分配可以提高资源的利用率。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/30/docker-brief-introduction-and-install/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-exploring-lifecycle-hooks" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1188,87 +1308,9 @@
 
 
   
-    <article id="post-hexo-deploy-github-pages" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/07/hexo-deploy-github-pages/">How to use Hexo and deploy to GitHub Pages</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/07/hexo-deploy-github-pages/" class="archive-article-date">
-  	<time datetime="2017-07-07T09:41:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="1-Install-Hexo"><a href="#1-Install-Hexo" class="headerlink" title="1. Install Hexo"></a>1. Install Hexo</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo-cli</span><br><span class="line"></span><br><span class="line">$ hexo -v</span><br><span class="line">hexo-cli: 0.1.9</span><br><span class="line">os: Darwin 14.3.0 darwin x64</span><br><span class="line">http_parser: 2.3</span><br><span class="line">node: 0.12.7</span><br><span class="line">v8: 3.28.71.19</span><br><span class="line">uv: 1.6.1</span><br><span class="line">zlib: 1.2.8</span><br><span class="line">modules: 14</span><br><span class="line">openssl: 1.0.1p</span><br></pre></td></tr></table></figure>
-<h5 id="2-Create-a-project-for-your-GitHub-Pages"><a href="#2-Create-a-project-for-your-GitHub-Pages" class="headerlink" title="2. Create a project for your GitHub Pages"></a>2. Create a project for your GitHub Pages</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br><span class="line">INFO  Copying data to ~/***/blog</span><br><span class="line">INFO  You are almost done! Don&apos;t forget to run &apos;npm install&apos; before you start blogging with Hexo!</span><br><span class="line"></span><br><span class="line">$ cd blog</span><br><span class="line"></span><br><span class="line">$ yarn install</span><br></pre></td></tr></table></figure>
-<h5 id="3-Run-a-test-server-for-your-page-on-Mac"><a href="#3-Run-a-test-server-for-your-page-on-Mac" class="headerlink" title="3. Run a test server for your page on Mac"></a>3. Run a test server for your page on Mac</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">INFO  Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
-<h5 id="4-Set-information-for-your-new-blog"><a href="#4-Set-information-for-your-new-blog" class="headerlink" title="4. Set information for your new blog"></a>4. Set information for your new blog</h5><p><a href="https://hexo.io/docs/configuration.html" target="_blank" rel="noopener">https://hexo.io/docs/configuration.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Site</span><br><span class="line">title: up8.wang</span><br><span class="line">subtitle:</span><br><span class="line">description: yt8yt&apos;s personal blog</span><br><span class="line">author: yt8yt</span><br><span class="line">language:</span><br><span class="line">timezone: Japan</span><br><span class="line"></span><br><span class="line"># URL</span><br><span class="line">## If your site is put in a subdirectory, set url as &apos;http://yoursite.com/child&apos; and root as &apos;/child/&apos;</span><br><span class="line">url: http://up8.wang</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br></pre></td></tr></table></figure></p>
-<h5 id="5-Set-information-to-use-Git"><a href="#5-Set-information-to-use-Git" class="headerlink" title="5. Set information to use Git"></a>5. Set information to use Git</h5><p><a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">https://github.com/hexojs/hexo-deployer-git</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Deployment</span><br><span class="line">## Docs: http://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/felix-cao/felix-cao.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
-<h5 id="6-Set-“watch”-before-starting-your-work"><a href="#6-Set-“watch”-before-starting-your-work" class="headerlink" title="6. Set “watch” before starting your work"></a>6. Set “watch” before starting your work</h5><p>“watch” command can monitor your files.<br><a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">https://hexo.io/docs/generating.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate --watch</span><br></pre></td></tr></table></figure></p>
-<h5 id="7-Create-a-new-post-file"><a href="#7-Create-a-new-post-file" class="headerlink" title="7. Create a new post file"></a>7. Create a new post file</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new first-post</span><br><span class="line">INFO  Created: ~/***/felix-cao.github.io/source/_posts/first-post.md</span><br></pre></td></tr></table></figure>
-<h5 id="8-Edit-the-above-file-with-Markdown-or-Hexo’s-Helper"><a href="#8-Edit-the-above-file-with-Markdown-or-Hexo’s-Helper" class="headerlink" title="8. Edit the above file with Markdown or Hexo’s Helper"></a>8. Edit the above file with Markdown or Hexo’s Helper</h5><p>Hexo’s Helper<br><a href="https://hexo.io/docs/helpers.html" target="_blank" rel="noopener">https://hexo.io/docs/helpers.html</a><br>I use Atom with “shift + control + m” when I use Markdown :-)<br><a href="https://atom.io/" target="_blank" rel="noopener">https://atom.io/</a></p>
-<h5 id="9-Delete-“source-posts-hello-world-md”"><a href="#9-Delete-“source-posts-hello-world-md”" class="headerlink" title="9. Delete “source/_posts/hello-world.md”"></a>9. Delete “source/_posts/hello-world.md”</h5><p>It’s not necessary to deploy.</p>
-<h5 id="10-Deploy-your-new-blog"><a href="#10-Deploy-your-new-blog" class="headerlink" title="10. Deploy your new blog!!"></a>10. Deploy your new blog!!</h5><p><a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">https://hexo.io/docs/deployment.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
-<p>After writting the above command, you can see your new blog on GitHub Pages.<br><a href="http://******.github.io/" target="_blank" rel="noopener">http://******.github.io/</a></p>
-<h5 id="11-Change-your-blog-theme"><a href="#11-Change-your-blog-theme" class="headerlink" title="11. Change your blog theme"></a>11. Change your blog theme</h5><p><a href="https://github.com/hexojs/hexo/wiki/Themes" target="_blank" rel="noopener">https://github.com/hexojs/hexo/wiki/Themes</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">For instance, How to use the following theme.</span><br><span class="line">https://hexo.io/hexo-theme-light/</span><br><span class="line"></span><br><span class="line">## Install it</span><br><span class="line">$ cd blog</span><br><span class="line">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</span><br><span class="line"></span><br><span class="line">## Update the above files</span><br><span class="line">$ themes/yilia</span><br><span class="line">$ git pull</span><br><span class="line"></span><br><span class="line">## Set information to use the theme</span><br><span class="line">$ cd ../</span><br><span class="line">$ vi _config.yml</span><br><span class="line"></span><br><span class="line">~~~~~~~~~~~~~~~~~~ _config.yml ~~~~~~~~~~~~~~~~~~</span><br><span class="line"># Extensions</span><br><span class="line">## Plugins: http://hexo.io/plugins/</span><br><span class="line">## Themes: http://hexo.io/themes/</span><br><span class="line">theme: yilia</span><br></pre></td></tr></table></figure></p>
-<h5 id="12-Create-a-new-page-file"><a href="#12-Create-a-new-page-file" class="headerlink" title="12. Create a new page file"></a>12. Create a new page file</h5><p><a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">https://hexo.io/docs/writing.html</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new page aboutme</span><br><span class="line">INFO  Created: ~/***/felix-cao.github.io/source/aboutme/index.md</span><br><span class="line"></span><br><span class="line">$ cd source/aboutme/</span><br><span class="line"></span><br><span class="line">$ vi index.md</span><br></pre></td></tr></table></figure></p>
-<h5 id="13-部署自己的域名"><a href="#13-部署自己的域名" class="headerlink" title="13. 部署自己的域名"></a>13. 部署自己的域名</h5><p>接着你需要做的是在hexo根目录的source文件夹里创建CNAME文件，不带任何后缀，里面添加你的域名信息，如：up8.wang。实践证明如果此时你填写的是www.up8.wang那么以后你只能用www.up8.wang访问，而如果你填写的是up8.wang。那么用www.up8.wang和up8.wang访问都是可以的。重新清理hexo clean,并发布即可用新的域名访问。 </p>
-<h5 id="14-Use-Plugins"><a href="#14-Use-Plugins" class="headerlink" title="14. Use Plugins"></a>14. Use Plugins</h5><p><a href="https://github.com/hexojs/hexo/wiki/Plugins" target="_blank" rel="noopener">https://github.com/hexojs/hexo/wiki/Plugins</a></p>
-<p>Reprint: <a href="https://gist.github.com/btfak/18938572f5df000ebe06fbd1872e4e39#file-usehexo-md target=_blank" target="_blank" rel="noopener">btfak/useHexo.md</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/07/hexo-deploy-github-pages/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 
@@ -1364,6 +1406,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
@@ -1404,15 +1450,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">d3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1420,7 +1458,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1429,6 +1471,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
