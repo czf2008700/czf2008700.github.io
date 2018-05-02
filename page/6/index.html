@@ -155,6 +155,75 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/30/js/js-prototype-chain/">JavaScript的原型链(prototype chain)</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/30/js/js-prototype-chain/" class="archive-article-date">
+  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
+<ul>
+<li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
+<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
+<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype
+        
+          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-constructor-property" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -866,77 +935,6 @@
 
 
   
-    <article id="post-css-normal-flow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/25/css-normal-flow/">CSS基础标准文档流</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/25/css-normal-flow/" class="archive-article-date">
-  	<time datetime="2017-11-25T04:00:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CSS 语言倡导结构、样式、行为分离。</p>
-<h5 id="什么是标准文档流"><a href="#什么是标准文档流" class="headerlink" title="什么是标准文档流"></a>什么是标准文档流</h5><blockquote>
-<p>Normal Document Stream， 网页在解析的时候，遵循一个元素排版布局标准，即从上到下，从左到右的一个流式顺序，而这个顺序即为标准文档流</p>
-</blockquote>
-<h5 id="如何理解"><a href="#如何理解" class="headerlink" title="如何理解"></a>如何理解</h5><p>&emsp;&emsp;我们用Fireworks作图，可以在任何一个地方落笔；word这个软件则不一样，有一个“光标”位置，你必须在当前光标位置去书写文字。<br>第二行文字的位置，仰赖于第一行文字，比如第一行文字多，第二行文字就下移了；比如第一行文字大，第二行文字又下移了。<br>网页也是这样，从左至右、从上到下，有一个“光标”的概念。 标准文档流中，内置了很多性质。</p>
-<h5 id="标准文档流的特征"><a href="#标准文档流的特征" class="headerlink" title="标准文档流的特征"></a>标准文档流的特征</h5><ul>
-<li>空白折叠现象<br>&emsp;标签内的文字，不管有多少个空格、换行、tab，都会缩减为同一个空格。</li>
-<li>高矮不齐，底边对齐</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/25/css-normal-flow/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1031,15 +1029,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">规范</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1051,11 +1045,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">规范</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1079,19 +1081,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">

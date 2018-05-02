@@ -155,6 +155,72 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-variable-reference-values" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/09/js/js-variable-reference-values/">JavaScript中的数据类型之引用类型(Reference Values)</a>
+    </h1>
+  
+
+        
+        <a href="/2018/02/09/js/js-variable-reference-values/" class="archive-article-date">
+  	<time datetime="2018-02-09T09:51:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;上一篇我们聊了 <a href="/2017/12/06/js-variable-primitive-value/">JavaScript中的数据类型之基本数据类型(Primitive Values)</a>, 本篇来聊一聊引用类型(Reference Values)</p>
+<p>&emsp;&emsp;JavaScript中除了上一篇聊的基本类型(Number,String,Boolean,Null,Undefined, Symbol)之外就是引用类型了，也可以说是对象了。对象是属性和方法的集合。也就是说引用类型可以拥有属性和方法，属性又可以包含基本类型和引用类型，如Object, Array, Function等。下面来看看引用类型的一些特性。<br>
+        
+          <a class="article-more-a" href="/2018/02/09/js/js-variable-reference-values/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/02/09/js/js-variable-reference-values/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-object" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -788,75 +854,6 @@
 
 
   
-    <article id="post-js/js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/30/js/js-prototype-chain/">JavaScript的原型链(prototype chain)</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/30/js/js-prototype-chain/" class="archive-article-date">
-  	<time datetime="2017-12-30T04:22:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;在上一节我们聊了 <a href="/2017/12/29/js-prototype-proto/">JavaScript原型、原型对象、隐式原型</a>，我们知道</p>
-<ul>
-<li>JavaScript的继承机制设计思想是基于原型的，原型对象上的属性和方法可以被所有实例对象所共享，所以原型的主要作用在于共享。</li>
-<li>当访问一个对象的属性时，JavaScript的搜索顺序是：先去该对象上搜索，再去该对象的原型，再到该对象原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的终点(即Object.prototype)。如果最终没有找到指定的属性，就会返回undefined。</li>
-<li>如果我们把属性和方法都看成是数据的话，那么原型的主要作用就是共享数据。原型链的主要作用是形成数据链以便数据的追踪。<br>&emsp;&emsp;本节我们来聊一聊原型链。其实原型链的形成真正靠的是__proto__ 而非prototype
-        
-          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/30/js/js-prototype-chain/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
@@ -951,15 +948,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">规范</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -971,11 +964,19 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ES6</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">规范</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -999,19 +1000,19 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">d3</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color3">d3</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
