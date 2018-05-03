@@ -155,6 +155,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/04/js/js-short-circuit-logic/">JS中的逻辑运算符和短路表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/04/js/js-short-circuit-logic/" class="archive-article-date">
+  	<time datetime="2017-12-04T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>逻辑运算 Logical operators<br>短路计算 Short-circuit evaluation</p>
+<blockquote>
+<p>短路表达式，JS逻辑计算有一个短路计算原则, MDN描述如下：由于逻辑表达式的运算的顺序是从左到右的，利用其规则进行“短路”运算。</p>
+</blockquote>
+<h5 id="JS逻辑运算符的说明："><a href="#JS逻辑运算符的说明：" class="headerlink" title="JS逻辑运算符的说明："></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank" rel="noopener">JS逻辑运算符</a>的说明：</h5><table>
+<thead>
+<tr>
+<th>运算法</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>逻辑与(&amp;&amp;)</td>
+<td>expr1 &amp;&amp; expr2</td>
+<td>如果expr1 能转换成false则返回expr1,否则返回expr2<br>因此, 在Boolean环境中使用时, 两个操作结果都为true时返回true,否则返回false.</td>
+</tr>
+<tr>
+<td>逻辑或(ll)</td>
+<td>expr1 ll expr2</td>
+<td>如果expr1能转换成true则返回expr1,否则返回expr2.<br> 因此,在boolean环境(在if的条件判断中)中使用时, 二者操作结果中只要有一个为true,返回true;<br>二者操作结果都为false时返回false.</td>
+</tr>
+<tr>
+<td>逻辑非(!)</td>
+<td>!expr</td>
+<td>如果单个表达式能转换为true的话返回false,否则返回true.</td>
+</tr>
+</tbody>
+</table>
+<p>能够转换为false的表达式有:””(空字符串), 0和NaN, false, null, undefined.<br>
+        
+          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-css-normal-flow" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -876,94 +971,6 @@
 
 
   
-    <article id="post-jenkins-base-on-docker" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/10/jenkins-base-on-docker/">基于Docker搭建Jenkins环境</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/10/jenkins-base-on-docker/" class="archive-article-date">
-  	<time datetime="2017-10-10T06:55:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;本篇开始之前，新手还是阅读一下 <a href="http://up8.wang/2017/09/30/docker-brief-introduction-and-install/">Docker 简介及安装</a>, <a href="https://jenkins.io/index.html" target="_blank" rel="noopener">Jenkins官网</a></p>
-<h5 id="Jenkins简介"><a href="#Jenkins简介" class="headerlink" title="Jenkins简介"></a>Jenkins简介</h5><p>&emsp;&emsp;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。我们主要用它来构建一个自动化的持续集成环境来“自动化”编译、打包、分发部署你的应用。</p>
-<h5 id="基于Docker的Jenkins镜像搭建jenkins"><a href="#基于Docker的Jenkins镜像搭建jenkins" class="headerlink" title="基于Docker的Jenkins镜像搭建jenkins"></a>基于Docker的Jenkins镜像搭建jenkins</h5><ul>
-<li><p>创建 /home/jenkins_home, 用于挂载（挂载的目的是持久化Jenkins配置数据）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home</span><br><span class="line">mkdir jenkins_home</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>拉取Jenkins镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动jenkins Docker 在8080端口 （如果已经被占用，可以换成对应其他的端口）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 8080:8080 -p 50000:50000 --privileged=true -v /home/jenkins_home:/var/jenkins_home jenkins</span><br></pre></td></tr></table></figure>
-<p>备注：</p>
-<p>1). 可能会报错：</p>
-<blockquote>
-<p>touch: cannot touch ‘/var/jenkins_home/copy_reference_file.log’: Permission denied<br>Can not write to /var/jenkins_home/copy_reference_file.log. Wrong volume permissions?</p>
-</blockquote>
-<p>解决方法：把jenkins_home文件夹给jenkins用户操作权限， 参考<a href="http://blog.csdn.net/yulei_qq/article/details/53228601" target="_blank" rel="noopener">Docker Volume之权限管理</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R 1000 /home/jenkins_home</span><br></pre></td></tr></table></figure></p>
-<p>2). 有时候，由于网络等因素导致有些插件安装不成功，耐心retry几次就OK了。</p>
-<h5 id="Jenkins-配置"><a href="#Jenkins-配置" class="headerlink" title="Jenkins 配置"></a>Jenkins 配置</h5><p>OK，此时在浏览器中输入IP地址加端口号，即可访问到jenkins.</p>
-<p>按照提示<br>/var/jenkins_home/secrets/initialAdminPassword<br>因为做了挂载 所以/var/jenkins_home 换成 /home/jenkins_home</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /home/jenkins_home/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
-<p>接下来的配置按照提示来即可。<br><img src="/images/jenkins-base-on-docker-1.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-2.png" width="600"></p>
-<p><img src="/images/jenkins-base-on-docker-3.png" width="600"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/10/jenkins-base-on-docker/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
@@ -1078,6 +1085,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
@@ -1086,7 +1097,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">规范</a>
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1098,10 +1109,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -1110,11 +1117,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1122,7 +1133,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1131,10 +1142,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -155,6 +155,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-js/js-commonjs" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/12/js/js-commonjs/">CommonJS模块规范</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/12/js/js-commonjs/" class="archive-article-date">
+  	<time datetime="2018-01-12T01:56:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&emsp;&emsp;Web开发越来越复杂，需要一个团队分工协作、进度管理、单元测试、持续集成、持续部署……  社区也开发了很多工具来协助构建这些规模庞大的应用。诸多工具中最核心的非模块系统莫属，在这样一个系统中，你可以通过多个文件和目录来组织你的项目，最重要的是，所有代码都可以按需彼此访问并高效加载。所以JavaScript就这么顺理成章地有了几个知名的模块系统。当然，随之而来的还有几个包管理器，可以用它们安装所有软件以及处理高层次的依赖。如此一来，模块化开发就显得非常重要了，所以本节主要聊一聊JavaScript的模块化开发之CommonJS规范。</p>
+<p>&emsp;&emsp;理想状态下，Developer只需要实现核心的业务逻辑，其他的可以加载别人已经写好的模块即可，因此JavaScript语言的模块化编程就显得异常重要了。然而，ES6之前JavaScript没有为组织管理代码提供任何方案，甚至没有类(Class)的概念，更不用说模块(Module)了.</p>
+<p>模块化管理需要具备：</p>
+<ul>
+<li>定义封装的模块。</li>
+<li>定义新模块对其他模块的依赖。</li>
+<li>可对其他模块的引入支持。</li>
+</ul>
+<p>要通用，则必须要有规范化，因此一系列的标准应运而生。<br>
+        
+          <a class="article-more-a" href="/2018/01/12/js/js-commonjs/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">module</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CommonJS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/12/js/js-commonjs/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-js/js-prototype-chain" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -840,101 +928,6 @@
 
 
   
-    <article id="post-js/js-short-circuit-logic" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/04/js/js-short-circuit-logic/">JS中的逻辑运算符和短路表达式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/04/js/js-short-circuit-logic/" class="archive-article-date">
-  	<time datetime="2017-12-04T13:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>逻辑运算 Logical operators<br>短路计算 Short-circuit evaluation</p>
-<blockquote>
-<p>短路表达式，JS逻辑计算有一个短路计算原则, MDN描述如下：由于逻辑表达式的运算的顺序是从左到右的，利用其规则进行“短路”运算。</p>
-</blockquote>
-<h5 id="JS逻辑运算符的说明："><a href="#JS逻辑运算符的说明：" class="headerlink" title="JS逻辑运算符的说明："></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators" target="_blank" rel="noopener">JS逻辑运算符</a>的说明：</h5><table>
-<thead>
-<tr>
-<th>运算法</th>
-<th>示例</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>逻辑与(&amp;&amp;)</td>
-<td>expr1 &amp;&amp; expr2</td>
-<td>如果expr1 能转换成false则返回expr1,否则返回expr2<br>因此, 在Boolean环境中使用时, 两个操作结果都为true时返回true,否则返回false.</td>
-</tr>
-<tr>
-<td>逻辑或(ll)</td>
-<td>expr1 ll expr2</td>
-<td>如果expr1能转换成true则返回expr1,否则返回expr2.<br> 因此,在boolean环境(在if的条件判断中)中使用时, 二者操作结果中只要有一个为true,返回true;<br>二者操作结果都为false时返回false.</td>
-</tr>
-<tr>
-<td>逻辑非(!)</td>
-<td>!expr</td>
-<td>如果单个表达式能转换为true的话返回false,否则返回true.</td>
-</tr>
-</tbody>
-</table>
-<p>能够转换为false的表达式有:””(空字符串), 0和NaN, false, null, undefined.<br>
-        
-          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/04/js/js-short-circuit-logic/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1049,6 +1042,10 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">异步回调</a>
               </li>
              
@@ -1057,7 +1054,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">规范</a>
+                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1069,10 +1066,6 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">微服务</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">React</a>
               </li>
              
@@ -1081,11 +1074,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Architecture</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Archiecture)</a>
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1093,7 +1090,7 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1102,10 +1099,6 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
