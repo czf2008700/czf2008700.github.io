@@ -155,6 +155,161 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-es6-destructuring-array" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/11/es6-destructuring-array/">ES6 变量的解构赋值之数组解构</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/11/es6-destructuring-array/" class="archive-article-date">
+  	<time datetime="2018-04-11T12:55:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>解构赋值语法是一个 Javascript 表达式，这使得可以将值从数组或属性从对象提取到不同的变量中。本文主要聊一聊变量的数组解构, 摘自<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment" target="_blank" rel="noopener">解构赋值</a></p>
+<h2 id="一、语法"><a href="#一、语法" class="headerlink" title="一、语法"></a>一、语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var a, b, rest;</span><br><span class="line">[a, b] = [10, 20];</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line"></span><br><span class="line">[a, b, ...rest] = [10, 20, 30, 40, 50];</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line">console.log(rest); // [30, 40, 50]</span><br><span class="line"></span><br><span class="line">(&#123; a, b &#125; = &#123; a: 10, b: 20 &#125;);</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Stage 3 proposal</span><br><span class="line">(&#123;a, b, ...rest&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;);</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line">console.log(rest); //&#123;c: 30, d: 40&#125;</span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2018/04/11/es6-destructuring-array/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ES6</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/11/es6-destructuring-array/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-react-jsx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/11/react-jsx/">React 之JSX语法</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/11/react-jsx/" class="archive-article-date">
+  	<time datetime="2018-04-11T01:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。 </p>
+<p>JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。<strong>当遇到&lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析</strong>。</p>
+<p>实际上 HTML 也是 XML 协议，由浏览器解析，而 JSX 是由 JS 解析，当然也可以通过构建工具解析完成，如 grunt、webpack，可以避免 JS 在运行中解析 JSX 所消耗的时间。JSX 原本是使用官方自己提供的方法处理， 2015-7-12日官方<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="noopener">博客文章</a>声明其自身用于 JSX 语法解析的编译器 JSTransform 已经过期，不再维护，React JS 和 React Native 已经全部采用第三方 Babel 的 JSX 编译器实现<br>
+        
+          <a class="article-more-a" href="/2018/04/11/react-jsx/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/11/react-jsx/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-react-state-props" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -778,166 +933,6 @@
 
 
   
-    <article id="post-js/js-browser-event" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/23/js/js-browser-event/">JavaScript 浏览器事件</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/23/js/js-browser-event/" class="archive-article-date">
-  	<time datetime="2018-03-23T15:22:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文摘自 <a href="https://keelii.github.io/2016/09/29/javascript-browser-event/" target="_blank" rel="noopener">JavaScript 浏览器事件</a></p>
-<h2 id="一、JavaScript、浏览器、事件之间的关系"><a href="#一、JavaScript、浏览器、事件之间的关系" class="headerlink" title="一、JavaScript、浏览器、事件之间的关系"></a>一、JavaScript、浏览器、事件之间的关系</h2><p>JavaScript 程序采用了异步事件驱动编程（Event-driven programming）模型，维基百科对它的解释是：</p>
-<blockquote>
-<p>事件驱动程序设计（英语：Event-driven programming）是一种电脑程序设计模型。这种模型的程序运行流程是由用户的动作（如鼠标的按键，键盘的按键动作）或者是由其他程序的消息来决定的。相对于批处理程序设计（batch programming）而言，程序运行的流程是由程序员来决定。批量的程序设计在初级程序设计教学课程上是一种方式。然而，事件驱动程序设计这种设计模型是在交互程序（Interactive program）的情况下孕育而生的</p>
-</blockquote>
-<p>简页言之，在 web 前端编程里面 JavaScript 通过浏览器提供的事件模型 API 和用户交互，接收用户的输入.<br>
-        
-          <a class="article-more-a" href="/2018/03/23/js/js-browser-event/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/23/js/js-browser-event/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-commonjs-in-browser" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/21/commonjs-in-browser/">浏览器加载 CommonJS 模块的原理与实现</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/21/commonjs-in-browser/" class="archive-article-date">
-  	<time datetime="2018-03-21T08:58:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文摘自阮一峰老师的博文 <a href="http://www.ruanyifeng.com/blog/2015/05/commonjs-in-browser.html" target="_blank" rel="noopener">浏览器加载 CommonJS 模块的原理与实现</a></p>
-<p><img src="/images/commonjs-in-browser-01.png" width="500"></p>
-<p>npm 的模块都是 JavaScript 语言写的，但浏览器用不了，因为不支持 CommonJS 格式。要想让浏览器用上这些模块，必须转换格式。</p>
-<p>本文介绍浏览器加载 CommonJS 的原理，并且给出一种非常简单的<a href="https://github.com/ruanyf/tiny-browser-require/blob/master/require.js" target="_blank" rel="noopener">实现</a>。<br>
-        
-          <a class="article-more-a" href="/2018/03/21/commonjs-in-browser/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Nodejs</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/21/commonjs-in-browser/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1032,11 +1027,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1061,6 +1056,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spider</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1100,15 +1099,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">

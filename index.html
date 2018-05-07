@@ -155,6 +155,175 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java-sdkman" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/07/java-sdkman/">SDKMAN搭建Java开发环境</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/07/java-sdkman/" class="archive-article-date">
+  	<time datetime="2018-05-07T02:17:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文 <a href="https://jasonlee529.github.io/2018/04/09/SDKMAN%E6%90%AD%E5%BB%BAJava%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" target="_blank" rel="noopener">SDKMAN搭建Java开发环境</a></p>
+<p>作为一个Java攻城狮，随着项目的数目和oracle的努力工作，很容易遇到安装多版本的jdk的问题。</p>
+<h2 id="一、为什么需要多个JDK"><a href="#一、为什么需要多个JDK" class="headerlink" title="一、为什么需要多个JDK?"></a>一、为什么需要多个JDK?</h2><p>JDK全称是Java SE Development Kit .Java历经了二十几年的发展，到现在已经发布到了JDK10的版本。随着版本的改进，新的特性越来越多的加入，类似5.0引入的泛型，8.0引入的lambda和stream API都对开发有极大的效率提升，不可避免的需要对技术进行升级。同时，主流的开发框架工具spring，mybatis，maven等都会跟随jdk版本进行升级，所以需要一个开发者同时具备多个开发环境。</p>
+<p>除了jdk，java的开发环境中，还有maven/gradle，idea/myeclipse等工具需要随着jdk版本进行升级。</p>
+<h2 id="二、经典的配合方案"><a href="#二、经典的配合方案" class="headerlink" title="二、经典的配合方案"></a>二、经典的配合方案</h2><ul>
+<li>到oracle官网下载jdk,下载对应自己系统版本的jdk安装包/压缩包。</li>
+<li>配置环境变量，JAVA_HOME,CLASSPATH,并将JAVA_HOME\bin目录加入PATH.</li>
+<li>去maven官网下载maven的安装文件。</li>
+<li>配置环境变量M2_HOME。<br>如果是gradle用户，请替换3-4步骤。</li>
+</ul>
+<h2 id="三、如何拥有多个JDK"><a href="#三、如何拥有多个JDK" class="headerlink" title="三、如何拥有多个JDK?"></a>三、如何拥有多个JDK?</h2><h3 id="软链接方案"><a href="#软链接方案" class="headerlink" title="软链接方案"></a>软链接方案</h3><p>软链接的做法很简单，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$: ll</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.8.0_161</span><br><span class="line">$: ls -n jdk1.8.0_161 jdk</span><br><span class="line">$: ll</span><br><span class="line">lrwxrwxrwx  1 jason jason        12 3月  21 09:33 jdk -&gt; jdk1.8.0_161/</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.8.0_161/</span><br></pre></td></tr></table></figure></p>
+<p>然后将软链接jdk配置为JAVA_HOME。当增加jdk版本时，需要这么做，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$: ll</span><br><span class="line">lrwxrwxrwx  1 jason jason        12 3月  21 09:33 jdk -&gt; jdk1.8.0_161/</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.8.0_161</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.7.0_81</span><br><span class="line">$: rm -rf jdk</span><br><span class="line">$: ls -n jdk1.7.0_81 jdk</span><br><span class="line">$: ll</span><br><span class="line">lrwxrwxrwx  1 jason jason        12 3月  21 09:33 jdk -&gt; jdk1.7.0_81/</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.8.0_161</span><br><span class="line">drwxr-xr-x  8 jason jason      4096 12月 20 08:24 jdk1.7.0_81</span><br></pre></td></tr></table></figure>
+<p>类似的maven也可以用同样的方式实现，但是这个办法问题在于，每个版本的jdk或者maven需要手工去下载，然后手工去更改软链接。比较费时，这时候，作为能机器做的绝不手工的程序员能想到了，可以写一个shell脚本，切换版本啊，幸运的是已经有人提供了这个服务，请出主角SDKMAN.</p>
+<h3 id="SDKMAN-The-Software-Development-Kit-Manager"><a href="#SDKMAN-The-Software-Development-Kit-Manager" class="headerlink" title="SDKMAN ! The Software Development Kit Manager"></a>SDKMAN ! The Software Development Kit Manager</h3><p>顾名思义，软件开发工具吧的管理工具。那么sdkman可以管理哪些kit呢？ant,java,gradle,maven,springboot-cli,groovy，kotlin,scala这些基于jvm的开发语言都包括进来。</p>
+<h4 id="如何安装？"><a href="#如何安装？" class="headerlink" title="如何安装？"></a>如何安装？</h4><p>安装很简单，下载一个shell脚本，执行后就可以了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ curl -s &quot;https://get.sdkman.io&quot; | bash</span><br><span class="line">$ source &quot;$HOME/.sdkman/bin/sdkman-init.sh&quot;</span><br><span class="line">$ sdk version</span><br><span class="line">sdkman 5.0.0+51</span><br></pre></td></tr></table></figure></p>
+<h4 id="日常使用"><a href="#日常使用" class="headerlink" title="日常使用"></a>日常使用</h4><p>以安装java为例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">$ sdk list java</span><br><span class="line"></span><br><span class="line">================================================================================</span><br><span class="line">Available Java Versions</span><br><span class="line">================================================================================</span><br><span class="line">     9.0.4-zulu                                                                    </span><br><span class="line">     9.0.4-oracle                                                                  </span><br><span class="line">     9.0.4-openjdk                                                                 </span><br><span class="line">     8.0.163-zulu                                                                  </span><br><span class="line">     8.0.161-oracle                                                                </span><br><span class="line">     7.0.141-zulu                                                                  </span><br><span class="line">     6.0.93-zulu                                                                   </span><br><span class="line">     10.0.0-zulu                                                                   </span><br><span class="line">     10.0.0-oracle                                                                 </span><br><span class="line">     10.0.0-openjdk                               </span><br><span class="line">$ sdk install java 8.0.161-oracle</span><br><span class="line"></span><br><span class="line">Oracle requires that you agree with the Oracle Binary Code License Agreement</span><br><span class="line">prior to installation. The license agreement can be found at:</span><br><span class="line"></span><br><span class="line">  http://www.oracle.com/technetwork/java/javase/terms/license/index.html</span><br><span class="line"></span><br><span class="line">Do you agree to the terms of this agreement? (Y/n): y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Downloading: java 8.0.161-oracle</span><br><span class="line">In progress...</span><br><span class="line"></span><br><span class="line">######################################################################## 100.0%</span><br><span class="line"></span><br><span class="line">Repackaging Java 8.0.161-oracle...</span><br><span class="line"></span><br><span class="line">Done repackaging...</span><br><span class="line"></span><br><span class="line">Installing: java 8.0.161-oracle</span><br><span class="line">Done installing!</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Setting java 8.0.161-oracle as default.</span><br><span class="line">$ java -version</span><br><span class="line">java version &quot;1.8.0_161&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_161-b12)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)</span><br><span class="line">$ sdk list java</span><br><span class="line"></span><br><span class="line">================================================================================</span><br><span class="line">Available Java Versions</span><br><span class="line">================================================================================</span><br><span class="line">     9.0.4-zulu                                                                    </span><br><span class="line">     9.0.4-oracle                                                                  </span><br><span class="line">     9.0.4-openjdk                                                                 </span><br><span class="line">     8.0.163-zulu                                                                  </span><br><span class="line"> &gt; * 8.0.161-oracle                                                                </span><br><span class="line">     7.0.141-zulu                                                                  </span><br><span class="line">     6.0.93-zulu                                                                   </span><br><span class="line">     10.0.0-zulu                                                                   </span><br><span class="line">     10.0.0-oracle                                                                 </span><br><span class="line">     10.0.0-openjdk</span><br></pre></td></tr></table></figure></p>
+<p>以上有一点需要主要，下载jdk的时候需要同意oracle的协议，这个在oracle官网下载的时候也需要确认。 一个jdk就配置好了。<br>如果需要切换一个jdk版本呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">$ sdk install java 7.0.141-zulu  </span><br><span class="line"></span><br><span class="line">Downloading: java 7.0.141-zulu</span><br><span class="line"></span><br><span class="line">In progress...</span><br><span class="line"></span><br><span class="line">######################################################################## 100.0%</span><br><span class="line"></span><br><span class="line">Repackaging Java 7.0.141-zulu...</span><br><span class="line"></span><br><span class="line">Done repackaging...</span><br><span class="line"></span><br><span class="line">Installing: java 7.0.141-zulu</span><br><span class="line">Done installing!</span><br><span class="line"></span><br><span class="line">Do you want java 7.0.141-zulu to be set as default? (Y/n): n</span><br><span class="line">$ sdk default java 7.0.141-zulu</span><br><span class="line"></span><br><span class="line">Default java version set to 7.0.141-zulu</span><br><span class="line">$ java -version</span><br><span class="line">openjdk version &quot;1.7.0_141&quot;</span><br><span class="line">OpenJDK Runtime Environment (Zulu 7.18.0.3-linux64) (build 1.7.0_141-b11)</span><br><span class="line">OpenJDK 64-Bit Server VM (Zulu 7.18.0.3-linux64) (build 24.141-b11, mixed mode)</span><br></pre></td></tr></table></figure></p>
+<p>版本顺利改变。</p>
+<p>TIPS zulu的jdk是基于openjdk的一个改进版本，是另一个jvm的实现。</p>
+<p>这样SDKMAN就完成了jdk的切换，类似的道理maven，groovy等都可以这样实现。</p>
+<h2 id="四、总结下吧"><a href="#四、总结下吧" class="headerlink" title="四、总结下吧"></a>四、总结下吧</h2><p>SDKMAN安装简单，方便切换多个版本，主要的是省去了去各个网站的单独下载。还是挺方便的。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spider</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/07/java-sdkman/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-spider-puppeteer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/04/spider-puppeteer/">蜘蛛爬虫入门之Puppeteer</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/04/spider-puppeteer/" class="archive-article-date">
+  	<time datetime="2018-05-04T08:11:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原文： <a href="https://codeburst.io/a-guide-to-automating-scraping-the-web-with-javascript-chrome-puppeteer-node-js-b18efb9e9921" target="_blank" rel="noopener">https://codeburst.io/a-guide-to-automating-scraping-the-web-with-javascript-chrome-puppeteer-node-js-b18efb9e9921</a><br>(<a href="https://segmentfault.com/p/1210000011804279/read" target="_blank" rel="noopener">https://segmentfault.com/p/1210000011804279/read</a>)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spider</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/04/spider-puppeteer/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-git-config" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -846,161 +1015,6 @@
 
 
   
-    <article id="post-es6-destructuring-array" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/11/es6-destructuring-array/">ES6 变量的解构赋值之数组解构</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/11/es6-destructuring-array/" class="archive-article-date">
-  	<time datetime="2018-04-11T12:55:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>解构赋值语法是一个 Javascript 表达式，这使得可以将值从数组或属性从对象提取到不同的变量中。本文主要聊一聊变量的数组解构, 摘自<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment" target="_blank" rel="noopener">解构赋值</a></p>
-<h2 id="一、语法"><a href="#一、语法" class="headerlink" title="一、语法"></a>一、语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var a, b, rest;</span><br><span class="line">[a, b] = [10, 20];</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line"></span><br><span class="line">[a, b, ...rest] = [10, 20, 30, 40, 50];</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line">console.log(rest); // [30, 40, 50]</span><br><span class="line"></span><br><span class="line">(&#123; a, b &#125; = &#123; a: 10, b: 20 &#125;);</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Stage 3 proposal</span><br><span class="line">(&#123;a, b, ...rest&#125; = &#123;a: 10, b: 20, c: 30, d: 40&#125;);</span><br><span class="line">console.log(a); // 10</span><br><span class="line">console.log(b); // 20</span><br><span class="line">console.log(rest); //&#123;c: 30, d: 40&#125;</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2018/04/11/es6-destructuring-array/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ES6</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/11/es6-destructuring-array/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-react-jsx" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/11/react-jsx/">React 之JSX语法</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/11/react-jsx/" class="archive-article-date">
-  	<time datetime="2018-04-11T01:32:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>React 的核心机制之一就是可以在内存中创建虚拟的 DOM 元素。React 利用虚拟 DOM 来减少对实际 DOM 的操作从而提升性能。 </p>
-<p>JSX(JavaScript XML)是一种在 React 组件内部构建标签的类 XML 语法。React 发明了 JSX，利用 HTML 语法来创建虚拟 DOM。<strong>当遇到&lt;，JSX 就当 HTML 解析，遇到 { 就当 JavaScript 解析</strong>。</p>
-<p>实际上 HTML 也是 XML 协议，由浏览器解析，而 JSX 是由 JS 解析，当然也可以通过构建工具解析完成，如 grunt、webpack，可以避免 JS 在运行中解析 JSX 所消耗的时间。JSX 原本是使用官方自己提供的方法处理， 2015-7-12日官方<a href="https://reactjs.org/blog/2015/06/12/deprecating-jstransform-and-react-tools.html" target="_blank" rel="noopener">博客文章</a>声明其自身用于 JSX 语法解析的编译器 JSTransform 已经过期，不再维护，React JS 和 React Native 已经全部采用第三方 Babel 的 JSX 编译器实现<br>
-        
-          <a class="article-more-a" href="/2018/04/11/react-jsx/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">React</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/11/react-jsx/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1095,11 +1109,11 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
+                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Nodejs</a>
+                <a href="javascript:void(0)" class="js-tag color4">区块链</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1124,6 +1138,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spider</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1163,15 +1181,15 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">授权</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">令牌</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
               </li>
              
               <li class="article-tag-list-item">
